@@ -209,6 +209,11 @@ async function createDemandPackage(
     ? `q=${q.toFixed(2)}<${LISTED_MIN_Q} or evidence=${evidenceCount}<${LISTED_MIN_EVIDENCE}`
     : null;
 
+  // Compute report data first (needed for data_hash on both INSERT and UPDATE)
+  const dummyMatches: Array<Record<string, unknown>> = matches ?? [];
+  const reportData = buildReportData(request.topic, dummyMatches);
+  const dataHash = simpleHash(JSON.stringify(reportData));
+
   // Upsert package
   const existing = await env.DB.prepare(
     `SELECT package_id FROM packages WHERE package_id=?`
@@ -217,20 +222,19 @@ async function createDemandPackage(
   if (existing) {
     await env.DB.prepare(
       `UPDATE packages SET title=?, q=?, evidence_count=?,
-        verified_at=?, expires_at=?, tier=?, status=?, blocked_reason=?, updated_at=datetime('now'),
+        verified_at=?, expires_at=?, tier=?, status=?, blocked_reason=?, data_hash=?, updated_at=datetime('now'),
         origin='demand'
        WHERE package_id=?`
-    ).bind(title, q, evidenceCount, now, expiresAt, tier, status, blockedReason ?? null, packageId).run();
+    ).bind(title, q, evidenceCount, now, expiresAt, tier, status, blockedReason ?? null, dataHash, packageId).run();
   } else {
     await env.DB.prepare(
       `INSERT INTO packages
-       (package_id, title, q, evidence_count, verified_at, expires_at, tier, status, blocked_reason, created_at, origin)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'demand')`
-    ).bind(packageId, title, q, evidenceCount, now, expiresAt, tier, status, blockedReason, now).run();
+       (package_id, title, q, evidence_count, verified_at, expires_at, tier, status, blocked_reason, data_hash, created_at, origin)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'demand')`
+    ).bind(packageId, title, q, evidenceCount, now, expiresAt, tier, status, blockedReason, dataHash, now).run();
   }
 
   // Store report payload in demand_reports (dedicated table)
-  const reportData = buildReportData(request.topic, matches);
   await env.DB.prepare(
     `INSERT INTO demand_reports (package_id, report_data)
      VALUES (?, ?)
