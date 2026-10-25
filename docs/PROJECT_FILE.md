@@ -2,7 +2,10 @@
 
 > 最後更新：2026-10-25  
 > 作者：Jerry  
-> 版本：v1.16（mainnet 部署階段）
+> 版本：v1.18（demand pipeline + data_hash fix + match log）
+> Last Updated: 2026-10-25
+> Deployed Version: 7d4c2040-5479-4fe8-960d-f7ea99ea70a8
+> Audit: #2 origin/matchlog (2026-10-25), #3 demand pipeline fix (2026-10-25)
 
 ---
 
