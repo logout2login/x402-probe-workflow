@@ -126,7 +126,7 @@ export async function handleA2AMetrics(env: Env): Promise<Response> {
     if (r.payer) facPayers[key].add(r.payer);
   }
   for (const key of Object.keys(byFacilitator)) {
-    byFacilitator[key].unique_payers = facPayers[key]?.size ?? 0;
+    const f = byFacilitator[key]; if (f) f.unique_payers = facPayers[key]?.size ?? 0;
   }
 
   // 格式化 daily trend

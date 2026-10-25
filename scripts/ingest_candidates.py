@@ -47,8 +47,17 @@ def find_candidate_file():
     return os.path.join(DATA_DIR, latest)
 
 
+def simple_hash(s: str) -> str:
+    """FNV-1a 32-bit — same as simpleHash() in demand-report.ts."""
+    h = 0x811c9dc5
+    for c in s:
+        h ^= ord(c)
+        h = (h * 0x01000193) & 0xffffffff
+    return format(h, '08x')
+
+
 def compute_hash(json_bytes: bytes) -> str:
-    return hashlib.sha256(json_bytes).hexdigest()[:16]
+    return simple_hash(json_bytes.decode("utf-8"))
 
 
 def load_and_validate(path: str) -> list:
@@ -77,29 +86,34 @@ def load_and_validate(path: str) -> list:
 
 
 def upload_via_admin_api(json_str: str, hash_val: str, loaded_at: str, env: str):
-    """
-    Build a minimal SQL INSERT and pipe to wrangler d1 execute.
-    Uses the admin endpoint approach via SQL chunk.
-    """
-    sql = f"""INSERT INTO demand_candidates_cache (loaded_at, json, hash)
-VALUES ('{loaded_at}', '{json_str.replace(chr(10), ' ').replace("'", "''")}', '{hash_val}')
-ON CONFLICT(hash) DO UPDATE SET json=excluded.json, loaded_at=excluded.loaded_at;
-INSERT OR IGNORE INTO schema_version (version, description)
-VALUES (6, 'v1.18c: {len(json.loads(json_str))} candidates via ingest_candidates.py');
-"""
-    cmd = [
-        "npx", "wrangler", "d1", "execute",
-        "ownsite-aeo", "--remote", "--command", sql,
-    ]
-    if env == "testnet":
-        cmd.insert(4, "--env")
-        cmd.insert(5, "testnet")
-    result = subprocess.run(cmd, capture_output=True, text=True, cwd=BASE)
-    if result.returncode != 0:
-        print(f"ERROR: wrangler d1 execute failed:\n{result.stderr}")
+    """Call POST /api/admin/demand-candidates on the deployed worker."""
+    api_url = "https://aeo.danli.work/api/admin/demand-candidates" if env == "mainnet" else "https://aeo-test.danli.work/api/admin/demand-candidates"
+    secret = os.environ.get("DEMAND_ADMIN_SECRET", "")
+    if not secret:
+        print("ERROR: DEMAND_ADMIN_SECRET not set")
         sys.exit(1)
-    print("✅ Uploaded via wrangler d1 execute")
-    return result.stdout
+    payload = json.dumps({"candidates": json.loads(json_str)})
+    import urllib.request, urllib.error
+    req = urllib.request.Request(
+        api_url,
+        data=payload.encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "x-admin-secret": secret,
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+            print(f"✅ Admin API response: {json.dumps(body, indent=2)}")
+            return body
+    except urllib.error.HTTPError as e:
+        print(f"ERROR: HTTP {e.code}: {e.read().decode()}")
+        sys.exit(1)
+    except urllib.error.URLError as e:
+        print(f"ERROR: URL failed: {e.reason}")
+        sys.exit(1)
 
 
 def main():
@@ -116,8 +130,8 @@ def main():
     # Load and validate
     data = load_and_validate(candidate_file)
 
-    # Re-serialize (normalize formatting)
-    json_bytes = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
+    # Re-serialize as compact JSON (matches admin API's JSON.stringify)
+    json_bytes = json.dumps(data, ensure_ascii=False).encode("utf-8")
     json_str = json_bytes.decode("utf-8")
     hash_val = compute_hash(json_bytes)
     loaded_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")

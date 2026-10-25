@@ -55,22 +55,23 @@ export async function runCron(env: Env, scheduledAt?: string): Promise<Response>
   const minute = now.getUTCMinutes();
   const hour = now.getUTCHours();
   const day = now.getUTCDate();
+  const immediate = scheduledAt === "true";
 
   try {
     // ─── */15 * * * * — sync_queue + market sync + demand ───
-    if (minute % 15 === 0) {
+    if (immediate || minute % 15 === 0) {
       report.stats.sync = await runSyncQueue(env);
       report.stats.market = await runMarketSync(env);
       report.stats.demand = await runDemandCron(env);
     }
 
     // ─── 0 * * * * — TTL/stale/recall ───
-    if (minute === 0) {
+    if (immediate || minute === 0) {
       report.stats.ttl = await runTtlCron(env);
     }
 
     // ─── 30 0 * * * — daily dashboard ───
-    if (minute === 30 && hour === 0) {
+    if (immediate || (minute === 30 && hour === 0)) {
       report.stats.dashboard = await runDashboardCron(env);
     }
 

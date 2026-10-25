@@ -40,7 +40,7 @@ import {
   handleGetDemandRequest,
   handleListDemandReports,
   handleGetDemandReport,
-  handleRunDemandCron,
+  runDemandCron,
   handlePostDemandCandidates,
 } from "./demand-report";
 import type { Env } from "./env";
