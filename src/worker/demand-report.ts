@@ -20,7 +20,7 @@ const REPORT_TIER_BLOCKED = "blocked";
 
 // ─── POST /api/demand/request ────────────────────────────────────────────────
 export async function handlePostDemandRequest(req: Request, env: Env): Promise<Response> {
-  const body = await req.json().catch(() => null);
+  const body = await req.json().catch(() => null) as Record<string, unknown> | null;
   if (!body || typeof body.topic !== "string" || body.topic.trim().length < 1) {
     return json({ error: "topic is required (min 1 char)" }, 400);
   }
@@ -169,7 +169,7 @@ export async function runDemandCron(env: Env): Promise<{ processed: number; crea
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-async function filterByTopic(candidates: unknown[], topic: string): unknown[] {
+function filterByTopic(candidates: unknown[], topic: string): unknown[] {
   return candidates.filter((c) => {
     if (!c || typeof c !== "object") return false;
     const obj = c as Record<string, unknown>;
@@ -192,13 +192,14 @@ async function createDemandPackage(
   request: { id: string; topic: string },
   matches: unknown[]
 ): Promise<string | null> {
+  const safeMatches: unknown[] = matches ?? [];
   const packageId = `demand-${request.id.slice("dr-".length)}`;
   const now = new Date().toISOString();
   const expiresAt = new Date(Date.now() + 30 * 86400_000).toISOString();
 
   // Compute q (quality score) from evidence
-  const q = Math.min(1.0, Math.max(0.1, matches.length * 0.1));
-  const evidenceCount = matches.length;
+  const q = Math.min(1.0, Math.max(0.1, safeMatches.length * 0.1));
+  const evidenceCount = safeMatches.length;
   const title = `Agent Forum Demand Report: ${request.topic}`;
 
   // Gate check against LISTED_MIN_Q / LISTED_MIN_EVIDENCE (source of truth in constants.ts)
@@ -210,9 +211,17 @@ async function createDemandPackage(
     : null;
 
   // Compute report data first (needed for data_hash on both INSERT and UPDATE)
-  const dummyMatches: Array<Record<string, unknown>> = matches ?? [];
-  const reportData = buildReportData(request.topic, dummyMatches);
+  const reportData = buildReportData(request.topic, safeMatches);
   const dataHash = simpleHash(JSON.stringify(reportData));
+
+  // Debug trace: write params to temp table for inspection
+  try {
+    await env.DB.prepare(
+      `INSERT INTO _debug_trace (ts, msg) VALUES (?, ?)`
+    ).bind(new Date().toISOString(), JSON.stringify({
+      pid: packageId, title, q, ec: evidenceCount, now, expiresAt, tier, status, br: blockedReason, dh: dataHash
+    })).run();
+  } catch(e) {}
 
   // Upsert package
   const existing = await env.DB.prepare(
@@ -243,18 +252,18 @@ async function createDemandPackage(
 
   // Log match distribution for gate-tuning feedback loop
   try {
-    const srcCount = {};
+    const srcCount: Record<string, number> = {};
     let maxDepth = 0;
-    for (const m of (matches ?? [])) {
+    for (const m of safeMatches) {
       const obj = m as Record<string, unknown>;
       const prov = obj.provenance as Record<string, unknown> ?? {};
-      const srcUrl = prov.source_canonical_url ?? '';
+      const srcUrl: string = (prov.source_canonical_url as string) ?? "";
       const typed = srcUrl.includes('github') ? 'github'
                   : srcUrl.includes('ycombinator') || srcUrl.includes('news.ycombinator') ? 'hn'
                   : srcUrl.includes('moltbook') ? 'moltbook'
                   : srcUrl.includes('thecolony') ? 'thecolony'
                   : 'moltchurch';
-      srcCount[typed] = (srcCount[typed] ?? 0) + 1;
+      srcCount[typed as string] = (srcCount[typed as string] ?? 0) + 1;
       if (obj.theme) maxDepth = Math.max(maxDepth, 4);
       else if (obj.representative_quote) maxDepth = Math.max(maxDepth, 3);
       else if (obj.root_cause_inference) maxDepth = Math.max(maxDepth, 2);
@@ -263,7 +272,7 @@ async function createDemandPackage(
     await env.DB.prepare(
       `INSERT INTO match_distribution_log (package_id, topic, matches_total, max_match_depth, source_breakdown, logged_at)
        VALUES (?, ?, ?, ?, ?, datetime('now'))`
-    ).bind(packageId, request.topic, matches.length, maxDepth, JSON.stringify(srcCount)).run();
+    ).bind(packageId, request.topic, safeMatches.length, maxDepth, JSON.stringify(srcCount)).run();
   } catch (_e) { /* non-fatal: logging must not break package creation */ }
 
   // Update demand_request status
@@ -276,7 +285,10 @@ async function createDemandPackage(
 }
 
 function buildReportData(topic: string, matches: unknown[]) {
-  const items = matches.map((m) => {
+  const safeMatches: Array<Record<string, unknown>> = Array.isArray(matches)
+    ? matches.map(m => m as Record<string, unknown>)
+    : [];
+  const items = safeMatches.map((m) => {
     const obj = m as Record<string, unknown>;
     return {
       demand_id: obj.demand_id ?? "",
@@ -370,7 +382,7 @@ export async function handlePostDemandCandidates(req: Request, env: Env): Promis
     return json({ error: "unauthorized" }, 401);
   }
 
-  const body = await req.json().catch(() => null);
+  const body = await req.json().catch(() => null) as Record<string, unknown> | null;
   if (!Array.isArray(body?.candidates)) {
     return json({ error: "expected { candidates: [...] }" }, 400);
   }

@@ -52,6 +52,7 @@ export function buildIndex(
       paid_url: `${base}/buy/${v.package_id}`,
       price_usdc: isFeatured ? "1.00" : "0.50",
       status: "fresh",
+      origin: "publisher",
       machine_tags: [
         `tier:${isFeatured ? "featured" : "verified_pro"}`,
         `q:${v.q.toFixed(2)}`,
