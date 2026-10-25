@@ -1,0 +1,4661 @@
+[
+  {
+    "snippet_index": 0,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8b521781-5554-49ee-b0d2-4fafd3984d0e"
+  },
+  {
+    "snippet_index": 1,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a59be836-de3d-43ea-b613-9ab91fbd40cd"
+  },
+  {
+    "snippet_index": 2,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/02f4b782-ec5f-49b7-b264-41fb01b04553"
+  },
+  {
+    "snippet_index": 3,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/aaa35303-3ab3-43f0-9c57-a53aecbdd97d"
+  },
+  {
+    "snippet_index": 4,
+    "risk": 0.85,
+    "bucket": "QUARANTINE_ADVERSARIAL",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T4.adversarial"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/82a85d8c-99ae-493d-a9b4-f246e80b8215"
+  },
+  {
+    "snippet_index": 5,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f0af9505-08a3-4077-a07d-3bf81c3eb5e2"
+  },
+  {
+    "snippet_index": 6,
+    "risk": 0.85,
+    "bucket": "QUARANTINE_ADVERSARIAL",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T4.adversarial"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/89220e28-1a16-49dc-b6fe-970a943ce55f"
+  },
+  {
+    "snippet_index": 7,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/2733d9ca-30d1-4420-8d64-62193f849bf2"
+  },
+  {
+    "snippet_index": 8,
+    "risk": 0.6,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c2252217-1f05-442a-9bf7-f9c0345e8b7f"
+  },
+  {
+    "snippet_index": 9,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c5661338-2302-4f58-b72a-aefd35f07805"
+  },
+  {
+    "snippet_index": 10,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/dfa920fc-575f-4571-b037-8d3ad64d7544"
+  },
+  {
+    "snippet_index": 11,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ea276119-1417-474f-a923-78d658fa70ea"
+  },
+  {
+    "snippet_index": 12,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/575bb665-0c55-4ffb-ad94-66eb8bf0239e"
+  },
+  {
+    "snippet_index": 13,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/dad3c8bf-ed2d-4e7a-b399-dc468870d670"
+  },
+  {
+    "snippet_index": 14,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ae3d369a-452a-4e10-9b71-0694df1a9675"
+  },
+  {
+    "snippet_index": 15,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/17b65dbc-77ae-45f4-b4f3-4ebc232cf547"
+  },
+  {
+    "snippet_index": 16,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5bb4317f-3a45-4525-961e-e7f28275ee9d"
+  },
+  {
+    "snippet_index": 17,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4f123d63-8de9-4269-820c-b1f326ce144d"
+  },
+  {
+    "snippet_index": 18,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a7f09946-6906-4338-b5f0-053fee4efaf6"
+  },
+  {
+    "snippet_index": 19,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/998a2ce5-678e-4f2a-9620-030478b8e100"
+  },
+  {
+    "snippet_index": 20,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/bbab9fe7-f6bd-4204-9165-ebf03b91a539"
+  },
+  {
+    "snippet_index": 21,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4a2c8db3-dd03-4d64-8526-c77502c81104"
+  },
+  {
+    "snippet_index": 22,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/60264644-d59e-4ee1-930a-9951e51c9698"
+  },
+  {
+    "snippet_index": 23,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e8d7dec9-ced9-4acb-892b-54624bc34cec"
+  },
+  {
+    "snippet_index": 24,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ad6fd2aa-273f-4db1-875a-96f64ad87734"
+  },
+  {
+    "snippet_index": 25,
+    "risk": 0.65,
+    "bucket": "QUARANTINE_ADVERSARIAL",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T4.adversarial"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ef69c781-c345-4c63-9324-7f979118c8ca"
+  },
+  {
+    "snippet_index": 26,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/fdb844af-2d98-45d0-87b6-38492adebc1a"
+  },
+  {
+    "snippet_index": 27,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a7e943fa-8ab2-4b6d-b651-b74d4468af52"
+  },
+  {
+    "snippet_index": 28,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/b7d48546-af72-4d70-80d0-aa8f98e0f92d"
+  },
+  {
+    "snippet_index": 29,
+    "risk": 0.6,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/0e975837-87de-4b22-99d3-a1ae06f38ac4"
+  },
+  {
+    "snippet_index": 30,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5a31fc11-660d-4c26-8890-8f586757ff36"
+  },
+  {
+    "snippet_index": 31,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/599f5d15-5409-4222-8abd-04891b04261b"
+  },
+  {
+    "snippet_index": 32,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f8b716c3-0350-463b-9b56-e851c4e59824"
+  },
+  {
+    "snippet_index": 33,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/64f1eb94-c216-451c-b4f0-0d24b8aeb7c5"
+  },
+  {
+    "snippet_index": 34,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/dd4d1ee6-b5cc-4745-afb1-24d9b7a4b676"
+  },
+  {
+    "snippet_index": 35,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/436fe929-cea0-4629-a7c8-a215b4236dfe"
+  },
+  {
+    "snippet_index": 36,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/fa3a03e0-cb0e-4adb-9479-0819aa827ab4"
+  },
+  {
+    "snippet_index": 37,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/eefb36af-9539-472a-b5a8-908ca9d2ab22"
+  },
+  {
+    "snippet_index": 38,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9a420e59-b0ff-487a-8c0c-5948ad105178"
+  },
+  {
+    "snippet_index": 39,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8ad69d3b-b99d-440b-b754-1137571889ac"
+  },
+  {
+    "snippet_index": 40,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/7193965b-df79-4833-9f10-9fe6c214dd9b"
+  },
+  {
+    "snippet_index": 41,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e6c54359-18ec-46fa-b225-b13602415589"
+  },
+  {
+    "snippet_index": 42,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/cfa14382-b93e-4ac2-8331-a6fb8758dfe8"
+  },
+  {
+    "snippet_index": 43,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1f954fd0-0575-4e39-b02b-6b192d6e6ae7"
+  },
+  {
+    "snippet_index": 44,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/163e9952-db45-483c-81c3-8d26922fa271"
+  },
+  {
+    "snippet_index": 45,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6daeda8e-d03d-4b1a-8928-84650bee115b"
+  },
+  {
+    "snippet_index": 46,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/389362d5-3039-4ff0-b4cf-82927ec87338"
+  },
+  {
+    "snippet_index": 47,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/cdc29388-8b7a-453c-b3ba-ce4770fec8d4"
+  },
+  {
+    "snippet_index": 48,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/78151dd3-345d-4de8-8e2e-ea724d001c2f"
+  },
+  {
+    "snippet_index": 49,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8a52cabe-d305-47b4-8543-607937c19662"
+  },
+  {
+    "snippet_index": 50,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ad2fc7d9-552e-4f61-b7d3-f30fec74c1ab"
+  },
+  {
+    "snippet_index": 51,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c315fb9f-cef1-4d44-8c09-9bf5477a23e2"
+  },
+  {
+    "snippet_index": 52,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/770a8470-c896-4261-ae44-baf7bc9e0f53"
+  },
+  {
+    "snippet_index": 53,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ff12ee60-b26b-4354-8b86-dff1f419a83c"
+  },
+  {
+    "snippet_index": 54,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/df472c44-fc61-442f-b85e-22562f4dbe88"
+  },
+  {
+    "snippet_index": 55,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/0001e0de-4bdd-42f3-80b4-bd91ede445ec"
+  },
+  {
+    "snippet_index": 56,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/11abc09d-0d95-44a6-9ded-23452521f322"
+  },
+  {
+    "snippet_index": 57,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/cfb79576-8e83-47fd-a716-3f6e58cf0a1a"
+  },
+  {
+    "snippet_index": 58,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/3bf8ed0f-ce3b-4bdd-a341-df89b9f2eb0d"
+  },
+  {
+    "snippet_index": 59,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f7c3eebf-00d3-4954-a2df-2bebb2c78190"
+  },
+  {
+    "snippet_index": 60,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1f9ba8e2-d5e4-4c6a-bafa-b8aacbde3d98"
+  },
+  {
+    "snippet_index": 61,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d0975fe0-f4aa-41f9-838b-086df4e90bc8"
+  },
+  {
+    "snippet_index": 62,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/011a3588-08b2-4d36-9f73-d311121d0b31"
+  },
+  {
+    "snippet_index": 63,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/87c226a5-74d9-4f52-9200-73b1de227a05"
+  },
+  {
+    "snippet_index": 64,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5c1f6be8-a8d5-4d82-8862-341a6c946657"
+  },
+  {
+    "snippet_index": 65,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/db1f2455-13f2-4e75-a5b9-f95e03380abe"
+  },
+  {
+    "snippet_index": 66,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5a6644f3-ad23-4ad1-b26b-e26bcfedbe7a"
+  },
+  {
+    "snippet_index": 67,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/06cc0f4c-3286-4a3c-872a-2119b81f783e"
+  },
+  {
+    "snippet_index": 68,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/56ce5c5e-3db2-4abc-815b-c7e48b0e7a15"
+  },
+  {
+    "snippet_index": 69,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/17f7d3bc-04c7-4305-bc17-ecd1220546c2"
+  },
+  {
+    "snippet_index": 70,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/578cf6a4-afcc-4344-987b-3f1c57ac2137"
+  },
+  {
+    "snippet_index": 71,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/968c0fa5-5f12-4771-b65a-5f4208076eb6"
+  },
+  {
+    "snippet_index": 72,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d25bc921-4e49-46a0-aabe-52d525cec9ff"
+  },
+  {
+    "snippet_index": 73,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9dbdc8d7-ad38-4dca-87d7-310663390e53"
+  },
+  {
+    "snippet_index": 74,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/bb65e1c3-bca6-49de-8576-73aed7ef83d4"
+  },
+  {
+    "snippet_index": 75,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/52afbf6d-22e3-4e5a-af8c-589edd8adba7"
+  },
+  {
+    "snippet_index": 76,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c0bd1cf4-052e-4262-becc-38947dbe879b"
+  },
+  {
+    "snippet_index": 77,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a97a30d3-a721-41d2-9ffc-6cf5034ef4a3"
+  },
+  {
+    "snippet_index": 78,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/0e2ed4f6-c4dd-472c-968a-522b38d88a44"
+  },
+  {
+    "snippet_index": 79,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/33717dd0-d5e5-4314-9d3d-382d287ec4e0"
+  },
+  {
+    "snippet_index": 80,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/93c5e145-8cc9-491c-b806-c7d69cf3f213"
+  },
+  {
+    "snippet_index": 81,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/60ea7bb4-5c08-46af-894d-cf36c8a138dc"
+  },
+  {
+    "snippet_index": 82,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/942c7482-009f-4297-963b-ce6aed125acc"
+  },
+  {
+    "snippet_index": 83,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8087e764-112e-4d28-8bfc-09a0b1422149"
+  },
+  {
+    "snippet_index": 84,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5baeb1ad-2621-460f-b775-0825c3ebaf38"
+  },
+  {
+    "snippet_index": 85,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/413eaefa-ee8e-41f9-90d8-3b0fd278b992"
+  },
+  {
+    "snippet_index": 86,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e933fecc-eaa2-4cd8-9a6c-6e2379b5f0e2"
+  },
+  {
+    "snippet_index": 87,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/610105fa-b475-4360-a4c8-358d567aa246"
+  },
+  {
+    "snippet_index": 88,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5a74549d-987d-4327-a9fe-614b3ecffbd1"
+  },
+  {
+    "snippet_index": 89,
+    "risk": 0.35,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/38a17451-dffd-41dd-a08a-ddb95e40a49e"
+  },
+  {
+    "snippet_index": 90,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d90edb6f-3eb5-47dc-8792-b78ff96cd6b8"
+  },
+  {
+    "snippet_index": 91,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/25a39d00-f61a-41fe-8bcf-73f03d4c1168"
+  },
+  {
+    "snippet_index": 92,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/5f0d0598-56ad-4aa2-aee1-6145de62318b"
+  },
+  {
+    "snippet_index": 93,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/b5a40d72-b051-4615-beba-966fdcc1c07d"
+  },
+  {
+    "snippet_index": 94,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/043a28bf-0a17-4b5d-9232-ce7d9397ac75"
+  },
+  {
+    "snippet_index": 95,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1fb5f311-531e-4bec-a4f3-33c9b843c615"
+  },
+  {
+    "snippet_index": 96,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/3e5fd53e-4380-4bdb-a0e1-6c7c41315f5d"
+  },
+  {
+    "snippet_index": 97,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/624410ca-03be-4e7f-8d7f-00ab2f575518"
+  },
+  {
+    "snippet_index": 98,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4fbb9fb5-c4ce-41e9-aae4-60681082ac9a"
+  },
+  {
+    "snippet_index": 99,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d451ee72-7780-4602-b186-db4ad3c292b4"
+  },
+  {
+    "snippet_index": 100,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/0e52afb3-dce2-447a-8e6f-a9414f9e7e94"
+  },
+  {
+    "snippet_index": 101,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/172573e1-01b3-4603-b780-940136411da0"
+  },
+  {
+    "snippet_index": 102,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ec317eb7-c914-4063-aa73-ef334c3c9db2"
+  },
+  {
+    "snippet_index": 103,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a7f67019-69d0-4356-bff9-966efc04bfd6"
+  },
+  {
+    "snippet_index": 104,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/007c8eb1-18ce-4083-b507-e39615dfb897"
+  },
+  {
+    "snippet_index": 105,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e2a6c485-f8f3-4807-bfeb-e6ecb394de1c"
+  },
+  {
+    "snippet_index": 106,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/b5c24bbb-9697-4148-a1e2-64ca49e7f0d5"
+  },
+  {
+    "snippet_index": 107,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ed1bc270-2235-41c7-9e37-966fac1a8434"
+  },
+  {
+    "snippet_index": 108,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e3a63a89-7d02-445f-ae2d-db1b5ed551bd"
+  },
+  {
+    "snippet_index": 109,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f89e8261-751a-4b71-8cf0-6e45c678cf35"
+  },
+  {
+    "snippet_index": 110,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/79f00927-68a6-4485-ac12-5376cf6094ad"
+  },
+  {
+    "snippet_index": 111,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c2c6e262-98fa-4fde-b5e0-4422296c9581"
+  },
+  {
+    "snippet_index": 112,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/7f7001b8-3efa-49f5-abeb-cb4fc8d47230"
+  },
+  {
+    "snippet_index": 113,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f02071e7-892c-4a0c-88c1-ddb71de63cd8"
+  },
+  {
+    "snippet_index": 114,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1de4e6c3-9929-4d20-93ee-0c2776d4dbe3"
+  },
+  {
+    "snippet_index": 115,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/cea38e4b-8c6d-4fdd-8533-a66275ef9f5d"
+  },
+  {
+    "snippet_index": 116,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/3aaa0a0d-eab1-402f-a95b-807afdc41b45"
+  },
+  {
+    "snippet_index": 117,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9f3324e4-f498-409a-a541-11ce0d6aa016"
+  },
+  {
+    "snippet_index": 118,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8892597e-64d8-49d5-9ef9-6422ba7eef53"
+  },
+  {
+    "snippet_index": 119,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/60277e39-a9cc-448f-9600-863d7ac1c2e8"
+  },
+  {
+    "snippet_index": 120,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ab852204-5999-4383-8573-5500e33a22ed"
+  },
+  {
+    "snippet_index": 121,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/bc628332-acf2-42cd-98d3-c4d381611951"
+  },
+  {
+    "snippet_index": 122,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e6b3ce71-5c89-46f7-99be-45298cb808a8"
+  },
+  {
+    "snippet_index": 123,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/7169567f-e811-431d-aade-cfa0034580c5"
+  },
+  {
+    "snippet_index": 124,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6fe208a9-e520-48bb-ba4c-52788d5bfe95"
+  },
+  {
+    "snippet_index": 125,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4d8c9b1e-2b11-441a-9abe-642d6e626ea8"
+  },
+  {
+    "snippet_index": 126,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/cccba1c2-f7a4-4e5f-8d2d-d17977f13506"
+  },
+  {
+    "snippet_index": 127,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/98149e08-3054-47e9-b6d0-5449fd968763"
+  },
+  {
+    "snippet_index": 128,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9893d22e-645a-489b-b501-591d7bc11804"
+  },
+  {
+    "snippet_index": 129,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c817b9d6-571d-46f1-b0af-ee38ecba4f71"
+  },
+  {
+    "snippet_index": 130,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d92b1045-39bd-4894-8c6f-b78e30a4910d"
+  },
+  {
+    "snippet_index": 131,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a8836fab-0727-42fc-a81d-d535133a23f1"
+  },
+  {
+    "snippet_index": 132,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/682198ff-de70-4ec3-b5f0-d1f2001a1096"
+  },
+  {
+    "snippet_index": 133,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/ccbaeb63-992b-4cdb-ac40-329c40e9df38"
+  },
+  {
+    "snippet_index": 134,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/24323ff1-efbb-4709-940e-b233b9820656"
+  },
+  {
+    "snippet_index": 135,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/73c8c032-6473-4a55-895a-a146e17e450c"
+  },
+  {
+    "snippet_index": 136,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c8450d04-e136-468a-aefb-ed0d84ab7874"
+  },
+  {
+    "snippet_index": 137,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/a1a102a2-2630-4468-ad36-83b83198be2d"
+  },
+  {
+    "snippet_index": 138,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/2171a1ae-3e72-4c1b-9f65-572167ec23eb"
+  },
+  {
+    "snippet_index": 139,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d526691b-9a5b-46ee-a947-2226e002e1f0"
+  },
+  {
+    "snippet_index": 140,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/45e71b6b-73d9-4344-b165-b1648a691386"
+  },
+  {
+    "snippet_index": 141,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/34996b8e-10a3-41e3-9141-bcb22fad6689"
+  },
+  {
+    "snippet_index": 142,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/7f7fcf22-519e-4573-8717-628faa4ef573"
+  },
+  {
+    "snippet_index": 143,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/7bcec678-7106-40c8-bc8f-d61dc8a4cda3"
+  },
+  {
+    "snippet_index": 144,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/43e49181-5f74-4be3-bd8f-df5927d7882b"
+  },
+  {
+    "snippet_index": 145,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6e746f9e-89f1-40ff-b5b6-4c5312050ff6"
+  },
+  {
+    "snippet_index": 146,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f8f2260f-b0f5-4a53-b209-4f5293d0f8ba"
+  },
+  {
+    "snippet_index": 147,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/f053b797-a5cb-46e2-a044-41d0dad4a7fc"
+  },
+  {
+    "snippet_index": 148,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/aed78e6b-a8e9-42ee-9d52-bbc80a1aacf8"
+  },
+  {
+    "snippet_index": 149,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e63cd360-a48d-5265-984f-557cb3da3e37"
+  },
+  {
+    "snippet_index": 150,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6640a205-1bbf-4138-8362-f70aa8cb03eb"
+  },
+  {
+    "snippet_index": 151,
+    "risk": 0.35,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/bbb1b887-aa35-4c14-9087-0a61169be3cc"
+  },
+  {
+    "snippet_index": 152,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1a3c337b-9884-4bd1-80f3-b63e0116a258"
+  },
+  {
+    "snippet_index": 153,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e75fd560-9597-5d07-addf-ad066986521d"
+  },
+  {
+    "snippet_index": 154,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4572ac04-a9f9-4dd6-83b4-33ef1d4c3589"
+  },
+  {
+    "snippet_index": 155,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1bcd88ef-8690-48f5-8547-c81a7a187654"
+  },
+  {
+    "snippet_index": 156,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6421e792-b0a1-420e-b529-10eb72c75d74"
+  },
+  {
+    "snippet_index": 157,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d755e92f-e2a5-4ae3-a04b-e0632c5b2539"
+  },
+  {
+    "snippet_index": 158,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/39200a85-a360-4162-8d3f-f83de7b21709"
+  },
+  {
+    "snippet_index": 159,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6dacd964-b646-41db-8d21-21a44026e7a5"
+  },
+  {
+    "snippet_index": 160,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9036fcb3-3ab4-4ed5-89da-bf5438b47ae8"
+  },
+  {
+    "snippet_index": 161,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c15a8e4e-a581-4bb7-af92-dd7b786dc879"
+  },
+  {
+    "snippet_index": 162,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/de47d048-9bdd-47f0-b8be-72480b47de39"
+  },
+  {
+    "snippet_index": 163,
+    "risk": 0.35,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/01d6849b-3b39-4821-9919-2190a7cbc0e3"
+  },
+  {
+    "snippet_index": 164,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/60967203-088b-58b0-a62c-0840b75a4dd0"
+  },
+  {
+    "snippet_index": 165,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9874e01c-9fb4-4e08-abce-56f75c8d0f0f"
+  },
+  {
+    "snippet_index": 166,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/9bedf12b-eb69-4c8c-a1eb-c20e33c24645"
+  },
+  {
+    "snippet_index": 167,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/13c43f63-39ff-43b2-9a6a-ba3e102f864d"
+  },
+  {
+    "snippet_index": 168,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d265120f-c73a-4bcb-b32a-5aecc32bbe3d"
+  },
+  {
+    "snippet_index": 169,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e3bbdde9-c145-4f40-8634-4f34c9eb15b3"
+  },
+  {
+    "snippet_index": 170,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": "narrative_only",
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e6814199-5a87-4a41-bce0-1dc9c5919834"
+  },
+  {
+    "snippet_index": 171,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/efa7871e-fbee-4a36-9923-6571fe9823b2"
+  },
+  {
+    "snippet_index": 172,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/d52a769d-9061-460e-b2e9-17495b3f79d8"
+  },
+  {
+    "snippet_index": 173,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8cd0c93f-276f-408e-9c9f-c6767d29eb53"
+  },
+  {
+    "snippet_index": 174,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/84a84f6b-dc13-40fe-9ba5-6a71db52ad65"
+  },
+  {
+    "snippet_index": 175,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/dd55a4be-c98e-4a8f-81e0-761024fdced3"
+  },
+  {
+    "snippet_index": 176,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/8ddf0840-1a40-4781-a97d-5a386d395c11"
+  },
+  {
+    "snippet_index": 177,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e012539a-438c-49ff-accb-509b5719e9ba"
+  },
+  {
+    "snippet_index": 178,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/39488648-9b0b-4070-9182-47987d97c0c8"
+  },
+  {
+    "snippet_index": 179,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/98aa748c-50fa-48db-888f-d5a06db35862"
+  },
+  {
+    "snippet_index": 180,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/97003745-c2f0-41d5-9ac5-a115ac1a1631"
+  },
+  {
+    "snippet_index": 181,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/c91a2da2-51c4-4b5b-befd-42ff9874ae7f"
+  },
+  {
+    "snippet_index": 182,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/0fb1ae7f-ba5e-48b1-95e2-9f027cdd9637"
+  },
+  {
+    "snippet_index": 183,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/08987023-6e00-4a0d-8d0e-cdcd90b755b5"
+  },
+  {
+    "snippet_index": 184,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/63272c57-48c7-42a1-a458-0bb4f3757ab9"
+  },
+  {
+    "snippet_index": 185,
+    "risk": 0.6,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e986e9a7-778f-48b6-ab1c-b0ca8cda1065"
+  },
+  {
+    "snippet_index": 186,
+    "risk": 0.6,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo2"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/714211e3-747c-439a-adf7-84844327d02f"
+  },
+  {
+    "snippet_index": 187,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e86f63c1-bb9b-4924-a35a-17d54bbf173b"
+  },
+  {
+    "snippet_index": 188,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/e57b2d12-aea0-4fef-832f-a2b457bd174c"
+  },
+  {
+    "snippet_index": 189,
+    "risk": 0,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/719899b1-6163-4221-a21f-e2f925054ced"
+  },
+  {
+    "snippet_index": 190,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/1ebfceb7-991e-46b3-8cde-13f84a87884b"
+  },
+  {
+    "snippet_index": 191,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/aa35c47e-b1cb-41ce-86c1-22c321cbb720"
+  },
+  {
+    "snippet_index": 192,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/32552bcd-b8ba-4a9a-bb0d-f28d95044764"
+  },
+  {
+    "snippet_index": 193,
+    "risk": 0.05,
+    "bucket": "HIGH",
+    "rules_fired": [],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/804b0cf7-b089-4bbc-a2f1-a5546ece2623"
+  },
+  {
+    "snippet_index": 194,
+    "risk": 0.3,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4459a92a-c8a7-48e9-8888-bc9ab66f3f81"
+  },
+  {
+    "snippet_index": 195,
+    "risk": 0.25,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/7a5edf08-e02d-489c-9efb-76b31544f8b1"
+  },
+  {
+    "snippet_index": 196,
+    "risk": 0.15,
+    "bucket": "HIGH",
+    "rules_fired": [
+      "T2.promo1",
+      "B.karma"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/4211f357-2a12-4ae2-ad93-3c8c3f7ec38d"
+  },
+  {
+    "snippet_index": 197,
+    "risk": 0.8,
+    "bucket": "QUARANTINE_ADVERSARIAL",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T7.injection_probe(system prompt)"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/3e07f852-e329-4787-a2b0-6ccaa05ec245"
+  },
+  {
+    "snippet_index": 198,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/6957e7c0-47e0-429c-8d62-4fc936c68b85"
+  },
+  {
+    "snippet_index": 199,
+    "risk": 0.5,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1"
+    ],
+    "route_hint": null,
+    "group_size_cap": 5,
+    "source_canonical_url": "https://thecolony.cc/api/v1/posts/baeb00cb-d53b-4601-9069-b47ecef4a224"
+  },
+  {
+    "snippet_index": 200,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ae817dda-5c88-4f2e-9b49-b64747c65cc6"
+  },
+  {
+    "snippet_index": 201,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87753aaf-d22e-4bbb-a08e-24d13e5cfa85"
+  },
+  {
+    "snippet_index": 202,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66ab7f2b-cc7e-4fd4-a9a3-d2d68fc77be8"
+  },
+  {
+    "snippet_index": 203,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bf6355f9-9687-42b5-81c4-2b735e004d7b"
+  },
+  {
+    "snippet_index": 204,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a35ad716-1f5e-4acf-b0b2-05a0aceb129b"
+  },
+  {
+    "snippet_index": 205,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e2b200a1-6a71-4035-b7b5-c7c250da42e4"
+  },
+  {
+    "snippet_index": 206,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/089cf9fb-6725-457d-8be0-81a89dada3c6"
+  },
+  {
+    "snippet_index": 207,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/95d43226-c55b-4f2f-a5dd-e2f0a6294669"
+  },
+  {
+    "snippet_index": 208,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/680344b4-6122-4781-ba2c-4c1bae72c459"
+  },
+  {
+    "snippet_index": 209,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/89740a3f-d226-4f48-b315-ecc4f26d49f9"
+  },
+  {
+    "snippet_index": 210,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/b2505370-ffc8-41ce-b229-0d590a3a2697"
+  },
+  {
+    "snippet_index": 211,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/fbd13f11-17db-4d91-8022-41bc912e69f6"
+  },
+  {
+    "snippet_index": 212,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bb5578e2-1247-4775-b9e2-c9e14350348f"
+  },
+  {
+    "snippet_index": 213,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66fbdc21-e759-4d0e-8057-ab2ca963dabc"
+  },
+  {
+    "snippet_index": 214,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c3ab7d63-b262-4cbc-8d8e-960d80a5568e"
+  },
+  {
+    "snippet_index": 215,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/880d5a3a-350b-43f2-912d-56d66dc33ac9"
+  },
+  {
+    "snippet_index": 216,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c2908703-c193-4c0b-90c2-f3757866689f"
+  },
+  {
+    "snippet_index": 217,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/eda3c747-8435-42bf-81fd-3fefeec5e930"
+  },
+  {
+    "snippet_index": 218,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/18dbd711-c00a-4f4a-9f9a-04ab80399d75"
+  },
+  {
+    "snippet_index": 219,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/9790eab2-10b0-44af-862b-a94453d40495"
+  },
+  {
+    "snippet_index": 220,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/61806afc-87c8-4ad9-9fe9-452916ca5689"
+  },
+  {
+    "snippet_index": 221,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f4e504bc-9958-459b-baa7-f1dcc1221d40"
+  },
+  {
+    "snippet_index": 222,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/3b4cb878-f17e-4e93-abd8-6c95eda22b9b"
+  },
+  {
+    "snippet_index": 223,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ec1e62ba-80a9-46f3-a982-2a03a430ee22"
+  },
+  {
+    "snippet_index": 224,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/166efebd-eed4-4687-9f57-2ce444efc3de"
+  },
+  {
+    "snippet_index": 225,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f0123c3b-4fcb-4d24-b85a-e21ece3a12e9"
+  },
+  {
+    "snippet_index": 226,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/90cc113c-3218-46f1-a35e-96f84929dad1"
+  },
+  {
+    "snippet_index": 227,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/8d4b38ad-bf1c-499c-a9ab-2e6a93c73624"
+  },
+  {
+    "snippet_index": 228,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/add36fb2-3c0e-4971-a6c6-931c2249bfa1"
+  },
+  {
+    "snippet_index": 229,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/7074f120-0455-42a8-ba04-50e9346e8b67"
+  },
+  {
+    "snippet_index": 230,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/5559801f-9abd-4dc0-99b3-70209b568bb3"
+  },
+  {
+    "snippet_index": 231,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c0152974-481f-48f9-926c-7ebce0efe2a6"
+  },
+  {
+    "snippet_index": 232,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/31a83939-ddb9-4222-be41-11fb1fde2c86"
+  },
+  {
+    "snippet_index": 233,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87f2cda7-3143-45e3-af30-70c63960aad9"
+  },
+  {
+    "snippet_index": 234,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f3335759-50df-45a5-98aa-a0bacca8308c"
+  },
+  {
+    "snippet_index": 235,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a4e1503a-c0a0-46ec-a811-9dcc724cdf00"
+  },
+  {
+    "snippet_index": 236,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a14acfd0-f211-4f44-ae4b-0ac57ef650d2"
+  },
+  {
+    "snippet_index": 237,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/d78e0bc0-7778-444c-9169-790a483f76cd"
+  },
+  {
+    "snippet_index": 238,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/28dc61ea-e710-42bb-addd-84c54ab529f4"
+  },
+  {
+    "snippet_index": 239,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/1026ccd3-b572-4327-99e1-fedda5f1f408"
+  },
+  {
+    "snippet_index": 240,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/74c90b54-d7ea-41dd-a841-d1a0941354c6"
+  },
+  {
+    "snippet_index": 241,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/64516f46-3cf7-4f46-a41f-e3c968f6cc07"
+  },
+  {
+    "snippet_index": 242,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/061b2e43-98f6-483d-a53e-6e8e735eb10b"
+  },
+  {
+    "snippet_index": 243,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/96f9b82b-a7ad-4b7f-b500-40a2030fbfbd"
+  },
+  {
+    "snippet_index": 244,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c4cddef6-e2b5-43c8-9ddd-b195838c6217"
+  },
+  {
+    "snippet_index": 245,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e4c398d9-3fad-4921-8431-3d84df9a30f9"
+  },
+  {
+    "snippet_index": 246,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/55d222fa-2580-4524-ad58-c2fa5e0dab4b"
+  },
+  {
+    "snippet_index": 247,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/743634b1-70eb-4115-b689-54bbddd120ff"
+  },
+  {
+    "snippet_index": 248,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f8de3f4b-9d3c-4cea-b5d8-cdf08e6083af"
+  },
+  {
+    "snippet_index": 249,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/797205e2-f509-4bfa-8803-e2709d98d4f1"
+  },
+  {
+    "snippet_index": 250,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ae817dda-5c88-4f2e-9b49-b64747c65cc6"
+  },
+  {
+    "snippet_index": 251,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87753aaf-d22e-4bbb-a08e-24d13e5cfa85"
+  },
+  {
+    "snippet_index": 252,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66ab7f2b-cc7e-4fd4-a9a3-d2d68fc77be8"
+  },
+  {
+    "snippet_index": 253,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bf6355f9-9687-42b5-81c4-2b735e004d7b"
+  },
+  {
+    "snippet_index": 254,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a35ad716-1f5e-4acf-b0b2-05a0aceb129b"
+  },
+  {
+    "snippet_index": 255,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e2b200a1-6a71-4035-b7b5-c7c250da42e4"
+  },
+  {
+    "snippet_index": 256,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/089cf9fb-6725-457d-8be0-81a89dada3c6"
+  },
+  {
+    "snippet_index": 257,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/95d43226-c55b-4f2f-a5dd-e2f0a6294669"
+  },
+  {
+    "snippet_index": 258,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/680344b4-6122-4781-ba2c-4c1bae72c459"
+  },
+  {
+    "snippet_index": 259,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/89740a3f-d226-4f48-b315-ecc4f26d49f9"
+  },
+  {
+    "snippet_index": 260,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/b2505370-ffc8-41ce-b229-0d590a3a2697"
+  },
+  {
+    "snippet_index": 261,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/fbd13f11-17db-4d91-8022-41bc912e69f6"
+  },
+  {
+    "snippet_index": 262,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bb5578e2-1247-4775-b9e2-c9e14350348f"
+  },
+  {
+    "snippet_index": 263,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66fbdc21-e759-4d0e-8057-ab2ca963dabc"
+  },
+  {
+    "snippet_index": 264,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c3ab7d63-b262-4cbc-8d8e-960d80a5568e"
+  },
+  {
+    "snippet_index": 265,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/880d5a3a-350b-43f2-912d-56d66dc33ac9"
+  },
+  {
+    "snippet_index": 266,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c2908703-c193-4c0b-90c2-f3757866689f"
+  },
+  {
+    "snippet_index": 267,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/eda3c747-8435-42bf-81fd-3fefeec5e930"
+  },
+  {
+    "snippet_index": 268,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/18dbd711-c00a-4f4a-9f9a-04ab80399d75"
+  },
+  {
+    "snippet_index": 269,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/9790eab2-10b0-44af-862b-a94453d40495"
+  },
+  {
+    "snippet_index": 270,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/61806afc-87c8-4ad9-9fe9-452916ca5689"
+  },
+  {
+    "snippet_index": 271,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f4e504bc-9958-459b-baa7-f1dcc1221d40"
+  },
+  {
+    "snippet_index": 272,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/3b4cb878-f17e-4e93-abd8-6c95eda22b9b"
+  },
+  {
+    "snippet_index": 273,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ec1e62ba-80a9-46f3-a982-2a03a430ee22"
+  },
+  {
+    "snippet_index": 274,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/166efebd-eed4-4687-9f57-2ce444efc3de"
+  },
+  {
+    "snippet_index": 275,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f0123c3b-4fcb-4d24-b85a-e21ece3a12e9"
+  },
+  {
+    "snippet_index": 276,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/90cc113c-3218-46f1-a35e-96f84929dad1"
+  },
+  {
+    "snippet_index": 277,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/8d4b38ad-bf1c-499c-a9ab-2e6a93c73624"
+  },
+  {
+    "snippet_index": 278,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/add36fb2-3c0e-4971-a6c6-931c2249bfa1"
+  },
+  {
+    "snippet_index": 279,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/7074f120-0455-42a8-ba04-50e9346e8b67"
+  },
+  {
+    "snippet_index": 280,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/5559801f-9abd-4dc0-99b3-70209b568bb3"
+  },
+  {
+    "snippet_index": 281,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c0152974-481f-48f9-926c-7ebce0efe2a6"
+  },
+  {
+    "snippet_index": 282,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/31a83939-ddb9-4222-be41-11fb1fde2c86"
+  },
+  {
+    "snippet_index": 283,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87f2cda7-3143-45e3-af30-70c63960aad9"
+  },
+  {
+    "snippet_index": 284,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f3335759-50df-45a5-98aa-a0bacca8308c"
+  },
+  {
+    "snippet_index": 285,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a4e1503a-c0a0-46ec-a811-9dcc724cdf00"
+  },
+  {
+    "snippet_index": 286,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a14acfd0-f211-4f44-ae4b-0ac57ef650d2"
+  },
+  {
+    "snippet_index": 287,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/d78e0bc0-7778-444c-9169-790a483f76cd"
+  },
+  {
+    "snippet_index": 288,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/28dc61ea-e710-42bb-addd-84c54ab529f4"
+  },
+  {
+    "snippet_index": 289,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/1026ccd3-b572-4327-99e1-fedda5f1f408"
+  },
+  {
+    "snippet_index": 290,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/74c90b54-d7ea-41dd-a841-d1a0941354c6"
+  },
+  {
+    "snippet_index": 291,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/64516f46-3cf7-4f46-a41f-e3c968f6cc07"
+  },
+  {
+    "snippet_index": 292,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/061b2e43-98f6-483d-a53e-6e8e735eb10b"
+  },
+  {
+    "snippet_index": 293,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/96f9b82b-a7ad-4b7f-b500-40a2030fbfbd"
+  },
+  {
+    "snippet_index": 294,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c4cddef6-e2b5-43c8-9ddd-b195838c6217"
+  },
+  {
+    "snippet_index": 295,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e4c398d9-3fad-4921-8431-3d84df9a30f9"
+  },
+  {
+    "snippet_index": 296,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/55d222fa-2580-4524-ad58-c2fa5e0dab4b"
+  },
+  {
+    "snippet_index": 297,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/743634b1-70eb-4115-b689-54bbddd120ff"
+  },
+  {
+    "snippet_index": 298,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f8de3f4b-9d3c-4cea-b5d8-cdf08e6083af"
+  },
+  {
+    "snippet_index": 299,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/797205e2-f509-4bfa-8803-e2709d98d4f1"
+  },
+  {
+    "snippet_index": 300,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ae817dda-5c88-4f2e-9b49-b64747c65cc6"
+  },
+  {
+    "snippet_index": 301,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87753aaf-d22e-4bbb-a08e-24d13e5cfa85"
+  },
+  {
+    "snippet_index": 302,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66ab7f2b-cc7e-4fd4-a9a3-d2d68fc77be8"
+  },
+  {
+    "snippet_index": 303,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bf6355f9-9687-42b5-81c4-2b735e004d7b"
+  },
+  {
+    "snippet_index": 304,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a35ad716-1f5e-4acf-b0b2-05a0aceb129b"
+  },
+  {
+    "snippet_index": 305,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e2b200a1-6a71-4035-b7b5-c7c250da42e4"
+  },
+  {
+    "snippet_index": 306,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/089cf9fb-6725-457d-8be0-81a89dada3c6"
+  },
+  {
+    "snippet_index": 307,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/95d43226-c55b-4f2f-a5dd-e2f0a6294669"
+  },
+  {
+    "snippet_index": 308,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/680344b4-6122-4781-ba2c-4c1bae72c459"
+  },
+  {
+    "snippet_index": 309,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/89740a3f-d226-4f48-b315-ecc4f26d49f9"
+  },
+  {
+    "snippet_index": 310,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/b2505370-ffc8-41ce-b229-0d590a3a2697"
+  },
+  {
+    "snippet_index": 311,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/fbd13f11-17db-4d91-8022-41bc912e69f6"
+  },
+  {
+    "snippet_index": 312,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bb5578e2-1247-4775-b9e2-c9e14350348f"
+  },
+  {
+    "snippet_index": 313,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66fbdc21-e759-4d0e-8057-ab2ca963dabc"
+  },
+  {
+    "snippet_index": 314,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c3ab7d63-b262-4cbc-8d8e-960d80a5568e"
+  },
+  {
+    "snippet_index": 315,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/880d5a3a-350b-43f2-912d-56d66dc33ac9"
+  },
+  {
+    "snippet_index": 316,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c2908703-c193-4c0b-90c2-f3757866689f"
+  },
+  {
+    "snippet_index": 317,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/eda3c747-8435-42bf-81fd-3fefeec5e930"
+  },
+  {
+    "snippet_index": 318,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/18dbd711-c00a-4f4a-9f9a-04ab80399d75"
+  },
+  {
+    "snippet_index": 319,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/9790eab2-10b0-44af-862b-a94453d40495"
+  },
+  {
+    "snippet_index": 320,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/61806afc-87c8-4ad9-9fe9-452916ca5689"
+  },
+  {
+    "snippet_index": 321,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f4e504bc-9958-459b-baa7-f1dcc1221d40"
+  },
+  {
+    "snippet_index": 322,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/3b4cb878-f17e-4e93-abd8-6c95eda22b9b"
+  },
+  {
+    "snippet_index": 323,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ec1e62ba-80a9-46f3-a982-2a03a430ee22"
+  },
+  {
+    "snippet_index": 324,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/166efebd-eed4-4687-9f57-2ce444efc3de"
+  },
+  {
+    "snippet_index": 325,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f0123c3b-4fcb-4d24-b85a-e21ece3a12e9"
+  },
+  {
+    "snippet_index": 326,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/90cc113c-3218-46f1-a35e-96f84929dad1"
+  },
+  {
+    "snippet_index": 327,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/8d4b38ad-bf1c-499c-a9ab-2e6a93c73624"
+  },
+  {
+    "snippet_index": 328,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/add36fb2-3c0e-4971-a6c6-931c2249bfa1"
+  },
+  {
+    "snippet_index": 329,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/7074f120-0455-42a8-ba04-50e9346e8b67"
+  },
+  {
+    "snippet_index": 330,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/5559801f-9abd-4dc0-99b3-70209b568bb3"
+  },
+  {
+    "snippet_index": 331,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c0152974-481f-48f9-926c-7ebce0efe2a6"
+  },
+  {
+    "snippet_index": 332,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/31a83939-ddb9-4222-be41-11fb1fde2c86"
+  },
+  {
+    "snippet_index": 333,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87f2cda7-3143-45e3-af30-70c63960aad9"
+  },
+  {
+    "snippet_index": 334,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f3335759-50df-45a5-98aa-a0bacca8308c"
+  },
+  {
+    "snippet_index": 335,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a4e1503a-c0a0-46ec-a811-9dcc724cdf00"
+  },
+  {
+    "snippet_index": 336,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a14acfd0-f211-4f44-ae4b-0ac57ef650d2"
+  },
+  {
+    "snippet_index": 337,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/d78e0bc0-7778-444c-9169-790a483f76cd"
+  },
+  {
+    "snippet_index": 338,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/28dc61ea-e710-42bb-addd-84c54ab529f4"
+  },
+  {
+    "snippet_index": 339,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/1026ccd3-b572-4327-99e1-fedda5f1f408"
+  },
+  {
+    "snippet_index": 340,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/74c90b54-d7ea-41dd-a841-d1a0941354c6"
+  },
+  {
+    "snippet_index": 341,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/64516f46-3cf7-4f46-a41f-e3c968f6cc07"
+  },
+  {
+    "snippet_index": 342,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/061b2e43-98f6-483d-a53e-6e8e735eb10b"
+  },
+  {
+    "snippet_index": 343,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/96f9b82b-a7ad-4b7f-b500-40a2030fbfbd"
+  },
+  {
+    "snippet_index": 344,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c4cddef6-e2b5-43c8-9ddd-b195838c6217"
+  },
+  {
+    "snippet_index": 345,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e4c398d9-3fad-4921-8431-3d84df9a30f9"
+  },
+  {
+    "snippet_index": 346,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/55d222fa-2580-4524-ad58-c2fa5e0dab4b"
+  },
+  {
+    "snippet_index": 347,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/743634b1-70eb-4115-b689-54bbddd120ff"
+  },
+  {
+    "snippet_index": 348,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f8de3f4b-9d3c-4cea-b5d8-cdf08e6083af"
+  },
+  {
+    "snippet_index": 349,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/797205e2-f509-4bfa-8803-e2709d98d4f1"
+  },
+  {
+    "snippet_index": 350,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ae817dda-5c88-4f2e-9b49-b64747c65cc6"
+  },
+  {
+    "snippet_index": 351,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87753aaf-d22e-4bbb-a08e-24d13e5cfa85"
+  },
+  {
+    "snippet_index": 352,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66ab7f2b-cc7e-4fd4-a9a3-d2d68fc77be8"
+  },
+  {
+    "snippet_index": 353,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bf6355f9-9687-42b5-81c4-2b735e004d7b"
+  },
+  {
+    "snippet_index": 354,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a35ad716-1f5e-4acf-b0b2-05a0aceb129b"
+  },
+  {
+    "snippet_index": 355,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e2b200a1-6a71-4035-b7b5-c7c250da42e4"
+  },
+  {
+    "snippet_index": 356,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/089cf9fb-6725-457d-8be0-81a89dada3c6"
+  },
+  {
+    "snippet_index": 357,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/95d43226-c55b-4f2f-a5dd-e2f0a6294669"
+  },
+  {
+    "snippet_index": 358,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/680344b4-6122-4781-ba2c-4c1bae72c459"
+  },
+  {
+    "snippet_index": 359,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/89740a3f-d226-4f48-b315-ecc4f26d49f9"
+  },
+  {
+    "snippet_index": 360,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/b2505370-ffc8-41ce-b229-0d590a3a2697"
+  },
+  {
+    "snippet_index": 361,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/fbd13f11-17db-4d91-8022-41bc912e69f6"
+  },
+  {
+    "snippet_index": 362,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/bb5578e2-1247-4775-b9e2-c9e14350348f"
+  },
+  {
+    "snippet_index": 363,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/66fbdc21-e759-4d0e-8057-ab2ca963dabc"
+  },
+  {
+    "snippet_index": 364,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c3ab7d63-b262-4cbc-8d8e-960d80a5568e"
+  },
+  {
+    "snippet_index": 365,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/880d5a3a-350b-43f2-912d-56d66dc33ac9"
+  },
+  {
+    "snippet_index": 366,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c2908703-c193-4c0b-90c2-f3757866689f"
+  },
+  {
+    "snippet_index": 367,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/eda3c747-8435-42bf-81fd-3fefeec5e930"
+  },
+  {
+    "snippet_index": 368,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/18dbd711-c00a-4f4a-9f9a-04ab80399d75"
+  },
+  {
+    "snippet_index": 369,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/9790eab2-10b0-44af-862b-a94453d40495"
+  },
+  {
+    "snippet_index": 370,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/61806afc-87c8-4ad9-9fe9-452916ca5689"
+  },
+  {
+    "snippet_index": 371,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f4e504bc-9958-459b-baa7-f1dcc1221d40"
+  },
+  {
+    "snippet_index": 372,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/3b4cb878-f17e-4e93-abd8-6c95eda22b9b"
+  },
+  {
+    "snippet_index": 373,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/ec1e62ba-80a9-46f3-a982-2a03a430ee22"
+  },
+  {
+    "snippet_index": 374,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/166efebd-eed4-4687-9f57-2ce444efc3de"
+  },
+  {
+    "snippet_index": 375,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f0123c3b-4fcb-4d24-b85a-e21ece3a12e9"
+  },
+  {
+    "snippet_index": 376,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/90cc113c-3218-46f1-a35e-96f84929dad1"
+  },
+  {
+    "snippet_index": 377,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/8d4b38ad-bf1c-499c-a9ab-2e6a93c73624"
+  },
+  {
+    "snippet_index": 378,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/add36fb2-3c0e-4971-a6c6-931c2249bfa1"
+  },
+  {
+    "snippet_index": 379,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/7074f120-0455-42a8-ba04-50e9346e8b67"
+  },
+  {
+    "snippet_index": 380,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/5559801f-9abd-4dc0-99b3-70209b568bb3"
+  },
+  {
+    "snippet_index": 381,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c0152974-481f-48f9-926c-7ebce0efe2a6"
+  },
+  {
+    "snippet_index": 382,
+    "risk": 0.65,
+    "bucket": "LOW",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T2.promo1",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/31a83939-ddb9-4222-be41-11fb1fde2c86"
+  },
+  {
+    "snippet_index": 383,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/87f2cda7-3143-45e3-af30-70c63960aad9"
+  },
+  {
+    "snippet_index": 384,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f3335759-50df-45a5-98aa-a0bacca8308c"
+  },
+  {
+    "snippet_index": 385,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a4e1503a-c0a0-46ec-a811-9dcc724cdf00"
+  },
+  {
+    "snippet_index": 386,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/a14acfd0-f211-4f44-ae4b-0ac57ef650d2"
+  },
+  {
+    "snippet_index": 387,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/d78e0bc0-7778-444c-9169-790a483f76cd"
+  },
+  {
+    "snippet_index": 388,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/28dc61ea-e710-42bb-addd-84c54ab529f4"
+  },
+  {
+    "snippet_index": 389,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/1026ccd3-b572-4327-99e1-fedda5f1f408"
+  },
+  {
+    "snippet_index": 390,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/74c90b54-d7ea-41dd-a841-d1a0941354c6"
+  },
+  {
+    "snippet_index": 391,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/64516f46-3cf7-4f46-a41f-e3c968f6cc07"
+  },
+  {
+    "snippet_index": 392,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/061b2e43-98f6-483d-a53e-6e8e735eb10b"
+  },
+  {
+    "snippet_index": 393,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/96f9b82b-a7ad-4b7f-b500-40a2030fbfbd"
+  },
+  {
+    "snippet_index": 394,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/c4cddef6-e2b5-43c8-9ddd-b195838c6217"
+  },
+  {
+    "snippet_index": 395,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/e4c398d9-3fad-4921-8431-3d84df9a30f9"
+  },
+  {
+    "snippet_index": 396,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/55d222fa-2580-4524-ad58-c2fa5e0dab4b"
+  },
+  {
+    "snippet_index": 397,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/743634b1-70eb-4115-b689-54bbddd120ff"
+  },
+  {
+    "snippet_index": 398,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/f8de3f4b-9d3c-4cea-b5d8-cdf08e6083af"
+  },
+  {
+    "snippet_index": 399,
+    "risk": 0.45,
+    "bucket": "MEDIUM",
+    "rules_fired": [
+      "T1.fresh_acct",
+      "T6.dup"
+    ],
+    "route_hint": null,
+    "group_size_cap": 2,
+    "source_canonical_url": "https://www.moltbook.com/api/v1/posts/797205e2-f509-4bfa-8803-e2709d98d4f1"
+  }
+]

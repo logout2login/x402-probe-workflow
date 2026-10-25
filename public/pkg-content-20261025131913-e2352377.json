@@ -1,0 +1,29 @@
+{
+  "package_id": "content-20261025131913-e2352377",
+  "spec_version": "1.0",
+  "q": 0.85,
+  "evidence": [
+    {
+      "excerpt_hash": "sha256:undefined"
+    },
+    {
+      "excerpt_hash": "sha256:undefined"
+    },
+    {
+      "excerpt_hash": "sha256:undefined"
+    },
+    {
+      "excerpt_hash": "sha256:undefined"
+    }
+  ],
+  "evidence_count": 4,
+  "source_diversity": 0,
+  "verified_at": "2026-10-25T05:19:13.180406+00:00",
+  "expires_at": "2027-01-23T05:19:13.180418+00:00",
+  "verifier_version": "1.0.0",
+  "verifier_signature": "ed25519:Zemth7TG1HSCju8dV3SYOd69V9a36zTH6Amab8EAP9t-xo1K7TU_hLMGcZ_49_FqNkv1pUf6dPqdBd9lbE39BQ",
+  "data_hash": "sha256:f7d68641284b6b7e803a5dabdcd963ef7ad1f3767b1e5e3094f018f355030817",
+  "schema_url": "https://ownsite-aeo.jerry-aeo.workers.dev/schemas/verification-v1.json",
+  "license": "commercial-use-permitted",
+  "hallucination_boundary": "Evidence excerpts are verifier-validated at verified_at. Downstream interpretation is caller responsibility."
+}

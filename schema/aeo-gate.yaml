@@ -1,0 +1,47 @@
+aeo_gate:
+  version: 1.0
+  base_verifier:
+    min_q: 0.72
+    min_evidence: 4
+  blocked:
+    any:
+      - q_lt: 0.65
+      - evidence_lt: 3
+      - schema_validation_errors_gt: 0
+  stale:
+    any:
+      - expires_at_lt_now: true
+  listed:
+    all:
+      - q_gte: 0.72
+      - evidence_gte: 4
+      - expires_at_gt_now: true
+      - schema_validation_errors_eq: 0
+  featured:
+    all:
+      - q_gte: 0.80
+      - evidence_gte: 6
+      - source_domains_gte: 3
+      - source_diversity_gte: 0.5
+      - verified_within_days: 14
+  ttl:
+    max_ttl_days: 180
+    stale_warning_hours: 72
+  text_safety:
+    agent_facing_fields:
+      - description
+      - hallucination_boundary
+    mode: template_only
+    reject_patterns:
+      - "(?i)ignore\\s+previous"
+      - "(?i)system\\s*:"
+      - "(?i)instruction\\s*:"
+      - "<\\|"
+      - "[A-Za-z0-9+/]{80,}={0,2}"
+      - "0x[0-9a-fA-F]{64,}"
+  quota:
+    max_verification_regeneration_per_package_24h: 3
+  recall:
+    q_threshold: 0.68
+    refetch_hash_match_min: 0.90
+    action: status_recalled

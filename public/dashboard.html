@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ownsite-aeo — System Health</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #0f1117;
+      color: #e4e6eb;
+    }
+    h1 { border-bottom: 2px solid #6366f1; padding-bottom: 0.5rem; color: #e4e6eb; }
+    h2 { color: #6366f1; font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .disclaimer { background: rgba(245,158,11,0.15); padding: 0.75rem; border-radius: 6px; font-size: 0.875rem; margin: 1rem 0; border: 1px solid rgba(245,158,11,0.3); }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #1a1d27; border-radius: 8px; overflow: hidden; }
+    th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #2a2d3a; }
+    th { background: #252836; font-weight: 600; color: #8b8fa3; font-size: 0.875rem; text-transform: uppercase; }
+    tr:last-child td { border-bottom: none; }
+    .good { color: #10b981; font-weight: 600; }
+    .warn { color: #f59e0b; font-weight: 600; }
+    .bad { color: #ef4444; font-weight: 600; }
+    .section { margin: 2rem 0; }
+    .metric { display: inline-block; background: rgba(99,102,241,0.15); padding: 0.25rem 0.75rem; border-radius: 4px; margin: 0.25rem; font-size: 0.875rem; border: 1px solid rgba(99,102,241,0.3); }
+    .metric strong { color: #6366f1; }
+    #loading { text-align: center; padding: 2rem; color: #8b8fa3; }
+    #error { color: #ef4444; padding: 1rem; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+    .tag.success { background: rgba(16,185,129,0.15); color: #10b981; }
+    .tag.pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+  </style>
+</head>
+<body>
+  <h1>ownsite-aeo — Public System Health</h1>
+  <p id="loading">載入中…</p>
+  <div id="error" style="display:none"></div>
+  <div id="content" style="display:none">
+    <div class="disclaimer">
+      ⚠️ 此頁面僅顯示<strong>聚合指標</strong>，不揭露任何 Agent pseudonym 或原始 payer 地址。
+    </div>
+
+    <div class="section">
+      <h2>📦 總覽（${window._DAYS || 30} 天）</h2>
+      <div id="totals"></div>
+    </div>
+
+    <div class="section">
+      <h2>📊 銷售漏斗</h2>
+      <div id="funnel"></div>
+    </div>
+
+    <div class="section">
+      <h2>⚡ 延遲（分位數）</h2>
+      <div id="latency"></div>
+    </div>
+
+    <div class="section">
+      <h2>🔌 Facilitator 健康度</h2>
+      <table id="facilitators"><thead><tr><th>Facilitator</th><th>Health Hours</th><th>Total Hours</th><th>Uptime</th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <div class="section">
+      <h2>🔄 Refetch 抽樣</h2>
+      <div id="refetch"></div>
+    </div>
+
+    <div class="section">
+      <h2>📅 更新時間</h2>
+      <p id="generated"></p>
+    </div>
+    
+    <div class="section">
+      <h2>💰 銷售明細</h2>
+      <table id="sales-table"><thead><tr><th>Package</th><th>Amount</th><th>Time</th><th>Status</th></tr></thead><tbody id="sales-body"></tbody></table>
+    </div>
+  </div>
+
+  <script>
+    const days = new URLSearchParams(location.search).get('days') || 30;
+    window._DAYS = days;
+
+    fetch(`/dashboard.json?days=${days}`)
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(d => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        document.getElementById('generated').textContent = '最後更新：' + new Date(d.generated_at).toLocaleString('zh-HK', {timeZone: 'Asia/Hong_Kong'});
+
+        // Totals - 大卡設計
+        const t = d.totals;
+        document.getElementById('totals').innerHTML = `
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:12px;">
+            <div style="background:#10b98120;border:1px solid #10b98140;border-radius:8px;padding:16px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#10b981;">$${t.revenue_usdc_30d.toFixed(2)}</div>
+              <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">Revenue (30d)</div>
+            </div>
+            <div style="background:#6366f120;border:1px solid #6366f140;border-radius:8px;padding:16px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#6366f1;">${t.payments_30d}</div>
+              <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">Payments</div>
+            </div>
+            <div style="background:#f59e0b20;border:1px solid #f59e0b40;border-radius:8px;padding:16px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#f59e0b;">${t.packages_listed}</div>
+              <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">Packages</div>
+            </div>
+            <div style="background:#ec489920;border:1px solid #ec489940;border-radius:8px;padding:16px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#ec4899;">${t.packages_featured || 0}</div>
+              <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">Featured</div>
+            </div>
+          </div>
+        `;
+
+        // Funnel
+        const f = d.funnel;
+        document.getElementById('funnel').innerHTML = `
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;">
+            <div style="background:#6366f120;border:1px solid #6366f140;border-radius:8px;padding:12px 16px;">
+              <div style="font-size:12px;color:#8b8fa3;">Verify Calls</div>
+              <div style="font-size:20px;font-weight:700;color:#6366f1;">${f.verify_calls_30d}</div>
+            </div>
+            <span style="color:#8b8fa3;">→</span>
+            <div style="background:#f59e0b20;border:1px solid #f59e0b40;border-radius:8px;padding:12px 16px;">
+              <div style="font-size:12px;color:#8b8fa3;">Buy Attempts</div>
+              <div style="font-size:20px;font-weight:700;color:#f59e0b;">${f.buy_attempts_30d}</div>
+            </div>
+            <span style="color:#8b8fa3;">→</span>
+            <div style="background:#10b98120;border:1px solid #10b98140;border-radius:8px;padding:12px 16px;">
+              <div style="font-size:12px;color:#8b8fa3;">Success</div>
+              <div style="font-size:20px;font-weight:700;color:#10b981;">${f.buy_successes_30d}</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <span class="metric">Attempt→Success: <strong>${f.attempt_to_success_rate ? (f.attempt_to_success_rate*100).toFixed(1)+'%' : 'N/A'}</strong></span>
+            <span class="metric">Verify→Buy: <strong>${f.verify_to_buy_rate ? (f.verify_to_buy_rate*100).toFixed(2)+'%' : 'N/A'}</strong></span>
+          </div>
+        `;
+
+        // Latency
+        const l = d.latency;
+        document.getElementById('latency').innerHTML = `
+          <div style="display:flex;gap:12px;margin-top:12px;">
+            <div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:8px;padding:16px;min-width:100px;text-align:center;">
+              <div style="font-size:24px;font-weight:700;color:#6366f1;">${l.p50 ?? '-'}</div>
+              <div style="font-size:12px;color:#8b8fa3;">P50 ms</div>
+            </div>
+            <div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:8px;padding:16px;min-width:100px;text-align:center;">
+              <div style="font-size:24px;font-weight:700;color:#f59e0b;">${l.p95 ?? '-'}</div>
+              <div style="font-size:12px;color:#8b8fa3;">P95 ms</div>
+            </div>
+            <div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:8px;padding:16px;min-width:100px;text-align:center;">
+              <div style="font-size:24px;font-weight:700;color:#ec4899;">${l.p99 ?? '-'}</div>
+              <div style="font-size:12px;color:#8b8fa3;">P99 ms</div>
+            </div>
+          </div>
+        `;
+
+        // Facilitators
+        const tbody = document.querySelector('#facilitators tbody');
+        tbody.innerHTML = '';
+        for (const [name, fc] of Object.entries(d.facilitators || {})) {
+          const uptimeClass = fc.uptime >= 0.99 ? 'good' : fc.uptime >= 0.95 ? 'warn' : 'bad';
+          tbody.innerHTML += `<tr><td>${name}</td><td>${fc.healthy_hours}</td><td>${fc.total_hours}</td><td class="${uptimeClass}">${(fc.uptime*100).toFixed(2)}%</td></tr>`;
+        }
+
+        // Refetch
+        const r = d.uptime;
+        document.getElementById('refetch').innerHTML = `
+          <span class="metric">Runs (30d): <strong>${r.refetch_runs_30d}</strong></span>
+          <span class="metric">Unique Packages: <strong>${r.refetch_unique_packages}</strong></span>
+        `;
+        
+        // Sales table (from D1 via dashboard API)
+        loadSalesTable();
+      })
+      .catch(err => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').textContent = `載入失敗：${err.message}`;
+      });
+
+    async function loadSalesTable() {
+      try {
+        const resp = await fetch('/dashboard/sales?days=30');
+        const sales = await resp.json();
+        const tbody = document.getElementById('sales-body');
+        tbody.innerHTML = '';
+        if (!sales || sales.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#8b8fa3;">無銷售記錄</td></tr>';
+          return;
+        }
+        sales.forEach(s => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${s.package_id || 'unknown'}</td>
+            <td>$${((s.amount_usdc || 0)/1000000).toFixed(2)}</td>
+            <td>${new Date(s.called_at || Date.now()).toLocaleString('zh-HK', {timeZone: 'Asia/Hong_Kong'})}</td>
+            <td><span class="tag ${s.status === 'settled' ? 'success' : 'pending'}">${s.status || 'unknown'}</span></td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch(e) {
+        console.error('Load sales failed', e);
+      }
+    }
+  </script>
+</body>
+</html>

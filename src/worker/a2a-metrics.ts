@@ -1,0 +1,162 @@
+// ─── A2A Marketing Metrics endpoint ───
+//
+// GET /api/a2a/metrics
+//
+// 回傳真實 x402 交易數據（唔計 testnet，唔用 mock），
+// 供 Marketing Plan §8 KPI Dashboard 實時引用。
+//
+// 響應結構：
+// {
+//   generated_at, network,
+//   totals: { settled_count, total_amount_usdc, avg_amount_usdc,
+//             unique_payers, repeat_buyer_rate, failed_count },
+//   by_facilitator: { selfhosted: {...}, cdp: {...} },
+//   daily_trend: [{ day, count, amount_usdc }],
+//   top_packages: [{ package_id, payers, total_amount_usdc }]
+// }
+
+import type { Env } from "./env";
+import { json } from "./http";
+
+interface SettleRow {
+  facilitator: string;
+  result: string;
+  amount_usdc: string | null;
+  payer: string | null;
+  called_at: string;
+  package_id: string;
+  error: string | null;
+}
+
+interface DailyTrendRow {
+  day: string;
+  count: number;
+  amount_usdc: number;
+}
+
+interface TopPackageRow {
+  package_id: string;
+  payers: number;
+  total_amount_usdc: number;
+}
+
+export async function handleA2AMetrics(env: Env): Promise<Response> {
+  // 只計算 mainnet（eip155:8453）記錄；testnet 不計入 marketing 指標
+  const networkTag = env.NETWORK ?? "eip155:8453";
+
+  let rows: SettleRow[] = [];
+  let dailyTrend: DailyTrendRow[] = [];
+  let topPackages: TopPackageRow[] = [];
+
+  try {
+    const allResult = await env.DB.prepare(
+      `SELECT facilitator, result, amount_usdc, payer, called_at, package_id, error
+       FROM settle_attempts
+       WHERE called_at >= datetime('now', '-90 days')
+       ORDER BY called_at DESC`
+    ).all<SettleRow>();
+    rows = allResult.results ?? [];
+  } catch (e) {
+    console.error("[a2a-metrics] allQuery error:", e);
+  }
+
+  try {
+    const dailyResult = await env.DB.prepare(
+      `SELECT substr(called_at, 1, 10) as day,
+              COUNT(*) as count,
+              SUM(CAST(amount_usdc AS REAL)) / 1000000 as amount_usdc
+       FROM settle_attempts
+       WHERE called_at >= datetime('now', '-90 days')
+         AND result = 'settled'
+       GROUP BY day
+       ORDER BY day DESC
+       LIMIT 30`
+    ).all<DailyTrendRow>();
+    dailyTrend = dailyResult.results ?? [];
+  } catch (e) {
+    console.error("[a2a-metrics] dailyQuery error:", e);
+  }
+
+  try {
+    const pkgResult = await env.DB.prepare(
+      `SELECT package_id,
+              COUNT(DISTINCT payer) as payers,
+              SUM(CAST(amount_usdc AS REAL)) / 1000000 as total_amount_usdc
+       FROM settle_attempts
+       WHERE result = 'settled'
+         AND amount_usdc IS NOT NULL
+       GROUP BY package_id
+       ORDER BY total_amount_usdc DESC
+       LIMIT 10`
+    ).all<TopPackageRow>();
+    topPackages = pkgResult.results ?? [];
+  } catch (e) {
+    console.error("[a2a-metrics] pkgQuery error:", e);
+  }
+
+  const settled = rows.filter(r => r.result === "settled");
+  const failed  = rows.filter(r => r.result !== "settled" && r.result !== "");
+  const totalAmount = settled.reduce((s, r) => s + (r.amount_usdc ? parseFloat(r.amount_usdc) / 1000000 : 0), 0);
+  const uniquePayers = new Set(settled.map(r => r.payer).filter(Boolean)).size;
+
+  // 重複購買率：30 日內有 ≥2 次 settled 交易嘅 payer 比例
+  const payerCounts: Record<string, number> = {};
+  for (const r of settled) {
+    if (r.payer) payerCounts[r.payer] = (payerCounts[r.payer] ?? 0) + 1;
+  }
+  const repeatBuyers = Object.values(payerCounts).filter(c => c >= 2).length;
+  const repeatBuyerRate = uniquePayers > 0 ? Math.round(repeatBuyers / uniquePayers * 100) : 0;
+
+  // 人工干預次數（error 非空代表需要人類介入）
+  const humanIntervened = failed.filter(r => r.error && r.error.length > 0).length;
+
+  // 按 facilitator 分類
+  const byFacilitator: Record<string, { count: number; amount_usdc: number; unique_payers: number }> = {};
+  for (const r of settled) {
+    const key = r.facilitator ?? "unknown";
+    if (!byFacilitator[key]) byFacilitator[key] = { count: 0, amount_usdc: 0, unique_payers: 0 };
+    byFacilitator[key].count++;
+    byFacilitator[key].amount_usdc += r.amount_usdc ? parseFloat(r.amount_usdc) / 1000000 : 0;
+  }
+  // 計算 per-facilitator unique_payers
+  const facPayers: Record<string, Set<string>> = {};
+  for (const r of settled) {
+    const key = r.facilitator ?? "unknown";
+    if (!facPayers[key]) facPayers[key] = new Set();
+    if (r.payer) facPayers[key].add(r.payer);
+  }
+  for (const key of Object.keys(byFacilitator)) {
+    byFacilitator[key].unique_payers = facPayers[key]?.size ?? 0;
+  }
+
+  // 格式化 daily trend
+  const dailyTrendOut = (dailyTrend ?? []).map(r => ({
+    day: r.day,
+    count: r.count,
+    amount_usdc: Math.round(r.amount_usdc * 10000) / 10000,
+  })).reverse();
+
+  const response = {
+    generated_at: new Date().toISOString(),
+    network: networkTag,
+    data_source: "D1 ownsite-aeo (mainnet settled only)",
+    totals: {
+      settled_count: settled.length,
+      failed_count: failed.length,
+      total_amount_usdc: Math.round(totalAmount * 10000) / 10000,
+      avg_amount_usdc: settled.length > 0 ? Math.round((totalAmount / settled.length) * 10000) / 10000 : 0,
+      unique_payers: uniquePayers,
+      repeat_buyer_rate_pct: repeatBuyerRate,
+      human_intervention_count: humanIntervened,
+    },
+    by_facilitator: byFacilitator,
+    daily_trend: dailyTrendOut,
+    top_packages: (topPackages ?? []).map(r => ({
+      package_id: r.package_id,
+      payers: r.payers,
+      total_amount_usdc: Math.round(r.total_amount_usdc * 10000) / 10000,
+    })),
+  };
+
+  return json(response);
+}

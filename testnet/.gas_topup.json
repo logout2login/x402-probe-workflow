@@ -1,0 +1,10 @@
+{
+  "ts": "2026-10-25T01:34:15.006Z",
+  "chainId": 84532,
+  "facilitator": "0x1930cd61d3C3328923EcCFDCa8Ed322a17F556Dd",
+  "buyer": "0x009C8d8504cA603931a98aD6FA688F3fE9A57E43",
+  "amountEth": "0.00012",
+  "txHash": "0xa860f9a5f0b0674ce8969f9ff25edee59789aa13380cfeddc9032d2f148ad4ab",
+  "block": 49850955,
+  "status": "success"
+}

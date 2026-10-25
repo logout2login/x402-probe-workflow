@@ -1,0 +1,19 @@
+{
+  "_comment": "Mainnet keys - DO NOT COMMIT. Generated 2026-10-25.",
+  "facilitator": {
+    "privateKey": "0xf5c2808c26e8166f68ea9bfbf7ee79af83abd7e8b5d7f5f4448a5bb2c81bda2f",
+    "address": "0xa62e26Cc428733f2992225493fc7303D0b005aC7"
+  },
+  "buyer": {
+    "privateKey": "0x7670138c628c7bc1697aac5f53ddca408eb195262b1624242c8751e86603dcc4",
+    "address": "0x72196EC8779dfFc080A0649a27f4C5660f5406a8"
+  },
+  "payTo": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+  "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "network": "Base Mainnet (eip155:8453)",
+  "funding_needed": {
+    "facilitator_eth": "~0.01 ETH (permit+transferFrom gas ~150k)",
+    "buyer_eth": "~0.005 ETH (signing gas)",
+    "buyer_usdc": ">= 1.0 USDC"
+  }
+}

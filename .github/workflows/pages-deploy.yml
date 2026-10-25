@@ -1,0 +1,52 @@
+name: pages-deploy
+
+# 把 public/ 部署到 GitHub Pages。public/ 是唯一 SSOT。
+# 人類待辦：在 repo Settings → Pages → Source = GitHub Actions 啟用。
+on:
+  push:
+    paths:
+      - "public/**"
+      - "schema/**"
+      - "wrangler.toml"
+      - "package.json"
+      - "src/**"
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      # 重新生成 .well-known/*（防止本地與 CI 不一致）
+      - run: npm run publish-static
+        env:
+          # 從 GitHub Secrets 讀取；此處只寫入公鑰（JWK 不含私鑰）
+          VERIFIER_PUBLIC_KEY_HEX: ${{ secrets.VERIFIER_PUBLIC_KEY_HEX }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

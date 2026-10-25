@@ -1,0 +1,52 @@
+{
+  "name": "ownsite-aeo",
+  "description": "Verified-Data-Vending / Agentic AEO v1.0 — machine-verifiable research data assets with Ed25519-signed verification certificates and x402 pay-per-call.",
+  "url": "https://ownsite-aeo.jerry-aeo.workers.dev",
+  "version": "1.0.0",
+  "protocolVersion": "2025-06-18",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "verified-research-package",
+      "name": "List and buy verified research data packages",
+      "description": "Discover q>=0.72, evidence>=4 data packages with Ed25519-signed verification. Call GET /.well-known/agent-index.json, GET /verify/{id}, then GET /buy/{id} with x402 payment. Featured packages (q>=0.80, evidence>=6, source_diversity>=0.5, <=14d old) priced $1.00 USDC; listed $0.50.",
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "mcp-tools",
+      "name": "MCP tools for verified data",
+      "description": "POST /mcp with JSON-RPC 2.0. Four tools: list_verified_packages, get_verification, purchase_package, check_status. Always call get_verification before purchase_package — verification is free.",
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "extensions": {
+    "ownsite_verification": {
+      "verification_spec": "https://ownsite-aeo.jerry-aeo.workers.dev/schemas/verification-v1.json",
+      "jwks_url": "https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/jwks.json",
+      "index_url": "https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/agent-index.json",
+      "preview_policy": "free_rate_limited",
+      "payment_protocols": [
+        "x402"
+      ],
+      "supported_networks": [
+        "eip155:8453"
+      ],
+      "currency": "USDC",
+      "trust_query_endpoint": "https://ownsite-aeo.jerry-aeo.workers.dev/verify",
+      "status_endpoint": "https://ownsite-aeo.jerry-aeo.workers.dev/status"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+[
+ {
+  "package_id": "research-2026-q4-ai-agent-adoption",
+  "title": "AI Agent Adoption — 2026 Q4 Research Report",
+  "q": 0.81,
+  "evidence_count": 6,
+  "source_diversity": 1,
+  "verified_at": "2026-10-15T02:00:00Z",
+  "expires_at": "2027-03-15T02:00:00Z",
+  "tier": "listed",
+  "data_hash": "sha256:44f26b13b2a88079f6bdd20a3492d554244a4b839324a866cb4fa56839acbc96"
+ }
+]

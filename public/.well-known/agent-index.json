@@ -1,0 +1,46 @@
+{
+  "spec_version": "1.0",
+  "generated_at": "2026-10-25T05:29:45.220226+00:00",
+  "packages": [
+    {
+      "package_id": "research-2026-q4-ai-agent-adoption",
+      "title": "AI Agent Adoption — 2026 Q4 Research Report",
+      "q": 0.81,
+      "category": "research",
+      "price": 0.5,
+      "verified_at": "2026-10-23T20:42:00.000Z",
+      "data_path": "/pkg-research-2026-q4-ai-agent-adoption.json",
+      "evidence_count": 5
+    },
+    {
+      "package_id": "content-20261025131912-0173df95",
+      "title": "",
+      "q": 0.85,
+      "category": "data",
+      "price": 0.05,
+      "verified_at": "2026-10-25T05:19:12.465380+00:00",
+      "data_path": "/pkg-content-20261025131912-0173df95.json",
+      "evidence_count": 4
+    },
+    {
+      "package_id": "content-20261025131912-fa11b94d",
+      "title": "",
+      "q": 0.85,
+      "category": "data",
+      "price": 0.05,
+      "verified_at": "2026-10-25T05:19:12.632882+00:00",
+      "data_path": "/pkg-content-20261025131912-fa11b94d.json",
+      "evidence_count": 4
+    },
+    {
+      "package_id": "content-20261025131913-e2352377",
+      "title": "",
+      "q": 0.85,
+      "category": "data",
+      "price": 0.05,
+      "verified_at": "2026-10-25T05:19:13.180406+00:00",
+      "data_path": "/pkg-content-20261025131913-e2352377.json",
+      "evidence_count": 4
+    }
+  ]
+}

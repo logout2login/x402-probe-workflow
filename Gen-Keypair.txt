@@ -1,0 +1,18 @@
+=================================================================
+ownsite-aeo — Ed25519 canonical keypair record
+=================================================================
+Generated : 2026-10-23
+CANONICAL : matches live wrangler secret + public/.well-known/jwks.json
+Note      : the older key that was in this file (23bf…) was stale
+            and never deployed — discard it; use the pair below.
+kid          = verifier-1
+PRIVATE_HEX  = 3d385516e7093f21d180b350e7dc15c4e294e0571caa61ab08262550c3480484
+PUBLIC_HEX   = d5a9ef700ebe6582e9fe2c5eda458ad48a0224ac8948e968a7b1dc4194546cd4
+
+SECURITY
+=================================================================
+- PRIVATE key is stored here in PLAINTEXT (your local backup; you have no 1Password).
+- This file is in .gitignore — it must NEVER be committed.
+- A live copy also sits in Cloudflare (wrangler secret VERIFIER_SIGNER_PRIVATE_KEY).
+- If this file or the worker leaks: re-run 'npm run gen-keypair', re-put the wrangler
+  secret, and republish public/.well-known/jwks.json (rotate).

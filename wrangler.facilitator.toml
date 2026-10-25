@@ -1,0 +1,7 @@
+# x402 self-hosted facilitator (Base Sepolia testnet rail)
+# deploy: npx wrangler deploy --config wrangler.facilitator.toml
+# secret: FACILITATOR_KEY (facilitator EOA private key)
+name = "ownsite-aeo-facilitator"
+main = "src/facilitator/index.ts"
+compatibility_date = "2026-10-14"
+compatibility_flags = ["nodejs_compat"]

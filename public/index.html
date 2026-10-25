@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ownsite-aeo — Verified Data Vending</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 60ch; margin: 4em auto; padding: 0 1em; color: #1a1a1a; }
+  code { background: #f0f0f0; padding: 0.1em 0.35em; border-radius: 3px; }
+  a { color: #0969da; }
+</style>
+</head>
+<body>
+<h1>ownsite-aeo</h1>
+<p>Verified-Data-Vending / Agentic AEO v1.0.</p>
+<p>Machine-verifiable research data assets with Ed25519-signed verification certificates and x402 pay-per-call.</p>
+<h2>Agent endpoints</h2>
+<ul>
+  <li><a href="/.well-known/agent.json"><code>/.well-known/agent.json</code></a> — A2A Agent Card</li>
+  <li><a href="/.well-known/agent-index.json"><code>/.well-known/agent-index.json</code></a> — listed / featured packages index</li>
+  <li><a href="/.well-known/jwks.json"><code>/.well-known/jwks.json</code></a> — Ed25519 public key (JWK)</li>
+</ul>
+<h2>HTTP API</h2>
+<ul>
+  <li><code>GET /verify/{package_id}</code> — full verification.json (free, no quota)</li>
+  <li><code>GET /preview/{package_id}</code> — summary (rate-limited)</li>
+  <li><code>GET /buy/{package_id}</code> — x402-gated purchase</li>
+  <li><code>GET /status/{package_id}</code> — fresh / stale / recalled</li>
+  <li><code>POST /mcp</code> — JSON-RPC 2.0 with 4 tools</li>
+</ul>
+<p>Static placeholder — replaced by real <code>agent.json</code> content after <code>npm run publish-static</code>.</p>
+</body>
+</html>
