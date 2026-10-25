@@ -1,9 +1,9 @@
 # AEO-OS System Document
 
-> **Version:** v1.18 (Hermes audit #3 — origin annotation + match_distribution_log + demand schema v4)
-> **Last Updated:** 2026-10-26 (Hermes 審計 #2 deploy: origin tier annotation + v1.17 schema; audit #3: match_distribution_log + v1.18 schema + v2 ingestion provenance)
+> **Version:** v1.18 (Hermes P1 #2 audit — origin annotation + match_distribution_log + demand schema v4)
+> **Last Updated:** 2026-10-26 (P1 #2: origin fix + v1.18 schema + 337-candidate provenance)
 > **Service URL:** `https://ownsite-aeo.jerry-aeo.workers.dev/`
-> **Deployed Version:** `f7794e5f-a4a7-463a-8e29-57ce26a8cd42`  
+> **Deployed Version:** `db92ba36-9bb5-40eb-b9be-7beca4d5bfc7`
 
 ---
 
@@ -287,7 +287,7 @@ wrangler secret put VERIFIER_SIGNER_PRIVATE_KEY   # Ed25519 signer key
 wrangler secret put SYNC_SIGNING_KEY              # Internal sync shared key
 wrangler secret put CURSOR_SECRET                 # Cursor HMAC key
 wrangler secret put REVERIFY_SECRET               # Reverify endpoint key
-wrangler secret put DEMAND_ADMIN_SECRET           # Demand admin key (aesg-7719-demand-ctl)
+wrangler secret put DEMAND_ADMIN_SECRET           # Demand admin key (rotated 2026-10-26)
 ```
 
 ---
