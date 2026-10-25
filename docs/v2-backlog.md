@@ -212,4 +212,7 @@
 | demand_candidates_cache dedupe at API level | 同上；需 merge logic + conflict resolution（如保留較新的 verified_at） |
 | q-history query traceability | current q=0.81（非 0.76），0.76 來源未追溯（需保留 query log 或 changelog） |
 | match_distribution_log retention policy | 有 INSERT 但無讀取邏輯（僅 gate-tuning feedback loop）；可加 SELECT FOR ANALYTICS 端點 |
+| q formula 三候選 | current q=0.81 使用單一 formula，待決定：(a) 多 verifier 加權平均 (b) 最低分 (c) 中位數，需實驗對比 |
+| never-fired audit check | 現無 cron 定期驗證所有 package 的 evidence 有效性；待實作 periodic reverify 任務 |
+| excerpt_hash 持久化 | cron-refetch.ts 已支援 excerpt_hash 比較邏輯，但 D1 尚未寫入 excerpt_hash 列（需 schema migration + 現有包回填） |
 
