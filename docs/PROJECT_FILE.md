@@ -4,7 +4,7 @@
 > 作者：Jerry
 > 版本：v1.18（demand pipeline + data_hash fix + match log + safeMatches gate）
 > Last Updated: 2026-10-26
-> Deployed Version: 13563e96 (origin:13563e96177)
+> Deployed Version: db92ba36 (origin:db92ba369bb5)
 > Audit: #2 origin/matchlog/safeMatches (2026-10-25/26), ✅ E2E verified 2026-10-26
 
 ---
