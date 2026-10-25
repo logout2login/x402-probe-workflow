@@ -89,7 +89,7 @@ VALUES (6, 'v1.18c: {len(json.loads(json_str))} candidates via ingest_candidates
 """
     cmd = [
         "npx", "wrangler", "d1", "execute",
-        "aeo-demand", "--remote", "--command", sql,
+        "ownsite-aeo", "--remote", "--command", sql,
     ]
     if env == "testnet":
         cmd.insert(4, "--env")
@@ -106,6 +106,7 @@ def main():
     parser = argparse.ArgumentParser(description="Ingest demand candidates into D1")
     parser.add_argument("--env", choices=["mainnet", "testnet"], default="mainnet", help="Target environment")
     parser.add_argument("--file", help="Override auto-detect: path to candidates JSON")
+    parser.add_argument("--dry-run", action="store_true", help="Compute hash without uploading")
     args = parser.parse_args()
 
     # Find input file
@@ -124,6 +125,13 @@ def main():
     print(f"Hash:  {hash_val}")
     print(f"At:    {loaded_at}")
     print(f"Bytes: {len(json_bytes):,}")
+
+    if args.dry_run:
+        print("\n=== DRY RUN — skipping upload ===")
+        print(f"  Candidates : {len(data)}")
+        print(f"  Hash       : {hash_val}")
+        print(f"  D1 current : 0x8cd20b2a (verify match above)")
+        return
 
     # Upload
     upload_via_admin_api(json_str, hash_val, loaded_at, args.env)
