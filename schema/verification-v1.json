@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ownsite.dev/schemas/verification-v1.json",
+  "title": "Ownsite Verification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "package_id",
+    "spec_version",
+    "q",
+    "q_breakdown",
+    "evidence",
+    "evidence_count",
+    "source_diversity",
+    "verified_at",
+    "expires_at",
+    "verifier_version",
+    "verifier_signature",
+    "data_hash",
+    "schema_url",
+    "license",
+    "hallucination_boundary"
+  ],
+  "properties": {
+    "package_id": { "type": "string", "minLength": 3, "maxLength": 128 },
+    "spec_version": { "const": "1.0" },
+    "q": { "type": "number", "minimum": 0, "maximum": 1 },
+    "q_effective": { "type": "number", "minimum": 0, "maximum": 1 },
+    "q_breakdown": {
+      "type": "object",
+      "required": ["source_coverage", "freshness", "internal_consistency", "claim_specificity"],
+      "properties": {
+        "source_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "freshness": { "type": "number", "minimum": 0, "maximum": 1 },
+        "internal_consistency": { "type": "number", "minimum": 0, "maximum": 1 },
+        "claim_specificity": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["evidence_id", "source_url", "source_type", "accessed_at", "excerpt_hash", "span", "verifier_score"],
+        "properties": {
+          "evidence_id": { "type": "string" },
+          "source_url": { "type": "string", "format": "uri" },
+          "source_type": { "type": "string" },
+          "accessed_at": { "type": "string", "format": "date-time" },
+          "excerpt_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+          "span": { "type": "string" },
+          "verifier_score": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "evidence_count": { "type": "integer", "minimum": 1 },
+    "source_diversity": { "type": "number", "minimum": 0, "maximum": 1 },
+    "verified_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "verifier_version": { "type": "string" },
+    "verifier_signature": { "type": "string", "pattern": "^ed25519:" },
+    "data_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "schema_url": { "type": "string", "format": "uri" },
+    "license": { "type": "string" },
+    "hallucination_boundary": { "type": "string" }
+  }
+}

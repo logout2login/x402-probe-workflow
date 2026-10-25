@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run test:unit
+      # Phase 1 不跑 test:agent（需要 wrangler dev 環境）
+      # Phase 2 起：先 wrangler dev --background 再跑 test:agent
+
+  # Phase 2 起啟用：本地 D1 初始化 + mock facilitator 端到端
+  # e2e:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with: { node-version: "22", cache: npm }
+  #     - run: npm ci
+  #     - run: npm run gen-keypair | tee keypair.json
+  #     - run: npm run d1:init
+  #     - run: npm run build-verification -- fixtures/sample-verifier-output.json
+  #     - run: |
+  #         npx wrangler dev --ip 127.0.0.1 --port 8787 > wrangler.log 2>&1 &
+  #         sleep 15
+  #         BASE=http://127.0.0.1:8787 npm run test:agent
+  #       shell: bash

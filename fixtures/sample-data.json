@@ -1,0 +1,14 @@
+{
+  "title": "AI Agent Adoption Q4 2026",
+  "version": 1,
+  "generated_at": "2026-10-15T02:00:00Z",
+  "authors": ["ownsite-research"],
+  "license": "commercial-use-permitted",
+  "records": [
+    { "segment": "SMB", "adoption_rate": 0.34, "sample_size": 1240 },
+    { "segment": "MidMarket", "adoption_rate": 0.52, "sample_size": 890 },
+    { "segment": "Enterprise", "adoption_rate": 0.41, "sample_size": 620 },
+    { "segment": "Government", "adoption_rate": 0.28, "sample_size": 310 }
+  ],
+  "methodology": "Multi-source verification: primary research, secondary reports, analyst insights, and industry datasets."
+}

@@ -1,0 +1,39 @@
+{
+  "title": "research-2026-q4-ai-agent-adoption — 零成本 7×24 自主 AI 系統（兩例，真實本地數據）",
+  "data": {
+    "records": [
+      {
+        "id": "ze-system-v3",
+        "system": "ZE 零成本 7×24 自動變現引擎",
+        "path": "C:\\sycl_workspace\\ze-system-v3",
+        "agents": ["control_plane", "radar", "method", "builder", "publisher", "conversion", "analyst", "verifier", "ceo"],
+        "closed_loop": "CEO 指令 → 解析成具體參數 → radar/method 讀回執行（標記 consumed_at）",
+        "hard_rules": ["DAILY_BUDGET=0 零成本", "record_revenue 缺 source_ref 拋錯（禁 mock 收入）", "verifier 寫 verdict、publisher 只發 verified", "exec 對所有 agent 一律禁止"],
+        "monetization_rails": ["affiliate", "digital_product", "lead_gen_asset", "contest", "micro_saas", "automation_service"],
+        "publish_channels": ["ownsite", "ghpages", "devto", "hashnode", "reddit", "email"],
+        "evidence": ["C:\\sycl_workspace\\ze-system-v3\\README.md", "C:\\sycl_workspace\\ze-system-v3\\reports\\acceptance_*.json"]
+      },
+      {
+        "id": "zero_cost_7x24_ai_business",
+        "system": "零成本 7×24 自動化 AI 內容生意系統（MVP）",
+        "path": "C:\\sycl_workspace\\zero_cost_7x24_ai_business",
+        "agents": ["scout", "builder", "publisher", "conversion", "analyst", "ceo"],
+        "safety": {
+          "daily_budget": 0,
+          "max_posts_per_day": 20,
+          "max_external_requests": 100,
+          "require_approval_for": ["financial_transaction", "paid_advertising", "account_creation", "legal_documents"]
+        },
+        "runtime": "GitHub Actions daily_run.yml（7×24 自動運行）",
+        "monetization": "免費 AI 工具 → 收集需求 → 付費數位產品（Template / Bundle / Pro Pack）",
+        "evidence": ["C:\\sycl_workspace\\zero_cost_7x24_ai_business\\README.md", "C:\\sycl_workspace\\zero_cost_7x24_ai_business\\output\\analytics.json"]
+      },
+      {
+        "id": "shared-finding",
+        "finding": "兩套系統同構：零成本 + 多 agent 閉環 + 安全閘門（審批 / SSRF / 零預算 / exec 禁止）",
+        "adoption_signal": "7×24 自主運營 + 高風險動作人工審批 = 可擴散的 agentic 商業模式",
+        "verified_via": ["C:\\sycl_workspace\\ze-system-v3\\reports\\", "C:\\sycl_workspace\\zero_cost_7x24_ai_business\\output\\"]
+      }
+    ]
+  }
+}

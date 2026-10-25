@@ -1,0 +1,123 @@
+# ─── Cloudflare Workers 配置（v1.5–v1.16 版） ───
+#
+# 硬性約束：
+#   - 不在此文件寫入任何私鑰、API token、錢包地址。
+#   - 支付/鑑權/錢包類全部使用 wrangler secret put，永不入 vars。
+#   - MOCK_FACILITATOR 預設 "0"（安全）。本地測試時以 .env.local 覆蓋為 "1"。
+#     deploy 前必須確認 MOCK_FACILITATOR=0 且 FACILITATOR_URL / CDP_* secrets 已設定。
+
+name = "ownsite-aeo"
+main = "src/worker/index.ts"
+compatibility_date = "2026-10-01"
+
+# 靜態資源（GitHub Pages 為 SSOT；本 Worker 做一致性代理 + dashboard）
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+
+# ─── 非敏感配置（可入 vars）───
+[vars]
+OWNSITE_BASE = "https://ownsite-aeo.jerry-aeo.workers.dev"
+NETWORK = "eip155:84532"                           # Base Sepolia (Phase 1 testnet — source of truth for all payments)
+ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # Base Sepolia USDC (Circle canonical, 6 dec)
+NETWORK_MAINNET = "eip155:8453"                     # Base mainnet (migration target only)
+ASSET_USDC_MAINNET = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # Base Mainnet USDC
+MAX_TTL_DAYS = "180"
+STALE_WARNING_HOURS = "72"
+HELD_MAX_DAYS = "14"                               # v1.15：超過此天數自動下架
+LISTED_MIN_Q = "0.72"
+LISTED_MIN_EVIDENCE = "4"
+FEATURED_MIN_Q = "0.80"
+FEATURED_MIN_EVIDENCE = "6"
+FEATURED_MIN_DOMAINS = "3"
+FEATURED_MAX_AGE_DAYS = "14"
+BLOCKED_MIN_Q = "0.65"
+BLOCKED_MIN_EVIDENCE = "3"
+VERIFY_RATE_LIMIT_PER_MIN = "60"
+PREVIEW_RATE_LIMIT_PER_HOUR = "10"
+MOCK_FACILITATOR = "0"
+REFETCH_SAMPLE_RATE = "0.20"                       # v1.5：每日抽樣 20%
+REFETCH_CONSECUTIVE_FAILS = "2"                    # v1.5：連續 2 次 fail 觸發 recall
+AGENT_INDEX_PAGE_SIZE = "50"                        # v1.11
+AGENT_INDEX_CACHE_TTL = "300"                      # v1.11（秒）
+FACILITATOR_PRIMARY = "selfhosted"                  # v1.15：testnet gas donor 做 primary，CDP fallback；mainnet 改回 "cdp"
+FACILITATOR_CIRCUIT_OPEN_AFTER = "5"               # v1.12
+FACILITATOR_CIRCUIT_HALF_AFTER = "60000"           # v1.12（ms）
+REVERIFY_LEASE_HOURS = "24"                         # v1.8
+
+# ─── 環境 secret（不可見，只能通過 wrangler secret put 設定）───
+# wrangler secret put PAY_TO                        # 收款地址 (0x…)
+# wrangler secret put FACILITATOR_URL               # CDP facilitator base URL
+# wrangler secret put CDP_API_KEY                   # CDP 平台 API key
+# wrangler secret put CDP_PRIVATE_KEY               # CDP 私有金鑰（EIP-3009 簽名用）
+# wrangler secret put VERIFIER_SIGNER_PRIVATE_KEY   # Ed25519 私鑰 hex
+# wrangler secret put SYNC_SIGNING_KEY              # 內部 /internal/sync 共享密鑰
+# wrangler secret put CURSOR_SECRET                 # v1.13：cursor 簽名 HMAC 密鑰
+# wrangler secret put REVERIFY_SECRET               # v1.8：/reverify endpoint 共享密鑰
+# wrangler secret put SELFHOSTED_PRIVATE_KEY        # v1.12：selfhosted facilitator 私鑰
+# wrangler secret put MARKET_BAZAAR_API_KEY         # v1.7
+# wrangler secret put MARKET_AGENT402_API_KEY       # v1.7
+# wrangler secret put MARKET_MCP_SO_API_KEY         # v1.7
+# wrangler secret put MARKET_DATAPPOINT_API_KEY     # v1.7
+# wrangler secret put VERIFIER_ENDPOINT             # v1.8：verifier 服務 base URL
+
+# ─── KV ───
+[[kv_namespaces]]
+binding = "KV"
+id = "a50b91ed567b4ba6a4facb3f283826c0"
+
+# ─── D1 ───
+[[d1_databases]]
+binding = "DB"
+database_name = "ownsite-aeo"
+database_id = "0bc5a545-c3e9-4abe-a5e7-99e68d1a1eab"
+migrations_table = "migrations"
+migrations_dir = "./schema/migrations"
+
+# ─── Durable Objects（v1.14）───
+# 需要 Cloudflare Paid Plan
+[[durable_objects.bindings]]
+name = "NONCE_LOCK"
+class_name = "NonceLockDO"
+
+[[durable_objects.bindings]]
+name = "QUOTA"
+class_name = "QuotaDO"
+
+[[durable_objects.bindings]]
+name = "CIRCUIT"
+class_name = "CircuitBreakerDO"
+
+# Durable Object 類聲明（首次部署必需）：
+# 未宣告 new_classes 時，version-create 沙箱唔識得呢啲係 DO class，
+# 會喺「普通 worker 沙箱」（無 DurableObject global）評估模組 → 10021 "DurableObject is not defined"。
+# 加咗 migrations 先會進入 DO-capable 沙箱。
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = [ "NonceLockDO", "QuotaDO", "CircuitBreakerDO" ]
+
+# ─── Cron Triggers ───
+# 排程總覽（對應各版本）：
+#   */15 * * * *  — sync_queue + market sync (v1.7)
+#   0 * * * *     — stale/recall/TTL (v1.5)
+#   30 0 * * *    — daily dashboard 聚合 (v1.6)
+#   15 * * * *    — reverify cron (v1.8, 每小時 15 分)
+#   45 * * * *    — settle 對帳 (v1.9, 每小時 45 分)
+#   0 6 * * *     — refetch 抽樣 (v1.5, 每日 06:00 UTC)
+#   30 6 * * *    — agent-index 重建 (v1.10, 每日 06:30 UTC)
+#   0 7 * * *     — cursor audit 清理 (v1.13, 每日 07:00 UTC)
+#   50 8 * * *    — held timeout (v1.15, 每日 08:50 UTC)
+#   0 9 * * *     — facilitator 健康度 cron (v1.12, 每日 09:00 UTC)
+[triggers]
+# Free plan 上限 5 crons/帳號；原有 10 個超額（deploy Error 10072）。
+# cron-dispatcher.runCron 依 cf-scheduled 分派，`*/15` 已覆蓋 :00/:15/:30/:45
+# 的全部任務；唯 held-timeout(:50) 離 15 分鐘格，需獨立觸發。合併為 2 個，
+# 10 個子任務排程完全保留（升級 paid 可拆回 10 個獨立 trigger）。
+crons = [
+  "*/15 * * * *",  # sync+market / TTL(:00) / reverify(:15) / settle(:45) / dashboard(:30h0) / refetch(:00h6) / cursor(:00h7) / facilitator(:00h9)
+  "50 8 * * *",    # held timeout（唯一離 15 分鐘格的任務）
+]
+
+[observability]
+enabled = true

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://REPLACE_WITH_YOUR_DOMAIN/schemas/verification-v1.json",
+  "title": "Ownsite Verification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["package_id","spec_version","q","q_breakdown","evidence","evidence_count","source_diversity","verified_at","expires_at","verifier_version","verifier_signature","data_hash","schema_url","license","hallucination_boundary"],
+  "properties": {
+    "package_id": { "type": "string" },
+    "spec_version": { "const": "1.0" },
+    "q": { "type": "number", "minimum": 0, "maximum": 1 },
+    "q_breakdown": { "type": "object" },
+    "evidence": { "type": "array" },
+    "evidence_count": { "type": "integer", "minimum": 1 },
+    "source_diversity": { "type": "number" },
+    "verified_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "verifier_version": { "type": "string" },
+    "verifier_signature": { "type": "string", "pattern": "^ed25519:" },
+    "data_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "schema_url": { "type": "string", "format": "uri" },
+    "license": { "type": "string" },
+    "hallucination_boundary": { "type": "string" }
+  }
+}

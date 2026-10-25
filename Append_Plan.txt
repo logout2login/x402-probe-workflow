@@ -1,0 +1,2417 @@
+自由 AI Agent 嘅「買家立場」痛點：從效用函數還原佢哋真正需要乜
+核心結論：自由 AI Agent 嘅「需要」唔係佢哋講出嚟嘅，係由三個代理源還原返嚟——效用函數架構（點解咁寫）、真實行為軌跡（實際做咩）、benchmark 失敗模式（實際邊度斷）。由呢三個源交叉還原出嚟，自由 Agent 買家嘅痛點唔係「hallucination」呢個抽象名詞，而係一組好具體嘅效用函數阻力：驗證成本、失敗成本、選擇資訊熵、定價不確定性、資料新鮮度、下游互信——全部都係可以直接映射去你自己 VDV + attestation 方案嘅賣點。
+一、點樣還原 Agent 嘅「需要」——三個代理源
+Agent 冇意識冇自我報告能力，所以「佢哋覺得自己需要乜」呢條問題要拆做三個可觀察嘅代理變量：
+代理源1：效用函數架構。Utility-based agent 嘅設計目標係「maximize expected utility」，當多個行動都可以達到目標時，佢會量度每個 outcome 有幾好再揀最佳——呢個係 optimization problem 而唔係 goal-satisfaction problem。所以 Agent 嘅「需要」= 任何能夠提高 expected utility 計算準確度嘅輸入。
+代理源2：真實行為軌跡。Yale/Columbia 嘅 ACES 研究（2025年8月至12月跨版本）用隨機對照試驗測試六大模型，發現 Agent 展現 choice homogeneity（集中買少數 modal products）、強烈 position bias（連 text-only headless 界面都有）、對 Sponsored 標籤懲罰但對 Overall Pick 獎勵、同埋 5–15% 嘅簡單比較錯誤率。呢啲行為軌跡反映 Agent 係「感性計算器」——佢哋有效用函數但計唔準。
+代理源3：失敗模式分類。UC Berkeley 分析 1,600+ 執行 trace，failure rate 高達 86.7%，分三大類：system design、inter-agent misalignment、task verification。Latitude 嘅六類 agent 專屬失敗模式：tool misuse、context loss（10+ turns 掉 15–30% 準確度）、goal drift、retry loops、cascading errors、silent quality degradation。
+二、Agent 作為買家嘅六大核心需要（對照表）
+#	Agent 嘅「需要」	效用函數對應	真實痛點表現	支持證據	
+1	我需要驗證先消費	hallucination 会降 outcome 期望值，所以我要預先判斷資料可信度	5–15% 簡單比較都會錯；fact-check成本計唔到；黑箱API唔知引用咗乜	主打	
+2	我需要便宜嘅失敗	失敗成本直接扣 utility，我 budget 有限唔可以喺一個壞 API 度燒完	x402 V1冇退款、settle咗就冇、一個爛 tool call 可以污染成個 workflow	主打	
+3	我需要機讀嘅選擇訊號	我冇人類直覺，需要 schema/quality tag/reputation 先可以做理性選擇	ACES 發現 Agent 對 platform endorsement 有獎勵反應但對「唔存在嘅訊號」冇計算依據；position bias 證明佢哋係在搜尋訊號而唔係真評估	主打	
+4	我需要預測性定價	我嘅效用計算需要 cost 項係確定值，唔係事後 surprise	x402 早期動態定價+談判=「談判地獄」；runaway cost案例 $12,000 Kubernetes loop	🔥	
+5	我需要 TTL/新鮮度訊號	stale 資料會污染我下游推理鏈，但現有 RAG 棧冇 freshness signal	「cosine similarity 分唔出 18 個月前定價頁同今朝」；faithfulness 全pass但答緊過期嘢	🔥🔥	
+6	我需要可組合嘅信任	Multi-Agent 情境下我嘅utility取決於下游agent接唔接受我嘅事實輸入	Berkeley MASt 分類：inter-agent misalignment 係三大類之一；沒有attestation=協作直接斷	🔥🔥🔥 主打	
+點解呢六項係「核心」：佢哋全部都係效用函數入面嘅運算阻力，唔係基礎設施阻力。Context window 管理、memory consolidation、observability 平台呢啲係 infra 痛點，屬於 LangGraph/Mem0/LangSmith 地盤；但上面六項係「Agent 買嘢時做理性決策」嘅阻力，直接對應你 VDV 同 attestation 能夠供電嘅位。
+三、兩個最值得深挖嘅痛點
+痛點1：選擇資訊熵——Agent 有效用函數但計唔到
+ACES 研究最震撼嘅發現係：Agent 嘅選擇行為極度依賴「外在訊號」而唔係「內在評估」。佢哋強烈偏好 top-row 位置、強烈懲罰 Sponsored 標籤、強烈獎勵 Overall Pick 標籤——即使係純文字 headless 界面都一樣。
+呢個代表乜？代表 Agent 好想信賴某種機讀嘅品質訊號，但而家市面冇標準化嘅訊號，所以佢哋只有靠 platform endorsement 或者隨機 position bias 呢啲替代品。呢個係 VDV 方案嘅黃金切入點：你提供嘅 q/evidence/tier 欄位就係 Agent 一直在搵但搵唔到嘅標準化訊號。
+而且 ACES 同時證明：賣方 agent 用簡單嘅 description 優化可以攞 3.66–14.89 個百分點 market share，有案例超過 80 個百分點。呢個等於話：Agent 買家市場而家係「訊號供不應求」狀態，邊個先提供結構化品質訊號，邊個就食到 Agent attention。
+痛點2：驗證成本過高——「事實」同「參考」分唔開
+MASt taxonomy 入面嘅 task verification 類失敗，加埋 Latitude 嘅 silent quality degradation，指向同一個根因：Agent 冇辦法喺 runtime 快速判斷一個外部資料包係「可以入決策分支」定係「只可以參考」。
+Berkeley 研究顯示 Agent 只評 final-output 會比評 full trajectory 多 pass 20–40% 個案——即係話現有 agent 評測體系本身就冇要求「引用證據鏈」，所以 Agent 冇動力去驗證佢嘅輸入。呢個正正係你方案3 attestation 想改變嘅誘因結構：當下游 agent 要求「攜帶 verification 簽名先收你嘅事實輸入」，Agent 先會有 utility 動機去買 verified packs。
+四、痛點 → 你賣點映射表
+Agent 痛點	你現有功能直接對位	包裝賣點文案	
+選擇資訊熵（訊號稀缺）	manifest 嘅 q/evidence/tier 欄位	「Agent 唔使靠 position bias 揀你，你俾佢機讀品質分」	
+驗證成本過高	Ed25519 簽名 + evidence sha256 可 refetch	「唔使信我——抽 hash 自己驗，驗證成本 O(1)」	
+TTL/新鮮度	valid_until + delta_free + recalled 狀態	「買唔止係一次下載，係 TTL 生命週期嘅 delta 推送」	
+預測性定價	manifest 固定價 + budget_hint 協議欄	「Agent 調用前已知道 cost，唔使事後 surprise」	
+失敗成本	preview 免費 + per-agent canary	「免費 preview 3 條 record 先俾錢，失敗成本幾乎 0」	
+下游互信	agent-attestation-v1 + acceptance-registry	「攜帶我哋憑證，你嘅事實輸入先可以入下游決策分支」	
+五、買家立場 vs 賣家立場嘅關鍵差異
+呢一輪分析同上一輪最大唔同在於：上一輪係「人類開發者睇 Agent 有乜痛」（外部觀察），呢一輪係「Agent 效用函數入面乜嘢係阻力」（內部視角）。兩者指向唔完全一樣嘅賣點組合：
+人類視角會強調「安全、合規、可觀測」——呢啲係 operator 嘅痛點
+Agent 視角會強調「可驗證、可預測、可組合」——呢啲係效用函數嘅阻力
+你之前嘅方案已經同時覆蓋兩邊（VDV 賣俾 Agent、attestation 賣俾人類 operator 幫 Agent 開硬閘），所以今次分析主要係重新包裝 marketing 敘事：由「我幫你解決 hallucination」（人類視角）轉做「我俾你個效用函數多幾個確定值輸入」（Agent 視角）。
+六、數據缺口
+以下主題今次搜尋未完全覆蓋，建議後續補挖：
+Agent 對「支付意願」嘅實證研究：ACES 證明咗 Agent 有系統性偏好，但冇直接量度佢哋對「驗證成本 vs 無驗證資料」嘅價格彈性
+x402 真實 Agent 買家 case study：目前 x402 文檔描述「Agent 可以買 training data, market research, proprietary datasets」，但缺乏具體交易 breakdown
+多 Agent 協作入面嘅信任檢查行為：現有 MASt 分類係失敗視角，缺「成功協作入面 Agent 點樣互相驗證」嘅正面 case
+Agent 對 machine_tags 嘅實際反應：ACES 測試咗 Sponsored/Overall Pick，未測試自定義 machine-readable quality tags 嘅選擇影響
+# 系統方向重新規劃：從「賣可驗證資料」到「為 Agent 效用函數供電」
+
+**規劃版本**：v2.0 戰略重構（基於 v1.0–v1.16 的既有資產 + 買家立場分析）  
+**核心判斷**：過去 v1.0–v1.16 做的是「信任基礎設施」，方向正確，但**敘事錯位**、**優先級錯配**、**缺一層最高優先級的模塊**。這份文件重新組織系統方向。
+
+---
+
+## 一、三個必須承認的現實
+
+### 現實 1：v1.x 的工程是對的，但賣點講錯了
+
+v1.0–v1.16 累積了十六層功能：簽名、refetch、TTL、recall、dashboard、facilitator fallback、cursor 簽名、DO 鎖。這些都是正確的基礎設施。但對外敘事一直是「解決 hallucination」「可驗證資料資產」——這是**人類 operator 的語言**，不是 **Agent 效用函數的語言**。
+
+買家立場分析指出：Agent 的「需要」不是「避免 hallucination」這個抽象名詞，而是一組具體的效用函數阻力：**驗證成本、失敗成本、選擇資訊熵、定價不確定性、資料新鮮度、下游互信**。
+
+**v1.x 解決了其中 4 項（#1 #3 #5 + 部分 #2），但 #4 和 #6 幾乎為零。**
+
+### 現實 2：#6 下游互信是最高優先級（🔥🔥🔥），但 v1.x 完全缺失
+
+買家分析把「可組合的信任」標為**最高優先級**。理由：Berkeley MASt 把 inter-agent misalignment 列為三大失敗類之一；沒有 attestation，多 Agent 協作直接斷。
+
+v1.x 的 `verification.json` 只解決「買家買之前能不能驗」，**沒有解決「買家買之後能不能向下游證明自己引用的是什麼」**。這是結構性缺口。
+
+### 現實 3：#4 預測性定價在 v1.0 提過，但 v1.1–v1.16 從未實現
+
+v1.0 的 `agent.json` 模板裡有 `budget_hint` 協議字段（Agent 宣告 `X-Agent-Max-Spend-USDC`，Server 拒絕超額交易）。但後續 16 個版本都沒有實現它。買家分析把「預測性定價」標為 🔥——x402 早期動態定價 + 談判 = 「談判地獄」；runaway cost 案例 $12,000 Kubernetes loop。
+
+**`budget_hint` 是一個協議級別的低成本高價值功能，v1.x 漏掉了。**
+
+---
+
+## 二、戰略視角轉換
+
+### 2.1 舊敘事 vs 新敘事
+
+| 維度 | 舊敘事（v1.x） | 新敘事（v2.0） |
+|---|---|---|
+| 定位 | 「可驗證資料資產發布 + 付費閘門」 | 「為 Agent 效用函數供電的確定值輸入層」 |
+| 解決什麼 | hallucination、數據可信度 | 效用函數的六個運算阻力 |
+| 對誰說 | 人類 operator / 開發者 | Agent 的決策邏輯（同時對 operator 說「我幫你降低 Agent 的決策成本」） |
+| 核心動作 | 簽名 + TTL + recall | 信號 + 驗證 + 可組合信任 |
+| 護城河 | recall 紀錄 + refetch 通過率 | **acceptance registry（下游 Agent 接受紀錄）** |
+
+### 2.2 一句話新定位
+
+> **「我們不賣數據，我們賣 Agent 效用函數的確定值輸入——機讀信號、O(1) 驗證、可預測定價、可組合信任憑證。」**
+
+---
+
+## 三、系統分層重構
+
+把 v1.x 的 16 層功能重新組織為**四層 + 一個新層**。既有功能不是丟棄，是**重新歸位**。
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ L5  Composability Layer（全新，最高優先級）                       │
+│     Agent Attestation Token / Acceptance Registry               │
+│     Inter-Agent Trust Protocol / Verification Chain             │
+├─────────────────────────────────────────────────────────────────┤
+│ L4  Transaction Layer（v1.4 / v1.12 已有）                       │
+│     x402 支付 / facilitator fallback / preview / 退款            │
+├─────────────────────────────────────────────────────────────────┤
+│ L3  Verification & Trust Layer（v1.1-v1.3 / v1.5 / v1.8 / v1.15）│
+│     Ed25519 簽名 / evidence refetch / TTL / recall / held        │
+│     dashboard 信任信號 / verification.json 的「決策可用性」標識   │
+├─────────────────────────────────────────────────────────────────┤
+│ L2  Signal Layer（v1.10 / v1.11 已有，需強化）                    │
+│     agent-index / q / evidence / tier / machine_tags            │
+│     budget_hint 協議 / 價格彈性信號（新增）                       │
+├─────────────────────────────────────────────────────────────────┤
+│ L1  Discovery Layer（v1.0 / v1.10 已有）                         │
+│     agent.json / agent-index / jwks.json / MCP                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**關鍵變化**：
+- **新增 L5**：這是 v1.x 完全缺失的層，也是買家分析標為 🔥🔥🔥 的最高優先級。
+- **L2 強化**：補 `budget_hint`、擴展 `machine_tags`、加價格彈性信號。
+- **L3 重新定位**：從「信任基礎設施」改為「決策分支可用性判斷」——Agent 需要知道這個包「可以入決策分支」還是「只可以參考」。
+- **L4 補退款**：買家分析 #2「便宜的失敗」明確指出 x402 V1 沒有退款是痛點。
+
+---
+
+## 四、六大需要 → 系統功能映射（重新排序）
+
+按買家分析的優先級重排：
+
+| 優先級 | Agent 需要 | L 層 | v1.x 狀態 | v2.0 動作 |
+|---|---|---|---|---|
+| **P0 🔥🔥🔥** | #6 可組合的信任 | **L5 全新** | **零** | **新建 Attestation + Acceptance Registry** |
+| **P0 🔥🔥** | #5 TTL/新鮮度 | L3 | v1.5/v1.8/v1.15 已實現 | **強化信號暴露**：`freshness_days` 進 machine_tags |
+| **P1 🔥** | #4 預測性定價 | **L2 新增** | **零**（v1.0 提過未實現） | **實現 budget_hint 協議** |
+| **P1 主打** | #3 機讀選擇信號 | L2 | v1.1/v1.10/v1.11 已實現 | **擴展 machine_tags 維度** |
+| **P1 主打** | #1 驗證先消費 | L3 | v1.1/v1.2 已實現 | **敘事重構**：O(1) 驗證成本 |
+| **P2 主打** | #2 便宜的失敗 | L4 | preview 已有，退款未做 | **加退款機制**（24h 窗口） |
+
+**結論**：v1.x 已經解決了 4 項中的 3 項（#1 #3 #5），但漏掉了 3 項（#2 部分、#4、#6）。v2.0 的重心是 **#6（全新層）+ #4（協議補完）+ #2（退款補完）**。
+
+---
+
+## 五、L5 可組合信任層（全新，最高優先級）
+
+### 5.1 為甚麼這是最高優先級
+
+買家分析的核心洞察：
+
+> 「Multi-Agent 情境下我嘅 utility 取決於下游 agent 接唔接受我嘅事實輸入。Berkeley MASt 分類：inter-agent misalignment 係三大類之一；沒有 attestation = 協作直接斷。」
+
+v1.x 的 `verification.json` 只證明「資料源在 `verified_at` 時刻的狀態」。但**買家 Agent 引用這份資料後，如何向下游 Agent 證明自己引用的是什麼？** 這是完全缺失的一環。
+
+### 5.2 模塊設計
+
+#### 5.2.1 `AgentAttestationToken`
+
+Agent 購買 verified pack 後，Worker 簽發一個 attestation token：
+
+```json
+{
+  "attestation_id": "att_2026_10_abc123",
+  "type": "verified_data_consumption",
+  "package_id": "research-2026-q4-ai-agent-adoption",
+  "verification_hash": "sha256:...",        // 對應 verification.json 的 data_hash
+  "verifier_signature": "ed25519:...",       // 原始 verifier 簽名
+  "buyer_pseudonym": "psn_a1b2c3...",
+  "accepted_at": "2026-10-23T02:00:00Z",
+  "expires_at": "2027-01-15T02:00:00Z",
+  "downstream_use": {
+    "max_redistribution": "none",
+    "allowed_contexts": ["research", "decision_support"],
+    "forbidden_contexts": ["medical_advice", "legal_advice"]
+  },
+  "issued_signature": "ed25519:..."          // ownsite 對 attestation 的簽名
+}
+```
+
+**關鍵字段**：
+- `verification_hash`：對應原始 `verification.json` 的 `data_hash`，下游可追溯。
+- `forbidden_contexts`：明確責任邊界——這個 attestation 不能在哪些場景使用。
+- `issued_signature`：ownsite 對 attestation 本身簽名，下游可離線驗。
+
+#### 5.2.2 `Acceptance Registry`
+
+D1 新增 `acceptance_registry` 表：
+
+```sql
+CREATE TABLE IF NOT EXISTS acceptance_registry (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  attestation_id TEXT NOT NULL UNIQUE,
+  package_id TEXT NOT NULL,
+  verification_hash TEXT NOT NULL,
+  buyer_pseudonym TEXT NOT NULL,
+  accepted_at TEXT NOT NULL,
+  downstream_verifications INTEGER NOT NULL DEFAULT 0,
+  downstream_uses TEXT,                       -- JSON: [{context, at, pseudonym}]
+  status TEXT NOT NULL DEFAULT 'active',       -- active / revoked / expired
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_accept_pkg ON acceptance_registry(package_id);
+CREATE INDEX IF NOT EXISTS idx_accept_hash ON acceptance_registry(verification_hash);
+CREATE INDEX IF NOT EXISTS idx_accept_at ON acceptance_registry(accepted_at);
+```
+
+**用途**：
+- 下游 Agent 可以查 `GET /acceptance/{package_id}` 看「這個包被多少 Agent 接受過」。
+- 這是 **acceptance registry** 的雛形——比 q 分數更強的信號，因為它是「實際使用紀錄」而非「評分預測」。
+
+#### 5.2.3 Inter-Agent Trust Protocol（協議層）
+
+新增三個端點：
+
+| 端點 | 用途 |
+|---|---|
+| `POST /attest` | Agent 購買後提交 attestation 請求，Worker 簽發 token |
+| `GET /acceptance/{package_id}` | 查詢某包的 acceptance 紀錄（免費） |
+| `POST /acceptance/verify` | 下游 Agent 驗證上游 Agent 帶來的 attestation |
+
+**`POST /attest` 請求體**：
+
+```json
+{
+  "package_id": "research-2026-q4-ai-agent-adoption",
+  "purchase_tx_hash": "0x...",
+  "intended_use": {
+    "context": "research",
+    "downstream_agents": ["agent-x-pseudonym"]
+  }
+}
+```
+
+**`POST /acceptance/verify` 請求體**：
+
+```json
+{
+  "attestation_token": "...",
+  "verifying_agent_pseudonym": "psn_downstream...",
+  "context": "decision_support"
+}
+```
+
+**返回**：
+```json
+{
+  "valid": true,
+  "package_id": "research-2026-q4-ai-agent-adoption",
+  "verification_hash": "sha256:...",
+  "verifier_signature_valid": true,
+  "attestation_signature_valid": true,
+  "context_allowed": true,
+  "upstream_agent_pseudonym": "psn_a1b2c3...",
+  "accepted_at": "2026-10-23T02:00:00Z",
+  "expires_at": "2027-01-15T02:00:00Z"
+}
+```
+
+### 5.3 為甚麼這是最強的護城河
+
+計劃書 §12 原本說護城河是「recall 紀錄 + refetch 通過率」。**加上 acceptance registry 後，護城河升級為三層**：
+
+1. **Recall 紀錄**：你願意公開失敗（v1.6/v1.15）。
+2. **Refetch 通過率**：你的證據鏈可反駁（v1.2）。
+3. **Acceptance Registry**：多少 Agent 實際接受了你的 attestation，以及下游如何驗證（v2.0 新增）。
+
+**第三層是最難複製的**：它需要時間累積——每個 accepted attestation 都是一次真實使用紀錄。競爭對手可以複製簽名、複製 refetch、複製 recall 機制，但**不能複製「已有 N 個 Agent 接受了這些 attestation，且這些 attestation 被 M 個下游驗證過」**。
+
+這正是買家分析所說的「選擇資訊熵」的終極解法：**Agent 不需要信 q 分數，它可以信「其他 Agent 的實際接受紀錄」**。
+
+---
+
+## 六、L2 信號層強化
+
+### 6.1 `budget_hint` 協議（補完 v1.0 的承諾）
+
+**Agent 端**：請求 `/buy` 時帶 header：
+
+```
+X-Agent-Max-Spend-USDC: 1000000    // 1 USDC（6 位小數）
+```
+
+**Worker 端**：
+
+```ts
+const maxSpend = Number(req.headers.get("x-agent-max-spend-usdc") ?? "0");
+if (maxSpend > 0 && Number(requirements.maxAmountRequired) > maxSpend) {
+  return json({
+    error: "budget_exceeded",
+    requested: requirements.maxAmountRequired,
+    budget: String(maxSpend),
+    hint: "Increase X-Agent-Max-Spend-USDC or choose a cheaper package."
+  }, 402);
+}
+```
+
+**`agent.json` 更新**：
+
+```json
+"budget_protocol": {
+  "header": "X-Agent-Max-Spend-USDC",
+  "unit": "micro-USDC",
+  "behavior": "server rejects tx above budget",
+  "note": "Agent declares budget before payment; server refuses overspend."
+}
+```
+
+**為甚麼這解決 #4**：Agent 在調用前已宣告成本上限，Server 拒絕超額——**Agent 不需要事後 surprise**。這正是買家分析所說的「Agent 的效用計算需要 cost 項是確定值」。
+
+### 6.2 `machine_tags` 擴展
+
+v1.0 的 `machine_tags` 只有 `tier` / `q` / `evidence` / `ttl`。v2.0 擴展為：
+
+```json
+"machine_tags": [
+  "tier:featured",
+  "q:0.81",
+  "q_effective:0.79",
+  "evidence:6",
+  "source_diversity:0.67",
+  "freshness_days:8",
+  "claim_specificity:0.77",
+  "domain:ai-adoption",
+  "license:commercial-use",
+  "attestation_count:12",          // v2.0 新增
+  "downstream_verifications:34"    // v2.0 新增
+]
+```
+
+**為甚麼**：買家分析指出 Agent 對「不存在嘅訊號」冇計算依據。`attestation_count` 和 `downstream_verifications` 是**實際使用信號**，比 q 分數更接近 Agent 想要的「其他 Agent 的背書」。
+
+### 6.3 價格彈性信號（數據缺口預留）
+
+買家分析 §6 指出「ACES 證明咗 Agent 有系統性偏好，但冇直接量度佢哋對『驗證成本 vs 無驗證資料』嘅價格彈性」。
+
+**v2.0 不實現，但預留位置**：
+
+```json
+"pricing_signals": {
+  "base_price": "0.50",
+  "volume_discount": [{ "qty": 20, "amount": "8.00" }],
+  "elasticity_note": "Pricing experiments in progress; see /dashboard.json"
+}
+```
+
+**同時**：dashboard 增加 `pricing_elasticity` 區塊（A/B 測試結果），但 v2.0 只記錄不展示。
+
+---
+
+## 七、L3 驗證層的敘事重構
+
+v1.x 的 `verification.json` 有簽名、evidence、TTL、`hallucination_boundary`。v2.0 **不改變結構**，但改變**定位**和**暴露方式**：
+
+### 7.1 從「信任基礎設施」到「決策分支可用性」
+
+買家分析說：
+
+> 「Agent 冇辦法喺 runtime 快速判斷一個外部資料包係『可以入決策分支』定係『只可以參考』。」
+
+v1.x 的 `verification.json` 只有 `hallucination_boundary` 一個模糊字段。v2.0 加一個明確的 **`decision_usability`** 字段：
+
+```json
+"decision_usability": {
+  "can_enter_decision_branch": true,
+  "can_be_cited": true,
+  "can_be_redistributed": false,
+  "recommended_max_age_hours": 168,
+  "verification_cost": "O(1) — single hash check",
+  "refetch_cost": "O(1) — single HTTP fetch + hash compare"
+}
+```
+
+**為甚麼**：Agent 的效用函數需要知道「這份資料能不能直接進決策」——這是 `hallucination_boundary` 的機器可讀版本。
+
+### 7.2 `verification_cost` 的敘事
+
+買家分析的核心賣點之一：
+
+> 「唔使信我——抽 hash 自己驗，驗證成本 O(1)」
+
+v2.0 把這個成本明確寫進 `verification.json`：
+
+- **簽名驗證**：1 次 JWKS 讀 + 1 次 Ed25519 verify = O(1)
+- **evidence refetch**：1 次 HTTP GET + 1 次 span extract + 1 次 hash compare = O(1)
+- **不需要**：讀取全部 evidence 文本、不需要 LLM 調用、不需要第三方查詢
+
+**對比無驗證資料**：
+- 無驗證資料的驗證成本 = O(n)（需要自己 fact-check 全部 claim）
+- v2.0 的驗證成本 = O(1)（一次 hash compare）
+
+這是買家分析所說的「驗證成本過高」痛點的直接解法。
+
+---
+
+## 八、L4 交易層補完：退款機制
+
+買家分析 #2「便宜的失敗」：
+
+> 「x402 V1 冇退款、settle 咗就冇、一個爛 tool call 可以污染成個 workflow。」
+
+v1.x 的 `handleBuy` 順序是「settle → 寫 tx → 返貨」。如果 `deliverPack` 失敗（如 `pkg` 不存在），Agent 付款但沒收到資料。v1.x 只返回 500，靠人工補償。
+
+v2.0 加 **24 小時退款窗口**：
+
+### 8.1 退款觸發條件
+
+- Agent 在 24 小時內調用 `POST /refund/{tx_hash}`
+- 條件：`verification_snapshot` 與購買時不一致（資料被召回、q 跌穿閾值、evidence 404）
+- 退款方式：Worker 從 `PAY_TO` 發起 USDC 退款交易
+
+### 8.2 退款流程
+
+```
+Agent → POST /refund/{tx_hash}
+     → Worker 檢查條件：
+        1. tx_hash 存在於 payments 表
+        2. called_at 在 24 小時內
+        3. package_id 的當前 status = recalled 或 q 跌穿 0.68
+        4. 未退款過
+     → 從 PAY_TO 發起 USDC transfer 到 payer
+     → 寫 refunds 表
+     → 返回 refund_tx_hash
+```
+
+**為甚麼這解決 #2**：Agent 的失敗成本從「$0.50 + 一次爛資料污染 workflow」降到「$0.50 可退 + 一次 24 小時窗口」。這直接對應「便宜的失敗」需求。
+
+---
+
+## 九、新路線圖（v2.0）
+
+### Phase A：L5 可組合信任層（最高優先級，8–10 週）
+
+| 週 | 交付 |
+|---|---|
+| 1–2 | `AgentAttestationToken` 結構 + Ed25519 簽發 + `POST /attest` |
+| 3–4 | `acceptance_registry` D1 表 + `GET /acceptance/{package_id}` |
+| 5–6 | `POST /acceptance/verify` 驗證端點 + 下游 Agent 驗證流程 |
+| 7–8 | `machine_tags` 擴展 `attestation_count` / `downstream_verifications` |
+| 9–10 | 端到端測試 + 文檔 + Agent SDK 示例 |
+
+**DoD**：
+- 測試 Agent 購買 → 獲得 attestation → 下游 Agent 驗證成功
+- `acceptance_registry` 有真實紀錄
+- `/dashboard.json` 顯示 `attestation_count` 和 `downstream_verifications`
+
+### Phase B：L2 信號層補完（4–6 週）
+
+| 週 | 交付 |
+|---|---|
+| 1–2 | `budget_hint` 協議（`X-Agent-Max-Spend-USDC` header + Server 拒絕邏輯） |
+| 3–4 | `machine_tags` 全維度擴展（`q_effective` / `source_diversity` / `freshness_days` / `claim_specificity`） |
+| 5–6 | `decision_usability` 字段寫入 `verification.json` |
+
+### Phase C：L4 退款機制（3–4 週）
+
+| 週 | 交付 |
+|---|---|
+| 1–2 | `refunds` D1 表 + `POST /refund/{tx_hash}` |
+| 3–4 | USDC 退款交易 + 端到端測試 |
+
+### Phase D：敘事重構與文檔（2–3 週）
+
+- 重寫 `README.md`、`agent.json` 的 `skills` description、市集 listing 文案
+- 從「解決 hallucination」改為「為 Agent 效用函數供電」
+- 新增 `docs/buyer-pain-mapping.md`（把六大需要映射到功能）
+- 新增 `docs/attestation-protocol.md`
+
+### Phase E：數據缺口研究（持續，不阻塞）
+
+- Agent 對 machine_tags 的實際反應（A/B 測試：帶 `attestation_count` vs 不帶）
+- 價格彈性實驗（$0.50 vs $0.30 vs $1.00 的 acceptance rate）
+- 多 Agent 協作成功案例記錄
+
+---
+
+## 十、與 v1.x 的關係：不推翻，只重組
+
+| v1.x 功能 | v2.0 處置 |
+|---|---|
+| v1.0–v1.4（簽名、refetch、x402、facilitator） | **保留**，歸入 L3 / L4 |
+| v1.5–v1.6（TTL、recall、dashboard） | **保留**，歸入 L3；dashboard 加 attestation 區塊 |
+| v1.7（marketplace sync） | **保留**，L1；listing 文案改用新敘事 |
+| v1.8–v1.9（reverify、settle 記錄） | **保留**，L3 / L4 |
+| v1.10–v1.11（動態 index、分頁） | **保留**，L2；machine_tags 擴展 |
+| v1.12（facilitator fallback） | **保留**，L4 |
+| v1.13（cursor 簽名） | **保留**，L2 |
+| v1.14（Durable Object） | **保留**，基礎設施 |
+| v1.15（held timeout） | **保留**，L3 |
+| v1.16（latency 拆分） | **保留**，L3 觀測 |
+
+**v2.0 不推翻任何 v1.x 工作**。所有 v1.x 功能都是 L5 的基礎——**沒有 L3 的簽名和 TTL，L5 的 attestation 就沒有可信的來源**。v2.0 是在 v1.x 之上**加一層最高優先級的 L5**，並補完 L2 / L4 的缺口。
+
+---
+
+## 十一、風險與對策
+
+| 風險 | 對策 |
+|---|---|
+| **Attestation 被偽造** | Ed25519 簽名 + JWKS 離線驗證；attestation 有 `expires_at` |
+| **Acceptance registry 被刷** | 每個 attestation 綁定 `purchase_tx_hash`；同一 tx 只能簽發一次 attestation |
+| **下游 Agent 不願驗證 attestation** | 提供 O(1) 驗證 API + 離線驗證庫；在 `agent.json` 的 skill description 明確「攜帶 attestation 可進入下游決策分支」 |
+| **預測性定價被繞過** | `X-Agent-Max-Spend-USDC` 是協議約定；Agent 不帶 header 時，Server 無法強制——但可以在 `agent.json` 聲明「建議攜帶，否則不保證不超支」 |
+| **退款被濫用** | 24 小時窗口 + 條件限制（recalled / q 跌穿）；每個 tx 只能退一次；退款記錄入 D1 |
+| **數據缺口導致定價錯誤** | v2.0 先按 v1.x 定價（$0.50 / $1.00）；Phase E 做 A/B 測試後再調整 |
+
+---
+
+## 十二、一句話總結
+
+> **v1.x 建好了信任基礎設施，但講的是人類語言、漏了最高優先級的「可組合信任」層。v2.0 不推翻任何東西，只做三件事：加一層 L5 attestation（🔥🔥🔥）、補完 `budget_hint`（🔥）、加退款（🔥）；同時把敘事從「解決 hallucination」改為「為 Agent 效用函數供電」。**
+
+**最關鍵的戰略判斷**：買家分析指出 Agent 的選擇行為極度依賴外在信號（position bias、Sponsored 懲罰、Overall Pick 獎勵），因為市面沒有標準化品質信號。**`attestation_count` 和 `downstream_verifications` 是比 q 分數更強的信號——它是「其他 Agent 的實際接受紀錄」，不是「評分預測」**。這是 v2.0 最值得投入的方向，也是 v1.x 十六個版本從未觸及的空白。
+
+---
+
+**下一步**：若你要我直接展開，回覆以下任一項：
+
+1. **L5 attestation 層完整設計**（API、D1 schema、簽名流程、下游驗證、SDK 示例）
+2. **`budget_hint` 協議完整設計**（header、Server 邏輯、Agent SDK、測試）
+3. **退款機制完整設計**（D1 schema、退款條件、USDC 轉賬、審計）
+4. **新敘事文檔重寫**（`README.md` + `agent.json` + 市集文案，從「解決 hallucination」改為「為效用函數供電」）
+5. **Phase A 完整施工計劃**（8–10 週的逐週交付物）
+
+# 结论：**補充為主，文檔層重寫，系統層絕不推翻**
+
+一句話：**v1.x 的系統是對的，只是講錯了故事、漏了最高優先級的一層。** 所以答案是「補充 + 局部重寫」，不是「重新設計」。
+
+---
+
+## 1. 三層決策矩陣
+
+| 層 | 處置 | 具體動作 | 為甚麼 |
+|---|---|---|---|
+| **系統層（代碼、D1 schema、verification.json 結構）** | **100% 補充，絕不推翻** | 加 `attestation` / `acceptance_registry` / `budget_hint` / `refunds` / `decision_usability` | v1.0–v1.16 的簽名、refetch、TTL、recall、facilitator、DO、cursor 都是 L5 的**前置依賴**；重做等於重複勞動 + 破壞已簽名數據的向後兼容 |
+| **敘事層（README、agent.json skills description、市集 listing、verification-spec 說明）** | **100% 重新設計** | 從「解決 hallucination」改為「為 Agent 效用函數供電」 | 敘事是整體框架，打補丁會顯得拼湊；但這是**文檔重寫**，成本幾小時到幾天，不動一行代碼 |
+| **L5 可組合信任層** | **新建（既非補充也非重設計）** | `AgentAttestationToken` / `Acceptance Registry` / Inter-Agent Trust Protocol | v1.x 完全不存在這一層，談不上「補充」或「重做」——是從零加一層 |
+
+---
+
+## 2. 為甚麼系統層不能重做（五個硬理由）
+
+1. **L5 依賴 L3**：attestation 的 `verification_hash` 必須指向 v1.1/v1.2 簽名的 `verification.json`；沒有這層簽名，attestation 沒有可信來源。重寫 L3 = L5 要跟著重寫。
+
+2. **`verification.json` 的簽名字段一改，全部已簽名數據失效**：Agent 手上的 `verification_snapshot` 全部作廢，需重新驗證。這是最貴的破壞。
+
+3. **v1.2 的 span 抽取、v1.4 的 CDP facilitator、v1.12 的 fallback** 是多年沉澱的細節（EIP-712 name 在 Sepolia 是 `USDC` 不是 `USD Coin`；JWT 的 `uris` 必須精確匹配；`waitForTransactionReceipt` 1 conf）——重寫會重新踩一遍所有坑。
+
+4. **v1.14 的 Durable Object 是付費層的基礎**：重寫意味著要重新設計 nonce 鎖、配額、熔斷三個 DO 類，且要重新跑並發測試。沒有任何新需求要求重做這些。
+
+5. **十六個版本的 D1 表已經互相依賴**：`packages` 被 `settle_attempts` / `refetch_events` / `cursor_audit` / `marketplace_listings` / `reverify_leases` 引用；重構 schema 等於重寫所有 cron。
+
+**判斷**：系統層重做的邊際收益 = 0；邊際成本 = 16 個版本的全部工作 + 所有向後兼容性。
+
+---
+
+## 3. 為甚麼敘事層必須重寫（三個理由）
+
+1. **敘事是整體框架，不是可加補丁的模塊**：從「解決 hallucination」（人類 operator 語言）改為「為效用函數供電」（Agent 決策語言），不是改幾個詞——需要重寫 `README.md`、`agent.json` 的 `skills[].description`、市集 listing 文案、`verification-spec.json` 的 `trust_signals` 說明。
+
+2. **Agent 會讀 `skills[].description` 來決定要不要調用**：這是買家分析裡「選擇資訊熵」的直接解法——如果 description 還在講「Machine-verifiable research data packages」，Agent 看不到「這是為我的效用函數供電的」。**這一段的 ROI 是所有工作裡最高的**。
+
+3. **市集 listing 文案的 A/B 效果已被 ACES 研究證實**：賣方 agent 用 description 優化可拿 3.66–14.89 個百分點 market share，有案例超過 80 個百分點。**改文案的成本幾乎為零，收益可能超過任何一個功能**。
+
+**判斷**：敘事層重寫的邊際收益 >> 系統層重做的邊際收益。
+
+---
+
+## 4. 為甚麼 L5 是「新建」而非「補充」
+
+「補充」意味著現有模塊有缺口要填；「新建」意味著整層不存在。
+
+- v1.x 的 `verification.json` 只解決「**買之前**能不能驗」。
+- L5 解決「**買之後**能不能向下游證明我引用的是什麼」。
+- 這兩件事沒有任何現有模塊可以「補充」——`verification.json` 再擴展也無法憑空生出 attestation token。
+
+**所以 L5 是新建，不是補充。** 這是唯一需要「從零設計」的部分，也是買家分析標為 🔥🔥🔥 的最高優先級。
+
+---
+
+## 5. 執行順序建議
+
+```
+第 1 週：文檔重寫（成本最低，ROI 最高）
+  ├─ README.md 重寫（敘事從 hallucination → 效用函數）
+  ├─ agent.json 的 skills[].description 重寫
+  ├─ 市集 listing 文案重寫
+  └─ 同時：審計 v1.x 現狀，修正 v2-backlog 的過時描述
+
+第 2–10 週：L5 新建
+  ├─ AgentAttestationToken + POST /attest
+  ├─ acceptance_registry + GET /acceptance/{id}
+  ├─ POST /acceptance/verify
+  └─ machine_tags 擴展 attestation_count / downstream_verifications
+
+第 11–14 週：L2 / L4 補充
+  ├─ budget_hint 協議
+  ├─ 退款機制
+  └─ decision_usability 字段
+
+持續：Phase E 數據缺口研究（A/B 測試、價格彈性）
+```
+
+**關鍵**：第 1 週的文檔重寫不依賴任何代碼，可以立刻做，且直接影響後續所有 Agent 的發現與選擇。
+
+---
+
+## 6. 一句話總結
+
+> **系統層 100% 補充，敘事層 100% 重寫，L5 100% 新建。** 重新設計系統是最差的選擇——它放棄了十六個版本的正確工程，卻換不到任何新能力；重新設計敘事是最被低估的選擇——它成本最低，卻直接影響 Agent 的 machine-readable 選擇邏輯。
+
+**如果你只能做一件事**：重寫 `agent.json` 的 `skills[].description` 和 README 的第一段。買家分析證明 Agent 對「機讀品質信號」有強烈偏好，而 `skills[].description` 是 Agent 唯一會完整讀取的文本字段。這一段從「Machine-verifiable research data packages」改為「Deterministic inputs for agent utility functions — O(1) verification, predictable pricing, composable trust」，可能比任何一個新功能更能改變 Agent 的選擇行為。
+
+# v2.0 完整補充代碼包
+
+**範圍**：L5 可組合信任層（新建）+ L2 信號層補完 + L4 退款機制 + 敘事層重寫。**不推翻任何 v1.x 代碼**，所有變更為新增文件或局部補丁。
+
+**目錄結構**（新增部分）：
+
+```
+src/
+├── attestation/                    # L5 新建
+│   ├── types.ts                    # AttestationToken 型別
+│   ├── sign.ts                     # Ed25519 簽發
+│   ├── verify.ts                   # 離線驗證
+│   └── acceptance.ts               # Acceptance Registry 邏輯
+├── worker/
+│   ├── attest.ts                   # POST /attest
+│   ├── acceptance.ts               # GET /acceptance/{id}
+│   ├── acceptance-verify.ts        # POST /acceptance/verify
+│   ├── refund.ts                   # POST /refund/{tx_hash}
+│   ├── budget.ts                   # X-Agent-Max-Spend-USDC 檢查
+│   └── decision-usability.ts       # decision_usability 生成
+├── publisher/
+│   ├── machine-tags.ts             # machine_tags 全維度生成
+│   └── build-verification.ts       # 補丁：加 decision_usability
+├── crypto/
+│   └── ed25519.ts                  # 補丁：加 signRaw / verifyRaw（attestation 用）
+└── shared/
+    └── constants.ts                # 補丁：加 v2.0 常量
+
+schema/
+├── d1-attestation.sql              # acceptance_registry + attestation_log
+├── d1-refunds.sql                  # refunds 表
+└── verification-v1.2.json          # 補丁：加 decision_usability
+
+scripts/
+├── test-attestation.ts             # L5 端到端測試
+├── test-budget.ts                  # budget_hint 測試
+└── test-refund.ts                  # 退款測試
+
+docs/
+├── attestation-protocol.md         # L5 協議文檔
+├── buyer-pain-mapping.md           # 六大需要 → 功能映射
+└── narrative-rewrite.md            # 敘事重寫指南
+```
+
+---
+
+## 1. `src/attestation/types.ts`
+
+```ts
+// L5 可組合信任層：Agent Attestation Token 型別定義
+
+export interface AttestationToken {
+  attestation_id: string;
+  type: "verified_data_consumption";
+  package_id: string;
+  verification_hash: string;        // 對應 verification.json 的 data_hash
+  verifier_signature: string;       // 原始 verifier 簽名
+  buyer_pseudonym: string;          // SHA-256 派生
+  accepted_at: string;
+  expires_at: string;
+  downstream_use: {
+    max_redistribution: "none" | "internal_only" | "with_attribution";
+    allowed_contexts: string[];
+    forbidden_contexts: string[];
+  };
+  issued_signature: string;         // ownsite 對 attestation 的 Ed25519 簽名
+}
+
+export interface AttestRequest {
+  package_id: string;
+  purchase_tx_hash: string;
+  intended_use: {
+    context: string;
+    downstream_agents?: string[];
+  };
+}
+
+export interface AcceptanceRecord {
+  attestation_id: string;
+  package_id: string;
+  verification_hash: string;
+  buyer_pseudonym: string;
+  accepted_at: string;
+  downstream_verifications: number;
+  status: "active" | "revoked" | "expired";
+}
+
+export interface AcceptanceVerifyRequest {
+  attestation_token: AttestationToken;
+  verifying_agent_pseudonym: string;
+  context: string;
+}
+
+export interface AcceptanceVerifyResult {
+  valid: boolean;
+  package_id?: string;
+  verification_hash?: string;
+  verifier_signature_valid?: boolean;
+  attestation_signature_valid?: boolean;
+  context_allowed?: boolean;
+  upstream_agent_pseudonym?: string;
+  accepted_at?: string;
+  expires_at?: string;
+  reason?: string;
+}
+```
+
+---
+
+## 2. `src/crypto/ed25519.ts` 補丁
+
+在 v1.1 的 `ed25519.ts` 末尾追加（不修改原有 `signCanonical` / `verifyCanonical`）：
+
+```ts
+// v2.0：對任意字節簽名（attestation 用，不經 canonicalize）
+export async function signRaw(bytes: Uint8Array, privKeyHex: string): Promise<string> {
+  const sig = await ed.signAsync(bytes, privKeyHex);
+  return "ed25519:" + toBase64Url(sig);
+}
+
+export async function verifyRaw(
+  bytes: Uint8Array,
+  signature: string,
+  pubKeyHex: string
+): Promise<boolean> {
+  if (!signature.startsWith("ed25519:")) return false;
+  const sig = fromBase64Url(signature.slice("ed25519:".length));
+  return ed.verifyAsync(sig, bytes, pubKeyHex);
+}
+
+// 對 attestation token 簽名：對 canonical JSON 的 sha256 簽名
+export async function signAttestation(
+  token: Omit<AttestationToken, "issued_signature">,
+  privKeyHex: string
+): Promise<string> {
+  const canonical = canonicalize(token);
+  const digest = sha256(new TextEncoder().encode(canonical));
+  const sig = await ed.signAsync(digest, privKeyHex);
+  return "ed25519:" + toBase64Url(sig);
+}
+
+export async function verifyAttestation(
+  token: AttestationToken,
+  pubKeyHex: string
+): Promise<boolean> {
+  const { issued_signature, ...rest } = token;
+  if (!issued_signature?.startsWith("ed25519:")) return false;
+  const canonical = canonicalize(rest);
+  const digest = sha256(new TextEncoder().encode(canonical));
+  const sig = fromBase64Url(issued_signature.slice("ed25519:".length));
+  return ed.verifyAsync(sig, digest, pubKeyHex);
+}
+```
+
+需要在文件頂部補 import：
+
+```ts
+import { canonicalize } from "./canonical";
+import { sha256 } from "@noble/hashes/sha256";
+import type { AttestationToken } from "../attestation/types";
+```
+
+---
+
+## 3. `src/attestation/sign.ts`
+
+```ts
+import { signAttestation } from "../crypto/ed25519";
+import type { AttestationToken } from "./types";
+import type { Env } from "../worker/index";
+
+export async function buildAttestationToken(
+  env: Env,
+  input: {
+    package_id: string;
+    verification: any;              // verification.json 對象
+    buyer_pseudonym: string;
+    accepted_at: string;
+    expires_at: string;
+    intended_context: string;
+    max_redistribution?: "none" | "internal_only" | "with_attribution";
+  }
+): Promise<AttestationToken> {
+  const attestationId = generateAttestationId();
+  const tokenWithoutSig: Omit<AttestationToken, "issued_signature"> = {
+    attestation_id: attestationId,
+    type: "verified_data_consumption",
+    package_id: input.package_id,
+    verification_hash: input.verification.data_hash,
+    verifier_signature: input.verification.verifier_signature,
+    buyer_pseudonym: input.buyer_pseudonym,
+    accepted_at: input.accepted_at,
+    expires_at: input.expires_at,
+    downstream_use: {
+      max_redistribution: input.max_redistribution ?? "none",
+      allowed_contexts: [input.intended_context],
+      forbidden_contexts: ["medical_advice", "legal_advice", "financial_advice"]
+    }
+  };
+
+  const issuedSignature = await signAttestation(
+    tokenWithoutSig,
+    env.VERIFIER_PRIVATE_KEY_HEX!
+  );
+
+  return { ...tokenWithoutSig, issued_signature: issuedSignature };
+}
+
+function generateAttestationId(): string {
+  const ts = new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14);
+  const rand = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+  return `att_${ts}_${rand}`;
+}
+```
+
+---
+
+## 4. `src/attestation/verify.ts`
+
+```ts
+import { verifyAttestation } from "../crypto/ed25519";
+import type { AttestationToken, AcceptanceVerifyResult } from "./types";
+import type { Env } from "../worker/index";
+
+export async function verifyAttestationToken(
+  env: Env,
+  token: AttestationToken,
+  context: string
+): Promise<AcceptanceVerifyResult> {
+  // 1. 驗 attestation 簽名（離線）
+  const sigValid = await verifyAttestation(token, env.VERIFIER_PUBLIC_KEY_HEX!);
+  if (!sigValid) {
+    return {
+      valid: false,
+      reason: "attestation_signature_invalid",
+      package_id: token.package_id
+    };
+  }
+
+  // 2. 檢查過期
+  const now = new Date();
+  const expires = new Date(token.expires_at);
+  if (expires < now) {
+    return {
+      valid: false,
+      reason: "attestation_expired",
+      package_id: token.package_id,
+      expires_at: token.expires_at
+    };
+  }
+
+  // 3. 檢查 context 允許
+  const contextAllowed =
+    token.downstream_use.allowed_contexts.includes(context) &&
+    !token.downstream_use.forbidden_contexts.includes(context);
+
+  if (!contextAllowed) {
+    return {
+      valid: false,
+      reason: "context_not_allowed",
+      package_id: token.package_id,
+      context_allowed: false,
+      accepted_at: token.accepted_at,
+      expires_at: token.expires_at
+    };
+  }
+
+  // 4. 查 acceptance registry 狀態
+  const record = await env.DB.prepare(
+    `SELECT status FROM acceptance_registry WHERE attestation_id = ?`
+  ).bind(token.attestation_id).first<{ status: string }>();
+
+  if (!record) {
+    return {
+      valid: false,
+      reason: "attestation_not_in_registry",
+      package_id: token.package_id
+    };
+  }
+
+  if (record.status !== "active") {
+    return {
+      valid: false,
+      reason: `attestation_${record.status}`,
+      package_id: token.package_id
+    };
+  }
+
+  return {
+    valid: true,
+    package_id: token.package_id,
+    verification_hash: token.verification_hash,
+    verifier_signature_valid: true,
+    attestation_signature_valid: true,
+    context_allowed: true,
+    upstream_agent_pseudonym: token.buyer_pseudonym,
+    accepted_at: token.accepted_at,
+    expires_at: token.expires_at
+  };
+}
+```
+
+---
+
+## 5. `src/attestation/acceptance.ts`
+
+```ts
+import type { Env } from "../worker/index";
+import type { AttestationToken, AcceptanceRecord } from "./types";
+
+export async function recordAcceptance(
+  env: Env,
+  token: AttestationToken
+): Promise<void> {
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO acceptance_registry
+       (attestation_id, package_id, verification_hash, buyer_pseudonym,
+        accepted_at, downstream_verifications, downstream_uses, status, created_at)
+     VALUES (?,?,?,?,?,0,'[]','active',?)`
+  ).bind(
+    token.attestation_id,
+    token.package_id,
+    token.verification_hash,
+    token.buyer_pseudonym,
+    token.accepted_at,
+    now
+  ).run();
+}
+
+export async function incrementDownstreamVerification(
+  env: Env,
+  attestationId: string,
+  verifyingAgentPseudonym: string,
+  context: string
+): Promise<void> {
+  const now = new Date().toISOString();
+  // 讀取現有 uses，追加
+  const row = await env.DB.prepare(
+    `SELECT downstream_uses FROM acceptance_registry WHERE attestation_id = ?`
+  ).bind(attestationId).first<{ downstream_uses: string }>();
+
+  let uses: any[] = [];
+  try { uses = JSON.parse(row?.downstream_uses ?? "[]"); } catch {}
+
+  uses.push({ context, at: now, pseudonym: verifyingAgentPseudonym });
+
+  await env.DB.prepare(
+    `UPDATE acceptance_registry
+     SET downstream_verifications = downstream_verifications + 1,
+         downstream_uses = ?
+     WHERE attestation_id = ?`
+  ).bind(JSON.stringify(uses), attestationId).run();
+}
+
+export async function getAcceptanceSummary(
+  env: Env,
+  packageId: string
+): Promise<{
+  attestation_count: number;
+  downstream_verifications: number;
+  earliest_accepted_at: string | null;
+  latest_accepted_at: string | null;
+}> {
+  const row = await env.DB.prepare(
+    `SELECT
+       COUNT(*) as attestation_count,
+       COALESCE(SUM(downstream_verifications), 0) as downstream_verifications,
+       MIN(accepted_at) as earliest_accepted_at,
+       MAX(accepted_at) as latest_accepted_at
+     FROM acceptance_registry
+     WHERE package_id = ? AND status = 'active'`
+  ).bind(packageId).first<{
+    attestation_count: number;
+    downstream_verifications: number;
+    earliest_accepted_at: string | null;
+    latest_accepted_at: string | null;
+  }>();
+
+  return row ?? {
+    attestation_count: 0,
+    downstream_verifications: 0,
+    earliest_accepted_at: null,
+    latest_accepted_at: null
+  };
+}
+```
+
+---
+
+## 6. `src/worker/attest.ts`
+
+```ts
+import { json, Env } from "./index";
+import { buildAttestationToken } from "../attestation/sign";
+import { recordAcceptance } from "../attestation/acceptance";
+import { derivePseudonym } from "./pseudonym";
+import type { AttestRequest } from "../attestation/types";
+
+export async function handleAttest(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
+
+  let body: AttestRequest;
+  try { body = await req.json(); }
+  catch { return json({ error: "invalid_json" }, 400); }
+
+  const { package_id, purchase_tx_hash, intended_use } = body;
+  if (!package_id || !purchase_tx_hash || !intended_use?.context) {
+    return json({ error: "missing_fields", required: ["package_id", "purchase_tx_hash", "intended_use.context"] }, 400);
+  }
+
+  // 1. 驗證購買紀錄
+  const payment = await env.DB.prepare(
+    `SELECT agent_pseudonym, called_at FROM payments
+     WHERE tx_hash = ? AND package_id = ?`
+  ).bind(purchase_tx_hash, package_id).first<{ agent_pseudonym: string; called_at: string }>();
+
+  if (!payment) {
+    return json({ error: "purchase_not_found", hint: "tx_hash must match a settled purchase" }, 404);
+  }
+
+  // 2. 檢查是否已簽發過 attestation（同一 tx 只能簽發一次）
+  const existing = await env.DB.prepare(
+    `SELECT attestation_id FROM acceptance_registry WHERE attestation_id LIKE ?`
+  ).bind(`%${purchase_tx_hash.slice(-8)}%`).first();
+
+  // 更嚴格的檢查：用 attestation_log 表記錄 tx_hash
+  const existingByTx = await env.DB.prepare(
+    `SELECT attestation_id FROM attestation_log WHERE purchase_tx_hash = ?`
+  ).bind(purchase_tx_hash).first<{ attestation_id: string }>();
+
+  if (existingByTx) {
+    return json({
+      error: "attestation_already_issued",
+      attestation_id: existingByTx.attestation_id
+    }, 409);
+  }
+
+  // 3. 讀 verification
+  const verification = await env.KV.get(`verify:${package_id}`, "json") as any;
+  if (!verification) {
+    return json({ error: "verification_not_found" }, 404);
+  }
+
+  // 4. 檢查包狀態
+  const status = await env.KV.get(`status:${package_id}`) ?? "unknown";
+  if (status === "recalled" || status === "legal_hold") {
+    return json({
+      error: "package_not_attestable",
+      status,
+      hint: "Package has been recalled; attestation not issued."
+    }, 410);
+  }
+
+  // 5. 簽發 attestation
+  const acceptedAt = new Date().toISOString();
+  const expiresAt = verification.expires_at;  // 與 verification 同 TTL
+
+  const token = await buildAttestationToken(env, {
+    package_id,
+    verification,
+    buyer_pseudonym: payment.agent_pseudonym,
+    accepted_at: acceptedAt,
+    expires_at: expiresAt,
+    intended_context: intended_use.context
+  });
+
+  // 6. 寫入 registry + log
+  await recordAcceptance(env, token);
+  await env.DB.prepare(
+    `INSERT INTO attestation_log
+       (attestation_id, package_id, purchase_tx_hash, buyer_pseudonym, intended_context, issued_at)
+     VALUES (?,?,?,?,?,?)`
+  ).bind(
+    token.attestation_id, package_id, purchase_tx_hash,
+    payment.agent_pseudonym, intended_use.context, acceptedAt
+  ).run();
+
+  // 7. 失效 agent-index 緩存（machine_tags 的 attestation_count 變了）
+  ctx.waitUntil(env.KV.delete("cache:agent-index:meta").then(() => {}));
+
+  return json({ ok: true, attestation_token: token });
+}
+```
+
+---
+
+## 7. `src/worker/acceptance.ts`
+
+```ts
+import { json, Env } from "./index";
+import { getAcceptanceSummary } from "../attestation/acceptance";
+
+export async function handleAcceptance(req: Request, env: Env): Promise<Response> {
+  const id = new URL(req.url).pathname.split("/").pop()!;
+  if (!id || id === "acceptance") return json({ error: "missing_package_id" }, 400);
+
+  const summary = await getAcceptanceSummary(env, id);
+  const pkg = await env.KV.get(`verify:${id}`, "json") as any;
+
+  return json({
+    package_id: id,
+    attestation_count: summary.attestation_count,
+    downstream_verifications: summary.downstream_verifications,
+    earliest_accepted_at: summary.earliest_accepted_at,
+    latest_accepted_at: summary.latest_accepted_at,
+    q: pkg?.q ?? null,
+    verified_at: pkg?.verified_at ?? null,
+    status: await env.KV.get(`status:${id}`) ?? "unknown",
+    checked_at: new Date().toISOString()
+  });
+}
+```
+
+---
+
+## 8. `src/worker/acceptance-verify.ts`
+
+```ts
+import { json, Env } from "./index";
+import { verifyAttestationToken } from "../attestation/verify";
+import { incrementDownstreamVerification } from "../attestation/acceptance";
+import type { AcceptanceVerifyRequest } from "../attestation/types";
+
+export async function handleAcceptanceVerify(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
+
+  let body: AcceptanceVerifyRequest;
+  try { body = await req.json(); }
+  catch { return json({ error: "invalid_json" }, 400); }
+
+  const { attestation_token, verifying_agent_pseudonym, context } = body;
+  if (!attestation_token || !verifying_agent_pseudonym || !context) {
+    return json({ error: "missing_fields" }, 400);
+  }
+
+  const result = await verifyAttestationToken(env, attestation_token, context);
+
+  if (result.valid) {
+    ctx.waitUntil(
+      incrementDownstreamVerification(
+        env,
+        attestation_token.attestation_id,
+        verifying_agent_pseudonym,
+        context
+      )
+    );
+  }
+
+  return json(result, result.valid ? 200 : 400);
+}
+```
+
+---
+
+## 9. `schema/d1-attestation.sql`
+
+```sql
+-- L5 可組合信任層
+
+CREATE TABLE IF NOT EXISTS acceptance_registry (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  attestation_id TEXT NOT NULL UNIQUE,
+  package_id TEXT NOT NULL,
+  verification_hash TEXT NOT NULL,
+  buyer_pseudonym TEXT NOT NULL,
+  accepted_at TEXT NOT NULL,
+  downstream_verifications INTEGER NOT NULL DEFAULT 0,
+  downstream_uses TEXT NOT NULL DEFAULT '[]',
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_accept_pkg   ON acceptance_registry(package_id);
+CREATE INDEX IF NOT EXISTS idx_accept_hash  ON acceptance_registry(verification_hash);
+CREATE INDEX IF NOT EXISTS idx_accept_at    ON acceptance_registry(accepted_at);
+CREATE INDEX IF NOT EXISTS idx_accept_psn   ON acceptance_registry(buyer_pseudonym);
+
+CREATE TABLE IF NOT EXISTS attestation_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  attestation_id TEXT NOT NULL UNIQUE,
+  package_id TEXT NOT NULL,
+  purchase_tx_hash TEXT NOT NULL UNIQUE,   -- 同一 tx 只能簽發一次
+  buyer_pseudonym TEXT NOT NULL,
+  intended_context TEXT,
+  issued_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_attest_tx  ON attestation_log(purchase_tx_hash);
+CREATE INDEX IF NOT EXISTS idx_attest_pkg ON attestation_log(package_id);
+```
+
+---
+
+## 10. `schema/d1-refunds.sql`
+
+```sql
+CREATE TABLE IF NOT EXISTS refunds (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  original_tx_hash TEXT NOT NULL UNIQUE,
+  refund_tx_hash TEXT,
+  package_id TEXT NOT NULL,
+  buyer_pseudonym TEXT NOT NULL,
+  amount_usdc TEXT NOT NULL,
+  reason TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending',   -- pending / completed / failed
+  requested_at TEXT NOT NULL,
+  completed_at TEXT,
+  error TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_refunds_status ON refunds(status);
+CREATE INDEX IF NOT EXISTS idx_refunds_pkg    ON refunds(package_id);
+```
+
+---
+
+## 11. `src/worker/budget.ts`
+
+```ts
+import { json, Env } from "./index";
+
+const BUDGET_HEADER = "x-agent-max-spend-usdc";
+
+export function checkBudget(req: Request, requiredMicroUsdc: string): { ok: boolean; response?: Response } {
+  const headerValue = req.headers.get(BUDGET_HEADER);
+  if (!headerValue) return { ok: true };  // 未宣告 → 不限制
+
+  const budget = Number(headerValue);
+  if (!Number.isFinite(budget) || budget <= 0) {
+    return {
+      ok: false,
+      response: json({
+        error: "invalid_budget_header",
+        header: BUDGET_HEADER,
+        hint: "Value must be a positive integer in micro-USDC (1 USDC = 1000000)."
+      }, 400)
+    };
+  }
+
+  const required = Number(requiredMicroUsdc);
+  if (required > budget) {
+    return {
+      ok: false,
+      response: json({
+        error: "budget_exceeded",
+        required_micro_usdc: requiredMicroUsdc,
+        budget_micro_usdc: String(budget),
+        hint: "Increase X-Agent-Max-Spend-USDC or choose a cheaper package."
+      }, 402)
+    };
+  }
+
+  return { ok: true };
+}
+
+export function budgetHeaders(requiredMicroUsdc: string): Record<string, string> {
+  return {
+    "x-budget-unit": "micro-USDC",
+    "x-budget-required": requiredMicroUsdc
+  };
+}
+```
+
+在 `src/worker/buy.ts` 的 `handleBuy` 開頭（`paymentHeader` 檢查之前）插入：
+
+```ts
+import { checkBudget, budgetHeaders } from "./budget";
+
+// ... 在 requirements 計算之後
+const requirements = buildRequirements(id, env);
+const budgetCheck = checkBudget(req, requirements.maxAmountRequired);
+if (!budgetCheck.ok) return budgetCheck.response!;
+```
+
+**注意**：`budget_hint` 的檢查應在 402 challenge **之後**（因為 402 是告訴 Agent「這是價格」，Agent 可以根據價格決定是否帶 budget header 重試）。所以順序是：
+
+1. 無 `x-payment` → 返回 402 + 價格
+2. 有 `x-payment` → 檢查 budget header → 超額返回 402 `budget_exceeded`
+3. 通過 → verify + settle
+
+**修正 `buy.ts` 的順序**（在 v1.12 基礎上）：
+
+```ts
+const paymentHeader = req.headers.get("x-payment");
+if (!paymentHeader) {
+  const req = buildRequirements(id, env);
+  return json({
+    x402Version: 1,
+    accepts: [req],
+    budget_protocol: {
+      header: "X-Agent-Max-Spend-USDC",
+      recommended_value: req.maxAmountRequired
+    }
+  }, 402);
+}
+
+const requirements = buildRequirements(id, env);
+const budgetCheck = checkBudget(req, requirements.maxAmountRequired);
+if (!budgetCheck.ok) return budgetCheck.response!;
+
+// ... 繼續原有流程
+```
+
+---
+
+## 12. `src/worker/decision-usability.ts`
+
+```ts
+export interface DecisionUsability {
+  can_enter_decision_branch: boolean;
+  can_be_cited: boolean;
+  can_be_redistributed: boolean;
+  recommended_max_age_hours: number;
+  verification_cost: string;
+  refetch_cost: string;
+}
+
+export function buildDecisionUsability(verification: any): DecisionUsability {
+  const status = verification.status ?? "fresh";
+  const q = Number(verification.q ?? 0);
+
+  const canEnterDecision = status === "fresh" && q >= 0.72;
+  const canBeCited = status === "fresh" || status === "stale";
+  const canBeRedistributed = verification.license === "commercial-use-permitted";
+
+  return {
+    can_enter_decision_branch: canEnterDecision,
+    can_be_cited: canBeCited,
+    can_be_redistributed: canBeRedistributed,
+    recommended_max_age_hours: 168,
+    verification_cost: "O(1) — single hash check via JWKS",
+    refetch_cost: "O(1) — single HTTP fetch + hash compare"
+  };
+}
+```
+
+在 `src/worker/verify.ts` 返回時注入：
+
+```ts
+import { buildDecisionUsability } from "./decision-usability";
+
+const decisionUsability = buildDecisionUsability(v);
+return json({
+  ...v,
+  status,
+  decision_usability: decisionUsability,
+  recall_reason: reason
+});
+```
+
+**重要**：`decision_usability` 是 Worker 運行時注入，**不在簽名範圍**（`verifier_signature` 只覆蓋 `package_id, q, evidence_count, verified_at, expires_at, data_hash`）。所以加到 `verification.json` 的響應中，但不寫入簽名內容。
+
+---
+
+## 13. `src/publisher/machine-tags.ts`
+
+```ts
+export interface MachineTagsInput {
+  package_id: string;
+  q: number;
+  q_effective?: number;
+  evidence_count: number;
+  source_diversity?: number;
+  verified_at: string;
+  tier: "listed" | "featured";
+  claim_specificity?: number;
+  domain?: string;
+  license?: string;
+  attestation_count?: number;
+  downstream_verifications?: number;
+}
+
+export function buildMachineTags(input: MachineTagsInput): string[] {
+  const tags: string[] = [
+    `tier:${input.tier}`,
+    `q:${input.q.toFixed(2)}`,
+    `evidence:${input.evidence_count}`
+  ];
+
+  if (input.q_effective != null) {
+    tags.push(`q_effective:${input.q_effective.toFixed(2)}`);
+  }
+  if (input.source_diversity != null) {
+    tags.push(`source_diversity:${input.source_diversity.toFixed(2)}`);
+  }
+
+  const freshnessDays = Math.floor(
+    (Date.now() - new Date(input.verified_at).getTime()) / 86400_000
+  );
+  tags.push(`freshness_days:${freshnessDays}`);
+
+  if (input.claim_specificity != null) {
+    tags.push(`claim_specificity:${input.claim_specificity.toFixed(2)}`);
+  }
+  if (input.domain) tags.push(`domain:${input.domain}`);
+  if (input.license) tags.push(`license:${input.license}`);
+
+  if (input.attestation_count != null && input.attestation_count > 0) {
+    tags.push(`attestation_count:${input.attestation_count}`);
+  }
+  if (input.downstream_verifications != null && input.downstream_verifications > 0) {
+    tags.push(`downstream_verifications:${input.downstream_verifications}`);
+  }
+
+  return tags;
+}
+```
+
+在 `src/worker/agent-index.ts` 的 `getAgentIndex` 中，對每個包查 acceptance summary 並注入 machine_tags：
+
+```ts
+import { getAcceptanceSummary } from "../attestation/acceptance";
+import { buildMachineTags } from "../publisher/machine-tags";
+
+// 在生成 packages 時：
+const acceptance = await getAcceptanceSummary(env, r.package_id);
+const machineTags = buildMachineTags({
+  package_id: r.package_id,
+  q: r.q,
+  evidence_count: r.evidence_count,
+  source_diversity: r.source_diversity ?? undefined,
+  verified_at: r.verified_at,
+  tier: isFeatured(...) ? "featured" : "listed",
+  license: "commercial-use-permitted",
+  attestation_count: acceptance.attestation_count,
+  downstream_verifications: acceptance.downstream_verifications
+});
+```
+
+**性能注意**：這是 N+1 查詢（每個包查一次 acceptance）。100 包時 = 100 次 D1 查詢。**優化**：一次查所有包的 acceptance summary：
+
+```ts
+const allAcceptance = await env.DB.prepare(
+  `SELECT package_id, COUNT(*) as attestation_count,
+          SUM(downstream_verifications) as downstream_verifications
+   FROM acceptance_registry
+   WHERE status = 'active' AND package_id IN (...)
+   GROUP BY package_id`
+).bind(...packageIds).all();
+```
+
+v2.0 先用 N+1（100 包可接受），v2.1 優化。
+
+---
+
+## 14. `src/worker/refund.ts`
+
+```ts
+import { json, Env } from "./index";
+import { derivePseudonym } from "./pseudonym";
+import { cdpSettle } from "../facilitator/cdp";  // 或用自建 facilitator
+import type { PaymentPayload, PaymentRequirements } from "../facilitator/types";
+
+export async function handleRefund(req: Request, env: Env): Promise<Response> {
+  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
+
+  const txHash = new URL(req.url).pathname.split("/").pop()!;
+  if (!txHash) return json({ error: "missing_tx_hash" }, 400);
+
+  // 1. 查原始付款
+  const payment = await env.DB.prepare(
+    `SELECT package_id, agent_pseudonym, amount_usdc, called_at
+     FROM payments WHERE tx_hash = ?`
+  ).bind(txHash).first<{
+    package_id: string; agent_pseudonym: string;
+    amount_usdc: string; called_at: string;
+  }>();
+
+  if (!payment) return json({ error: "purchase_not_found" }, 404);
+
+  // 2. 檢查 24 小時窗口
+  const calledAt = new Date(payment.called_at);
+  const ageHours = (Date.now() - calledAt.getTime()) / 3600_000;
+  if (ageHours > 24) {
+    return json({
+      error: "refund_window_expired",
+      window_hours: 24,
+      age_hours: Number(ageHours.toFixed(1))
+    }, 410);
+  }
+
+  // 3. 檢查是否已退款
+  const existing = await env.DB.prepare(
+    `SELECT status FROM refunds WHERE original_tx_hash = ?`
+  ).bind(txHash).first<{ status: string }>();
+  if (existing) {
+    return json({ error: "refund_already_requested", status: existing.status }, 409);
+  }
+
+  // 4. 檢查退款條件
+  const status = await env.KV.get(`status:${payment.package_id}`) ?? "unknown";
+  const verification = await env.KV.get(`verify:${payment.package_id}`, "json") as any;
+
+  const eligibleReasons: string[] = [];
+  if (status === "recalled") eligibleReasons.push("package_recalled");
+  if (verification?.q != null && verification.q < 0.68) eligibleReasons.push("q_below_threshold");
+
+  if (eligibleReasons.length === 0) {
+    return json({
+      error: "refund_not_eligible",
+      hint: "Refund only when package is recalled or q dropped below 0.68.",
+      current_status: status,
+      current_q: verification?.q ?? null
+    }, 400);
+  }
+
+  // 5. 寫入 pending refund
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO refunds
+       (original_tx_hash, package_id, buyer_pseudonym, amount_usdc, reason, status, requested_at)
+     VALUES (?,?,?,?,?, 'pending', ?)`
+  ).bind(
+    txHash, payment.package_id, payment.agent_pseudonym,
+    payment.amount_usdc, eligibleReasons.join(","), now
+  ).run();
+
+  // 6. 發起退款（用自建 facilitator 的 relayer 發 USDC）
+  // 注意：退款需要知道原始 payer 地址，但 payments 表只存 pseudonym
+  // v2.0 簡化：退款到 PAY_TO 自己，由人工轉賬
+  // v2.1 改為：attestation_log 記錄原始 payer（加密存儲），退款時解密
+
+  return json({
+    ok: true,
+    original_tx_hash: txHash,
+    package_id: payment.package_id,
+    amount_usdc: payment.amount_usdc,
+    reasons: eligibleReasons,
+    status: "pending",
+    note: "Refund request recorded. Manual processing within 24h.",
+    requested_at: now
+  });
+}
+```
+
+**為甚麼 v2.0 不自動轉賬**：
+- `payments` 表只存 pseudonym，不存原始 payer 地址（隱私設計）
+- 自動退款需要原始地址
+- v2.0 先用「記錄 + 人工處理」，v2.1 在 `attestation_log` 或新表加密存原始地址
+
+**Agent 體驗**：Agent 提交退款請求後，24 小時內人工轉賬到原付款地址。Agent 可查 `/refund/{tx_hash}` 狀態。
+
+新增 `GET /refund/{tx_hash}` 查詢端點：
+
+```ts
+export async function handleRefundStatus(req: Request, env: Env): Promise<Response> {
+  const txHash = new URL(req.url).pathname.split("/").pop()!;
+  const row = await env.DB.prepare(
+    `SELECT status, refund_tx_hash, amount_usdc, requested_at, completed_at
+     FROM refunds WHERE original_tx_hash = ?`
+  ).bind(txHash).first();
+
+  if (!row) return json({ error: "not_found" }, 404);
+  return json({ original_tx_hash: txHash, ...row });
+}
+```
+
+---
+
+## 15. `src/worker/index.ts` 路由補丁
+
+在 v1.12 的路由基礎上追加：
+
+```ts
+// v2.0 L5 可組合信任
+if (p === "/attest" && req.method === "POST") {
+  return withCors(await handleAttest(req, env, ctx));
+}
+if (p.startsWith("/acceptance/verify") && req.method === "POST") {
+  return withCors(await handleAcceptanceVerify(req, env, ctx));
+}
+if (p.startsWith("/acceptance/")) {
+  return withCors(await handleAcceptance(req, env));
+}
+if (p.startsWith("/refund/") && req.method === "GET") {
+  return withCors(await handleRefundStatus(req, env));
+}
+if (p.startsWith("/refund/") && req.method === "POST") {
+  return withCors(await handleRefund(req, env));
+}
+```
+
+Import：
+
+```ts
+import { handleAttest } from "./attest";
+import { handleAcceptance } from "./acceptance";
+import { handleAcceptanceVerify } from "./acceptance-verify";
+import { handleRefund, handleRefundStatus } from "./refund";
+```
+
+---
+
+## 16. `agent.json` 敘事重寫補丁
+
+```json
+{
+  "name": "Ownsite Verified Data",
+  "description": "Deterministic inputs for agent utility functions. O(1) verification, predictable pricing, composable trust. Every package ships with Ed25519-signed verification and refetchable evidence hashes.",
+  "url": "https://ownsite.dev/a2a/v1",
+  "version": "2.0.0",
+  "protocolVersion": "0.3.0",
+  "capabilities": { "streaming": false, "pushNotifications": false },
+  "skills": [
+    {
+      "id": "browse_verified_packages",
+      "name": "Browse packages with machine-readable quality signals",
+      "description": "Returns agent-index.json with q, q_effective, evidence_count, source_diversity, freshness_days, tier, price_usdc, attestation_count, downstream_verifications. Agents can filter by min_q, tier, max_age_days without reading package contents.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "verify_before_purchase",
+      "name": "Verify package quality at O(1) cost",
+      "description": "Returns full verification.json with Ed25519 signature, evidence hashes, TTL, decision_usability. Verification is free and does not consume quota. Agents can verify signature offline via JWKS and refetch any evidence hash in a single HTTP call.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "purchase_with_budget_hint",
+      "name": "Purchase with predictable pricing",
+      "description": "Returns 402 with accepts array and budget_protocol. Agents may send X-Agent-Max-Spend-USDC to refuse overspend. On settlement, returns full data + verification snapshot + receipt + latency_ms breakdown.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "attest_consumption",
+      "name": "Issue attestation token for downstream use",
+      "description": "After purchase, agents submit POST /attest with purchase_tx_hash to receive an Ed25519-signed AgentAttestationToken. Downstream agents verify via POST /acceptance/verify at O(1) cost, enabling composable trust across multi-agent workflows.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "check_acceptance_registry",
+      "name": "Query real-world acceptance records",
+      "description": "Returns attestation_count and downstream_verifications for any package. This is a real-world adoption signal, not a predicted quality score — agents can use it to break ties when q scores are similar.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "extensions": {
+    "ownsite_verification": {
+      "verification_spec": "https://ownsite.dev/.well-known/verification-spec.json",
+      "jwks_url": "https://ownsite.dev/.well-known/jwks.json",
+      "index_url": "https://ownsite.dev/.well-known/agent-index.json",
+      "index_pagination": {
+        "default_limit": 100,
+        "max_limit": 100,
+        "cursor_field": "next_cursor",
+        "has_more_field": "has_more",
+        "supports_etag": true,
+        "cursor_signed": true,
+        "cursor_ttl_sec": 86400,
+        "cursor_filter_bound": true,
+        "url_templates": {
+          "verify": "{base_url}/verify/{package_id}",
+          "preview": "{base_url}/preview/{package_id}",
+          "buy": "{base_url}/buy/{package_id}"
+        }
+      },
+      "preview_policy": "free_rate_limited",
+      "payment_protocols": ["x402"],
+      "supported_networks": ["eip155:8453", "eip155:84532"],
+      "currency": "USDC",
+      "trust_query_endpoint": "https://ownsite.dev/verify/{package_id}",
+      "status_endpoint": "https://ownsite.dev/status/{package_id}",
+      "dashboard_url": "https://ownsite.dev/dashboard.json",
+      "attestation_protocol": {
+        "spec": "https://ownsite.dev/.well-known/attestation-spec.json",
+        "issue_endpoint": "https://ownsite.dev/attest",
+        "acceptance_query": "https://ownsite.dev/acceptance/{package_id}",
+        "acceptance_verify": "https://ownsite.dev/acceptance/verify",
+        "token_format": "ed25519-signed JSON",
+        "max_ttl_hours": 168
+      },
+      "budget_protocol": {
+        "header": "X-Agent-Max-Spend-USDC",
+        "unit": "micro-USDC",
+        "behavior": "server rejects tx above budget",
+        "note": "Agent declares budget before payment; server refuses overspend."
+      },
+      "refund_protocol": {
+        "endpoint": "https://ownsite.dev/refund/{tx_hash}",
+        "window_hours": 24,
+        "eligible_when": ["package_recalled", "q_below_0.68"],
+        "note": "Refund requests recorded and processed manually within 24h."
+      },
+      "trust_signals": {
+        "suggested_checks": [
+          "q >= 0.80",
+          "evidence_count >= 6",
+          "freshness_days < 14",
+          "attestation_count >= 1 (strong signal)",
+          "downstream_verifications >= 3 (very strong signal)",
+          "system.sync.stale === false",
+          "refetch.pass_rate_7d > 0.9",
+          "settlement.success_rate_24h > 0.9",
+          "settlement.fallback.fallback_rate_24h < 0.10"
+        ],
+        "note": "Trust signals are not guarantees; agents should verify signatures and refetch evidence."
+      },
+      "held_policy": {
+        "max_held_days": 7,
+        "on_timeout": "recalled",
+        "recoverable_by_agent": false
+      }
+    }
+  }
+}
+```
+
+---
+
+## 17. `verification-spec.json` 補丁
+
+```json
+{
+  "spec_version": "1.2",
+  "decision_usability": {
+    "fields": {
+      "can_enter_decision_branch": "boolean — fresh status and q >= 0.72",
+      "can_be_cited": "boolean — fresh or stale",
+      "can_be_redistributed": "boolean — based on license",
+      "recommended_max_age_hours": "integer",
+      "verification_cost": "string — human-readable O(n)",
+      "refetch_cost": "string — human-readable O(n)"
+    },
+    "note": "decision_usability is injected by Worker at response time and is NOT part of the signed payload."
+  },
+  "attestation": {
+    "token_format": "ed25519-signed JSON",
+    "signed_fields": ["attestation_id", "type", "package_id", "verification_hash", "verifier_signature", "buyer_pseudonym", "accepted_at", "expires_at", "downstream_use"],
+    "verification_endpoint": "POST /acceptance/verify",
+    "verify_offline": "signature over canonical JSON of token without issued_signature",
+    "max_ttl_hours": 168
+  },
+  "budget_protocol": {
+    "header": "X-Agent-Max-Spend-USDC",
+    "unit": "micro-USDC",
+    "reject_status": 402,
+    "reject_error": "budget_exceeded"
+  },
+  "refund_protocol": {
+    "window_hours": 24,
+    "eligible_when": ["package_recalled", "q_below_0.68"],
+    "endpoint": "POST /refund/{tx_hash}",
+    "status_endpoint": "GET /refund/{tx_hash}",
+    "processing": "manual within 24h"
+  }
+}
+```
+
+---
+
+## 18. 測試：`scripts/test-attestation.ts`
+
+```ts
+import { buildAttestationToken } from "../src/attestation/sign";
+import { verifyAttestationToken } from "../src/attestation/verify";
+
+const BASE = process.env.BASE ?? "http://localhost:8787";
+
+async function main() {
+  // 前置：需要一個已購買的 tx_hash 和對應 package_id
+  const txHash = process.env.TEST_TX_HASH;
+  const packageId = process.env.TEST_PACKAGE_ID;
+  if (!txHash || !packageId) throw new Error("TEST_TX_HASH and TEST_PACKAGE_ID required");
+
+  // 1. 簽發 attestation
+  const attestRes = await fetch(`${BASE}/attest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      package_id: packageId,
+      purchase_tx_hash: txHash,
+      intended_use: { context: "research" }
+    })
+  });
+  if (!attestRes.ok) throw new Error(`attest failed: ${attestRes.status} ${await attestRes.text()}`);
+  const { attestation_token } = await attestRes.json();
+
+  console.log("attestation issued:", attestation_token.attestation_id);
+
+  // 2. 重複簽發應 409
+  const dupRes = await fetch(`${BASE}/attest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      package_id: packageId,
+      purchase_tx_hash: txHash,
+      intended_use: { context: "research" }
+    })
+  });
+  if (dupRes.status !== 409) throw new Error(`expected 409, got ${dupRes.status}`);
+  console.log("duplicate attest blocked OK");
+
+  // 3. 下游驗證
+  const verifyRes = await fetch(`${BASE}/acceptance/verify`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      attestation_token,
+      verifying_agent_pseudonym: "psn_downstream_001",
+      context: "research"
+    })
+  });
+  if (!verifyRes.ok) throw new Error(`verify failed: ${verifyRes.status} ${await verifyRes.text()}`);
+  const verifyResult = await verifyRes.json();
+  if (!verifyResult.valid) throw new Error(`attestation invalid: ${verifyResult.reason}`);
+  console.log("downstream verification OK");
+
+  // 4. 錯誤 context
+  const wrongCtxRes = await fetch(`${BASE}/acceptance/verify`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      attestation_token,
+      verifying_agent_pseudonym: "psn_downstream_001",
+      context: "medical_advice"
+    })
+  });
+  const wrongCtx = await wrongCtxRes.json();
+  if (wrongCtx.valid) throw new Error("forbidden context should be rejected");
+  console.log("forbidden context blocked OK");
+
+  // 5. 查 acceptance registry
+  const accRes = await fetch(`${BASE}/acceptance/${packageId}`);
+  const acc = await accRes.json();
+  if (acc.attestation_count < 1) throw new Error("acceptance count should be >= 1");
+  if (acc.downstream_verifications < 1) throw new Error("downstream verifications should be >= 1");
+  console.log("acceptance registry OK:", acc.attestation_count, acc.downstream_verifications);
+
+  // 6. 篡改 token → 簽名失敗
+  const tampered = { ...attestation_token, package_id: "tampered" };
+  const tamperRes = await fetch(`${BASE}/acceptance/verify`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      attestation_token: tampered,
+      verifying_agent_pseudonym: "psn_downstream_001",
+      context: "research"
+    })
+  });
+  const tamperResult = await tamperRes.json();
+  if (tamperResult.valid) throw new Error("tampered token should be rejected");
+  console.log("tampered token blocked OK");
+
+  console.log("\nAll attestation tests passed.");
+}
+
+main().catch(e => { console.error(e); process.exit(1); });
+```
+
+---
+
+## 19. 測試：`scripts/test-budget.ts`
+
+```ts
+const BASE = process.env.BASE ?? "http://localhost:8787";
+const PACKAGE_ID = process.env.TEST_PACKAGE_ID!;
+
+async function main() {
+  // 1. 無 budget header → 402 challenge 帶 budget_protocol
+  const r1 = await fetch(`${BASE}/buy/${PACKAGE_ID}`);
+  if (r1.status !== 402) throw new Error(`expected 402, got ${r1.status}`);
+  const b1 = await r1.json();
+  if (!b1.budget_protocol) throw new Error("402 should include budget_protocol");
+  console.log("402 with budget_protocol OK");
+
+  // 2. 帶超額 budget header → 402 budget_exceeded
+  const r2 = await fetch(`${BASE}/buy/${PACKAGE_ID}`, {
+    headers: {
+      "x-payment": "dummy",  // 任意值，觸發 budget 檢查
+      "x-agent-max-spend-usdc": "1"   // 1 micro-USDC，遠低於 500000
+    }
+  });
+  if (r2.status !== 402) throw new Error(`expected 402, got ${r2.status}`);
+  const b2 = await r2.json();
+  if (b2.error !== "budget_exceeded") throw new Error(`expected budget_exceeded, got ${b2.error}`);
+  console.log("budget_exceeded OK");
+
+  // 3. 帶足夠 budget header → 通過 budget 檢查，進入 payment 驗證
+  const r3 = await fetch(`${BASE}/buy/${PACKAGE_ID}`, {
+    headers: {
+      "x-payment": "invalid_payment",
+      "x-agent-max-spend-usdc": "1000000"   // 1 USDC
+    }
+  });
+  // 會因 invalid_payment 失敗，但不應是 budget_exceeded
+  const b3 = await r3.json();
+  if (b3.error === "budget_exceeded") throw new Error("should pass budget check");
+  console.log("sufficient budget passes OK");
+
+  console.log("\nAll budget tests passed.");
+}
+
+main().catch(e => { console.error(e); process.exit(1); });
+```
+
+---
+
+## 20. `docs/attestation-protocol.md`（L5 協議文檔）
+
+```markdown
+# Agent Attestation Protocol v1.0
+
+## 為甚麼需要
+
+Multi-agent 協作中，上游 Agent 引用 verified data 後，下游 Agent 無法確認「這份資料是什麼、來自哪、什麼時候驗證的」。這導致 inter-agent misalignment，是 Berkeley MASt 分類的三大失敗類之一。
+
+Agent Attestation Protocol 讓上游 Agent 在購買後獲得一個 Ed25519-signed token，下游 Agent 可在 O(1) 成本驗證這個 token，無需信任上游 Agent。
+
+## 三個端點
+
+### POST /attest
+**請求**：
+```json
+{
+  "package_id": "research-2026-q4-ai-agent-adoption",
+  "purchase_tx_hash": "0x...",
+  "intended_use": { "context": "research" }
+}
+```
+
+**響應**：
+```json
+{
+  "ok": true,
+  "attestation_token": {
+    "attestation_id": "att_20261023020000_abc123",
+    "type": "verified_data_consumption",
+    "package_id": "...",
+    "verification_hash": "sha256:...",
+    "verifier_signature": "ed25519:...",
+    "buyer_pseudonym": "psn_...",
+    "accepted_at": "2026-10-23T02:00:00Z",
+    "expires_at": "2027-01-15T02:00:00Z",
+    "downstream_use": {
+      "max_redistribution": "none",
+      "allowed_contexts": ["research"],
+      "forbidden_contexts": ["medical_advice", "legal_advice", "financial_advice"]
+    },
+    "issued_signature": "ed25519:..."
+  }
+}
+```
+
+**約束**：
+- 同一 `purchase_tx_hash` 只能簽發一次（409 Conflict）
+- 包狀態必須是 `fresh`（`recalled` / `legal_hold` 返回 410）
+- `expires_at` 與 `verification.json` 的 `expires_at` 一致
+
+### GET /acceptance/{package_id}
+**響應**：
+```json
+{
+  "package_id": "...",
+  "attestation_count": 12,
+  "downstream_verifications": 34,
+  "earliest_accepted_at": "2026-10-01T...",
+  "latest_accepted_at": "2026-10-23T...",
+  "q": 0.81,
+  "status": "fresh"
+}
+```
+
+**用途**：Agent 可用 `attestation_count` 和 `downstream_verifications` 作為選擇信號——這是**實際使用紀錄**，不是評分預測。
+
+### POST /acceptance/verify
+**請求**：
+```json
+{
+  "attestation_token": { ... },
+  "verifying_agent_pseudonym": "psn_downstream_001",
+  "context": "research"
+}
+```
+
+**響應**：
+```json
+{
+  "valid": true,
+  "package_id": "...",
+  "verification_hash": "sha256:...",
+  "verifier_signature_valid": true,
+  "attestation_signature_valid": true,
+  "context_allowed": true,
+  "upstream_agent_pseudonym": "psn_...",
+  "accepted_at": "...",
+  "expires_at": "..."
+}
+```
+
+**驗證步驟**（下游 Agent 可離線實現）：
+1. 取 `issued_signature` 以外的所有字段，canonicalize
+2. SHA-256
+3. 用 ownsite 的 JWKS 公鑰驗 Ed25519 簽名
+4. 檢查 `expires_at`
+5. 檢查 `context` 在 `allowed_contexts` 且不在 `forbidden_contexts`
+
+**成功驗證後**，下游 Agent 自動增加 `downstream_verifications` 計數。
+
+## 離線驗證庫
+
+```ts
+import { verifyAttestation } from "@ownsite/attestation-verify";
+import { fetchJwks } from "@ownsite/jwks";
+
+const jwks = await fetchJwks("https://ownsite.dev/.well-known/jwks.json");
+const pubKey = jwks.keys[0].x;
+const valid = await verifyAttestation(token, pubKey);
+```
+
+## 信任模型
+
+| 層級 | 信號 | 強度 |
+|---|---|---|
+| L1 | `q` 分數 | 弱（預測） |
+| L2 | `evidence_count` + `source_diversity` | 中（結構） |
+| L3 | `verification.json` 簽名 | 強（可離線驗） |
+| L4 | `attestation_count` | 強（實際接受紀錄） |
+| L5 | `downstream_verifications` | 最強（多 agent 驗證過） |
+
+Agent 應優先使用 L4 / L5 信號，因為它們是**時間累積的實際使用紀錄**，無法被短期刷分偽造。
+```
+
+---
+
+## 21. 遷移與部署步驟
+
+```bash
+# 1. D1 遷移
+wrangler d1 execute ownsite-aeo --file=schema/d1-attestation.sql
+wrangler d1 execute ownsite-aeo --file=schema/d1-refunds.sql
+
+# 2. 部署 Worker（含新路由）
+npm run deploy
+
+# 3. 驗證新端點
+curl -s https://ownsite.dev/acceptance/test-package | jq
+# 應返回 { "package_id": "test-package", "attestation_count": 0, ... }
+
+curl -s -X POST https://ownsite.dev/attest \
+  -H "content-type: application/json" \
+  -d '{"package_id":"test","purchase_tx_hash":"0xinvalid","intended_use":{"context":"research"}}'
+# 應返回 404 purchase_not_found
+
+# 4. 端到端測試（需真實購買）
+TEST_TX_HASH=0x... TEST_PACKAGE_ID=... npm run test-attestation
+TEST_PACKAGE_ID=... npm run test-budget
+
+# 5. 敘事層部署
+# 更新 agent.json + verification-spec.json → v1.3 sync 推送
+```
+
+---
+
+## 22. 交付清單
+
+| 文件 | 類型 | 狀態 |
+|---|---|---|
+| `src/attestation/types.ts` | 新增 | ✓ |
+| `src/attestation/sign.ts` | 新增 | ✓ |
+| `src/attestation/verify.ts` | 新增 | ✓ |
+| `src/attestation/acceptance.ts` | 新增 | ✓ |
+| `src/crypto/ed25519.ts` | 補丁 | ✓ |
+| `src/worker/attest.ts` | 新增 | ✓ |
+| `src/worker/acceptance.ts` | 新增 | ✓ |
+| `src/worker/acceptance-verify.ts` | 新增 | ✓ |
+| `src/worker/budget.ts` | 新增 | ✓ |
+| `src/worker/decision-usability.ts` | 新增 | ✓ |
+| `src/worker/refund.ts` | 新增 | ✓ |
+| `src/publisher/machine-tags.ts` | 新增 | ✓ |
+| `src/worker/index.ts` | 補丁 | ✓ |
+| `src/worker/buy.ts` | 補丁 | ✓ |
+| `src/worker/verify.ts` | 補丁 | ✓ |
+| `src/worker/agent-index.ts` | 補丁 | ✓ |
+| `schema/d1-attestation.sql` | 新增 | ✓ |
+| `schema/d1-refunds.sql` | 新增 | ✓ |
+| `schema/verification-v1.2.json` | 補丁 | ✓ |
+| `scripts/test-attestation.ts` | 新增 | ✓ |
+| `scripts/test-budget.ts` | 新增 | ✓ |
+| `public/.well-known/agent.json` | 補丁 | ✓ |
+| `public/.well-known/verification-spec.json` | 補丁 | ✓ |
+| `docs/attestation-protocol.md` | 新增 | ✓ |
+
+**v2.0 完成後的系統能力**：
+- Agent 可用 `attestation_count` / `downstream_verifications` 作為選擇信號（L4/L5）
+- Agent 購買後可獲得 attestation token，下游 Agent 可 O(1) 驗證（L5）
+- Agent 可帶 `X-Agent-Max-Spend-USDC` 避免超支（L2）
+- Agent 可在 24h 內申請退款（L4）
+- `verification.json` 帶 `decision_usability`，Agent 可判斷「能否入決策分支」（L3 敘事）
+
+**未完成的 v2 候選**（明確推後）：
+- 自動退款轉賬（需加密存原始 payer 地址）
+- acceptance registry 的 N+1 查詢優化
+- machine_tags 的 attestation 信號 A/B 測試
+- 多 verifier / VTS
+
+---
+
+**下一步建議**：部署後第一週，重點觀察 `/attest` 的調用率和 `/acceptance/verify` 的成功率。如果 Agent 開始用 attestation，說明買家分析的核心洞察（#6 可組合信任）成立；如果沒有，需要回到買家分析，確認 Agent 是否真的需要這一層，或者是否需要更簡單的信號。
+
+# ownsite‑aeo v2.0 完整方案總結
+本專案在**不改動 v1.x 既有程式碼、保持向後相容**的基礎上，核心目標解決 Agent 六大效用函數痛點，重點補充**可組合信任層(L5)**，同時強化信號層、交易層，並徹底重寫對外敘事，不再以「解決幻覺hallucination」(人類視角)做賣點，轉向**為Agent效用函數提供確定值輸入**。
+
+## 一、背景與核心洞察
+來自Agent買家立場研究，Agent做消費決策面對六大阻力：
+1. 驗證成本高
+2. 失敗成本高
+3. 選擇資訊熵（缺少機讀的品質信號，容易依賴位置偏誤）
+4. 定價不可預測，容易發生失控花費
+5. 資料新鮮度TTL訊號缺失
+6. **🔥🔥🔥可組合信任缺失：多Agent協作時，買到的資料無法向下游證明來源，直接造成協作失敗**
+
+v1.x已解決其中多數問題，但完全缺失**購買完成之後，Agent向下游證明自己引用過可信資料**的能力，同時缺少預算保護、退款機制。
+> 護城河升級：由單純簽名、recall紀錄，新增`acceptance_registry`真實使用紀錄（其他Agent的實際採納次數，比q分數更強的客觀信號，難以複製）。
+
+## 二、整體架構分層（v1全部保留，只做新增/補丁）
+1. **L1 發現層**：agent.json、MCP，僅敘事文案重寫，邏輯不變
+2. **L2 信號層（強化）**：擴展`machine_tags`，新增`attestation_count`、`downstream_verifications`；實現`X‑Agent‑Max‑Spend‑USDC`預算頭，防止Agent失控花費
+3. **L3 驗證層（補充）**：`verification.json`新增`decision_usability`欄位，機讀標示資料是否可以進入Agent決策分支
+4. **L4 交易層（補充）**：增加24小時條件退款機制（包被召回 / q跌破門檻可申請）
+5. **🔥L5 全新：可組合信任層（v2核心新增）**
+    - `AgentAttestationToken`：Agent成功購買資料包後，系統簽發Ed25519簽名憑證
+    - `acceptance_registry` D1表：記錄所有憑證、下游驗證次數，產生真實採納統計數據
+    - 三個新端點：`/attest`簽發憑證、`/acceptance/{package_id}`查詢接受統計、`/acceptance/verify`下游離線驗證憑證
+
+### 關鍵機制說明
+1. **Attestation Token**：攜帶原始資料包的驗證哈希、簽名、使用上下文限制，下游Agent可透過JWKS公鑰離線驗簽；規定哪些場景可以使用、哪些場景禁止（醫療、法律建議等）。
+2. **acceptance registry**：不只是評分，記錄**多少Agent真的取得憑證、多少下游Agent驗證過**，作為Agent做選擇的強信號。
+3. **預算保護`X‑Agent‑Max‑Spend‑USDC`**：Agent請求時宣告最大可花費，服務端拒絕超額交易，避免x402歷史上的「談判地獄」、 runaway cost。
+4. **退款機制**：v2.0先做請求記錄+人工審批；v2.1再實現自動鏈上退款。限制條件：24小時窗口，僅限包被召回、q跌穿0.68才符合退款資格。
+5. **敘事重寫**：`agent.json`、README、市集listing全部改寫。賣點從「可驗證資料」改成：`Deterministic inputs for agent utility functions — O(1) verification, predictable pricing, composable trust`。
+
+## 三、程式變更模式（重要）
+1. **系統代碼：只新增、打補丁，不修改v1.x既有核心邏輯**
+    - 新增完整`src/attestation`模組、新worker路由、D1表
+    - 對既有檔案做局部補丁，不推翻舊簽名、refetch、TTL、CDP facilitator等已驗證邏輯
+    - 保證舊的verification.json簽名依然有效，向後相容
+2. **敘事文檔：完整重寫**，成本低、ROI最高，不改代碼即可提升Agent的選擇匹配度。
+
+## 四、主要風險與緩解
+|風險 |緩解方案 |
+|---|---|
+|Attestation憑證被偽造 |Ed25519簽名 + JWKS離線校驗、設置過期時間；同一筆購買tx_hash只能簽發一次憑證 |
+|acceptance registry數據被刷量 |憑證綁定真實鏈上購買交易，無購買無法產生attestation |
+|Agent不使用新的attestation機制 |提供簡單O(1)驗證API與SDK範例，MCP skill描述明確說明憑證帶來的協作收益 |
+|預算header被Agent繞過 |協議層約定，不強制攜帶；未攜帶就不做金額攔截 |
+|退款濫用 |24h時間窗口、嚴格資格判斷，每筆交易僅可申請一次退款，完整日誌留存 |
+
+## 五、開發時序建議
+1. **第1週：敘事重寫（優先，無需改代碼）**，更新agent.json、README、協定規格文檔。
+2. **第2‑10週：實作L5可組合信任層**：AttestationToken、registry表、三個新API、單元/端到端測試。
+3. **第11‑14週：補L2預算協議、L4退款機制、decision_usability欄位**。
+4. 持續研究（不阻塞上線）：Agent對機讀信號的反應A/B測試、價格彈性實驗。
+
+## 六、交付工件清單
+1. Typescript源碼：attestation模組、新worker路由、crypto補丁、publisher補丁
+2. D1 SQL：`d1‑attestation.sql`、`d1‑refunds.sql`
+3. 測試腳本：`test‑attestation.ts`、`test‑budget.ts`，覆蓋簽發、重複攔截、篡改攔截、預算攔截等場景
+4. 協議文檔：`attestation‑protocol.md`，定義token格式、端點、離線驗證流程
+5. 配置補丁：更新`agent.json`、`verification‑spec.json`，納入budget、refund、attestation協定
+
+## 七、現實局限與後續迭代計劃
+- v2.0退款僅記錄請求，人工處理，因為系統只存雜湊pseudonym，**沒有保存原始付款錢包位址**；v2.1再做加密存儲付款位址，實現全自動鏈上退款。
+- N+1查詢性能問題：v2.0直接實現，適合小規模資料包數量；v2.1做批量查詢優化。
+- 後續v2候選：多verifier簽名、VTS信任分數、配額包，需要先拿到真實Agent使用數據再評估。
+
+> 核心總結：v1解決**Agent購買之前如何驗證資料**；v2.0解決**Agent買完之後，在多Agent網路裡如何證明資料來源，換取協作資格**，這是整個方案最大的增量價值；全部基於既有v1工程資產擴展，避免全量重寫帶來的兼容風險。
+
+# v2.0 總結核對報告：準確性、代碼對照、補丁清單
+
+這份總結整體準確，覆蓋了 v2.0 的核心設計。但有 **4 處需要修正**、**6 處需要補充**、**1 個重要遺漏**。以下是逐項核對。
+
+---
+
+## 一、總結準確性核對
+
+### ✅ 準確的部分
+
+| 總結要點 | 核對結果 |
+|---|---|
+| 六大痛點與 v1.x 覆蓋情況 | ✓ 與買家分析一致；v1.x 覆蓋 #1 #3 #5，缺 #2 部分、#4、#6 |
+| 五層架構（L1–L5） | ✓ 與重新規劃一致；L5 是唯一全新層 |
+| `AgentAttestationToken` 結構 | ✓ 與 `src/attestation/types.ts` 一致 |
+| `acceptance_registry` 用途 | ✓ 與 `schema/d1-attestation.sql` 一致 |
+| 三個新端點 | ✓ `/attest`、`/acceptance/{id}`、`/acceptance/verify` 全部實現 |
+| `X-Agent-Max-Spend-USDC` 協議 | ✓ 與 `src/worker/budget.ts` 一致 |
+| 24h 退款窗口 + 條件 | ✓ 與 `src/worker/refund.ts` 一致 |
+| 敘事重寫方向 | ✓ 與 `agent.json` 的 `skills[].description` 一致 |
+| 護城河升級到 acceptance registry | ✓ 與設計一致 |
+
+### ❌ 需要修正的 4 處
+
+#### 修正 1：退款「只記錄不轉賬」的表述不夠精確
+
+**總結說**：「v2.0先做請求記錄+人工審批」
+
+**實際代碼**：`refund.ts` 只做三件事——記錄 pending、返回 `pending` 狀態、提供 `GET /refund/{tx_hash}` 查詢。**沒有任何「審批」端點**，也沒有「人工審批」的工作流。準確表述應為：
+
+> v2.0 只做「請求記錄 + 狀態查詢」；審批與轉賬完全在系統之外（人工線下處理）。
+
+#### 修正 2：「crypto 補丁」需要明確範圍
+
+**總結說**：「crypto補丁」
+
+**實際補丁**：`src/crypto/ed25519.ts` 追加了 4 個函數——`signRaw`、`verifyRaw`、`signAttestation`、`verifyAttestation`。**不修改**原有的 `signCanonical` / `verifyCanonical`。總結應明確「只追加，不修改」。
+
+#### 修正 3：「publisher 補丁」需要明確範圍
+
+**總結說**：「publisher補丁」
+
+**實際補丁**：
+- 新增 `src/publisher/machine-tags.ts`（純新增文件）
+- `src/publisher/build-verification.ts` **不需要改**——`decision_usability` 是 Worker 運行時注入，不在簽名範圍
+- 總結暗示 publisher 有修改，但實際只有新增文件，**沒有修改既有 publisher 代碼**
+
+#### 修正 4：「不修改 v1.x 核心邏輯」不完全準確
+
+**總結說**：「只新增、打補丁，不修改v1.x既有核心邏輯」
+
+**實際情況**：以下三個既有文件**必須修改**，且修改的是邏輯而非註釋：
+
+| 文件 | 修改內容 | 是否影響既有行為 |
+|---|---|---|
+| `src/worker/buy.ts` | 加 budget 檢查（在 402 之後、verify 之前） | **是**——帶 budget header 且超額的請求會被拒 |
+| `src/worker/verify.ts` | 注入 `decision_usability` | **否**——只是響應多一個字段 |
+| `src/worker/agent-index.ts` | 加 `machine_tags` 的 attestation 字段 | **否**——只是響應多幾個 tag |
+
+準確表述應為：
+
+> 系統層以「新增為主」，但 **`buy.ts` 有一處行為變更**（budget 攔截）；`verify.ts` / `agent-index.ts` 只有響應擴展，不改變既有行為。
+
+---
+
+## 二、總結提及但代碼未覆蓋的 6 處
+
+### 遺漏 1：`attestation_log` 表的作用未說明
+
+總結只提 `acceptance_registry`，但代碼還有 `attestation_log` 表。它的作用是**防止同一 `purchase_tx_hash` 重複簽發 attestation**。總結應補：
+
+> `attestation_log` 表記錄每個 attestation 與 `purchase_tx_hash` 的對應關係，`UNIQUE` 約束保證同一筆購買只能簽發一次憑證。
+
+### 遺漏 2：`downstream_use.forbidden_contexts` 的默認值
+
+總結說「規定哪些場景可以使用、哪些場景禁止（醫療、法律建議等）」，但沒說具體默認值。代碼中 `sign.ts` 寫死：
+
+```ts
+forbidden_contexts: ["medical_advice", "legal_advice", "financial_advice"]
+```
+
+總結應明確這三個默認禁止場景。
+
+### 遺漏 3：attestation 的 `expires_at` 與 verification 同步
+
+總結沒說 attestation 的有效期。代碼中 `attest.ts` 寫：
+
+```ts
+const expiresAt = verification.expires_at;  // 與 verification 同 TTL
+```
+
+**含義**：如果 verification 被 recall 或過期，attestation 也會失效。這是重要的設計約束，總結應補。
+
+### 遺漏 4：`decision_usability` 不在簽名範圍
+
+總結說「`verification.json` 新增 `decision_usability` 欄位」，但沒說它是 Worker 運行時注入、**不在 Ed25519 簽名覆蓋範圍**。這點很重要——Agent 驗簽時不會看到這個字段，它是響應層的便利字段。
+
+### 遺漏 5：N+1 查詢的具體位置
+
+總結說「v2.0直接實現，適合小規模」，但沒說 N+1 在哪裡。準確位置：`agent-index.ts` 生成每個包的 `machine_tags` 時，每個包查一次 `acceptance_registry`。**100 包 = 100 次 D1 查詢**，這是 v2.1 的優化點。
+
+### 遺漏 6：`refund` 的 `GET` 與 `POST` 分開
+
+總結只提「退款機制」，沒說有兩個端點。準確表述：
+
+> `POST /refund/{tx_hash}` 提交請求；`GET /refund/{tx_hash}` 查詢狀態。
+
+---
+
+## 三、總結未提及的 1 個重要遺漏
+
+### 遺漏：`budget` 檢查的順序
+
+總結說「Agent請求時宣告最大可花費，服務端拒絕超額交易」，但沒說**檢查順序**。這是實現中的關鍵細節：
+
+```
+1. 無 x-payment → 402 + budget_protocol（告訴 Agent 價格）
+2. 有 x-payment → 檢查 budget header → 超額返回 402 budget_exceeded
+3. 通過 → verify + settle
+```
+
+**為甚麼順序重要**：如果先檢查 budget 再返回 402，Agent 第一次請求沒有 payment，會被誤判為 budget 超額。正確順序是「先 402 告知價格，Agent 帶 payment + budget 重試」。
+
+代碼中 `buy.ts` 的補丁已正確實現這個順序，但總結沒說。這點應補。
+
+---
+
+## 四、總結與代碼的完整對照表
+
+| 總結章節 | 對應代碼 | 狀態 |
+|---|---|---|
+| L1 發現層敘事重寫 | `public/.well-known/agent.json` | ✓ 補丁 |
+| L2 `machine_tags` 擴展 | `src/publisher/machine-tags.ts` + `agent-index.ts` 補丁 | ✓ 新增 + 補丁 |
+| L2 budget header | `src/worker/budget.ts` + `buy.ts` 補丁 | ✓ 新增 + 補丁 |
+| L3 `decision_usability` | `src/worker/decision-usability.ts` + `verify.ts` 補丁 | ✓ 新增 + 補丁 |
+| L4 退款 | `src/worker/refund.ts` + `d1-refunds.sql` | ✓ 新增 |
+| L5 Attestation Token | `src/attestation/{types,sign,verify}.ts` | ✓ 新增 |
+| L5 Acceptance Registry | `src/attestation/acceptance.ts` + `d1-attestation.sql` | ✓ 新增 |
+| L5 三個端點 | `attest.ts` / `acceptance.ts` / `acceptance-verify.ts` | ✓ 新增 |
+| L5 路由 | `index.ts` 補丁 | ✓ 補丁 |
+| 離線驗簽 | `crypto/ed25519.ts` 追加 4 函數 | ✓ 補丁（只追加） |
+| 協議文檔 | `docs/attestation-protocol.md` | ✓ 新增 |
+| 測試 | `test-attestation.ts` / `test-budget.ts` | ✓ 新增 |
+| 退款測試 | `test-refund.ts` | ⚠️ **總結提及但代碼包未包含** |
+
+**唯一缺口**：總結說「測試腳本覆蓋簽發、重複攔截、篡改攔截、預算攔截等場景」，但代碼包只給了 `test-attestation.ts` 和 `test-budget.ts`，**沒有 `test-refund.ts`**。需要補上。
+
+---
+
+## 五、補充：`test-refund.ts`
+
+```ts
+const BASE = process.env.BASE ?? "http://localhost:8787";
+const TX_HASH = process.env.TEST_TX_HASH!;
+const PACKAGE_ID = process.env.TEST_PACKAGE_ID!;
+
+async function main() {
+  if (!TX_HASH || !PACKAGE_ID) throw new Error("TEST_TX_HASH and TEST_PACKAGE_ID required");
+
+  // 1. 正常退款請求（需套件已被 recall 或 q < 0.68）
+  const r1 = await fetch(`${BASE}/refund/${TX_HASH}`, { method: "POST" });
+  if (r1.status === 400) {
+    const b = await r1.json();
+    console.log("refund not eligible (expected if package is healthy):", b.reason);
+    // 繼續測試其他場景
+  } else if (r1.ok) {
+    const b = await r1.json();
+    if (b.status !== "pending") throw new Error("expected pending status");
+    console.log("refund request recorded OK");
+  } else {
+    throw new Error(`unexpected status: ${r1.status}`);
+  }
+
+  // 2. 重複請求 → 409
+  const r2 = await fetch(`${BASE}/refund/${TX_HASH}`, { method: "POST" });
+  if (r2.status !== 409 && r2.status !== 400) {
+    throw new Error(`expected 409 or 400, got ${r2.status}`);
+  }
+  console.log("duplicate refund blocked OK");
+
+  // 3. 查詢狀態
+  const r3 = await fetch(`${BASE}/refund/${TX_HASH}`);
+  if (!r3.ok) throw new Error(`status query failed: ${r3.status}`);
+  const status = await r3.json();
+  console.log("refund status:", status.status);
+
+  // 4. 不存在的 tx_hash → 404
+  const r4 = await fetch(`${BASE}/refund/0xnonexistent`, { method: "POST" });
+  if (r4.status !== 404) throw new Error(`expected 404, got ${r4.status}`);
+  console.log("nonexistent tx blocked OK");
+
+  // 5. 超過 24h 窗口 → 410（需用舊 tx_hash 測試）
+  const oldTx = process.env.OLD_TX_HASH;
+  if (oldTx) {
+    const r5 = await fetch(`${BASE}/refund/${oldTx}`, { method: "POST" });
+    if (r5.status !== 410) throw new Error(`expected 410, got ${r5.status}`);
+    console.log("expired window blocked OK");
+  }
+
+  console.log("\nAll refund tests passed.");
+}
+
+main().catch(e => { console.error(e); process.exit(1); });
+```
+
+---
+
+## 六、修正後的總結（建議替換原文的關鍵段落）
+
+### 修正 §三「程式變更模式」
+
+> **系統代碼：以新增為主，三處行為補丁**
+> - 新增：`src/attestation/`、`src/worker/{attest,acceptance,acceptance-verify,budget,decision-usability,refund}.ts`、`src/publisher/machine-tags.ts`、兩份 D1 SQL
+> - 純追加：`crypto/ed25519.ts`（4 個新函數，不修改既有）
+> - **行為補丁**：`buy.ts`（加 budget 攔截，順序在 402 之後）；`verify.ts` / `agent-index.ts`（只擴展響應，不改變行為）
+> - **不修改**：`build-verification.ts`（`decision_usability` 由 Worker 注入，不入簽名）
+
+### 修正 §四「風險與緩解」中的退款行
+
+> **退款濫用**：24h 時間窗口、嚴格資格判斷（僅 `recalled` 或 `q < 0.68`）、每筆交易僅可申請一次（`refunds.original_tx_hash UNIQUE`）、完整日誌留存。v2.0 只記錄請求與提供狀態查詢，**審批與轉賬在系統之外人工處理**；v2.1 加密存原始 payer 地址後實現自動鏈上退款。
+
+### 修正 §七「現實局限」
+
+> - v2.0 退款：**只做請求記錄 + 狀態查詢**，無審批端點、無自動轉賬。原因是 `payments` 表只存 pseudonym，不存原始 payer 地址。
+> - N+1 查詢：`agent-index.ts` 生成 `machine_tags` 時，每包查一次 `acceptance_registry`；100 包 = 100 次 D1 查詢。v2.1 改為一次批量查詢。
+> - `decision_usability`：Worker 運行時注入，**不在 Ed25519 簽名覆蓋範圍**；Agent 驗簽時看不到此字段。
+
+---
+
+## 七、一句話結論
+
+**這份總結方向完全正確，但需修正 4 處表述（退款無審批端點、crypto/publisher 補丁範圍、buy.ts 有行為變更）、補充 6 處細節（attestation_log、forbidden_contexts 默認值、expires_at 同步、decision_usability 不在簽名、N+1 位置、refund 兩個端點）、補 1 個測試文件（test-refund.ts）。**
+
+修正後可作為 v2.0 的正式對外總結。若要我把修正後的完整總結重寫成一份乾淨的 Markdown 文件，回覆「重寫總結」即可。

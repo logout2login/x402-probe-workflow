@@ -1,0 +1,43 @@
+{
+  "spec_version": "1.0",
+  "algorithm": "Ed25519",
+  "canonicalization": "JSON sorted keys + UTF-8",
+  "signed_fields": ["package_id", "q", "evidence_count", "verified_at", "expires_at", "data_hash"],
+  "signature_format": "ed25519:<base64url>",
+  "jwks_url": "https://REPLACE_WITH_YOUR_DOMAIN/.well-known/jwks.json",
+  "hash_algorithm": "sha256",
+  "evidence_hash_scope": "excerpt_span",
+  "q_policy": {
+    "listed_min_q": 0.72,
+    "listed_min_evidence": 4,
+    "featured_min_q": 0.80,
+    "featured_min_evidence": 6,
+    "featured_min_source_domains": 3,
+    "featured_min_source_diversity": 0.5,
+    "featured_max_age_days": 14
+  },
+  "blocked_policy": {
+    "q_lt": 0.65,
+    "evidence_lt": 3,
+    "schema_validation_errors_gt": 0
+  },
+  "ttl_policy": {
+    "max_ttl_days": 180,
+    "stale_warning_hours": 72,
+    "recall_q_threshold": 0.68
+  },
+  "hallucination_boundary_template": "Evidence excerpts are verifier-validated at verified_at. Downstream interpretation is caller responsibility.",
+  "reject_patterns": [
+    "(?i)ignore\\s+previous",
+    "(?i)system\\s*:",
+    "(?i)instruction\\s*:",
+    "<\\|",
+    "[A-Za-z0-9+/]{80,}={0,2}",
+    "0x[0-9a-fA-F]{64,}"
+  ],
+  "quota": {
+    "max_verification_regeneration_per_package_24h": 3,
+    "verify_rate_limit_per_min_per_ip": 60,
+    "preview_rate_limit_per_hour_per_agent": 10
+  }
+}

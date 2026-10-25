@@ -1,0 +1,29 @@
+name: sync-manifest
+
+# cron 兜底同步：即使 publisher job 手動執行，本 workflow 也會定時重跑
+# sync-queue，防止漏推。
+on:
+  schedule:
+    # 每 30 分鐘
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      # 讀 sync-queue，push 到各市集（不推數據本體）
+      - run: npm run sync-queue
+        env:
+          # 市集 secret 從 GitHub Actions Secrets 讀取
+          BAZAAR_API_KEY: ${{ secrets.BAZAAR_API_KEY }}
+          AGENT402_API_KEY: ${{ secrets.AGENT402_API_KEY }}
+          MCP_SO_API_KEY: ${{ secrets.MCP_SO_API_KEY }}
+          # 同步失敗不阻斷 ownsite 售賣
+      - run: echo "sync done"
