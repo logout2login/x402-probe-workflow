@@ -2,7 +2,7 @@
 
 > 最後更新：2026-10-26
 > 作者：Jerry
-> 版本：v1.18（demand pipeline + data_hash fix + match log + safeMatches gate）
+> 版本：v1.18（demand pipeline + data_hash fix + match log + safeMatches gate + NETWORK banner + tier comment + §12.2 backlog merge）
 > Last Updated: 2026-10-26
 > Deployed Version: db92ba36 (origin:db92ba369bb5)
 > Audit: #2 origin/matchlog/safeMatches (2026-10-25/26), ✅ E2E verified 2026-10-26
@@ -214,8 +214,26 @@ ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # USDC on Sepolia (Ci
 
 ### 當前部署
 
+> ⚠️ **⛔ 現狀以 SYSTEM_DOC 為準**：以下 Mainnet 段為 migration plan，實際部署係 **testnet（eip155:84532）**。任何「修復 NETWORK=8453」嘅動作會將 chain bug 復活，**唔好照住做**。
+
+### Mainnet（Base L2）— Migration Target
+
+```toml
+NETWORK = "eip155:8453"
+ASSET_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # USDC on Base
+```
+
+### Testnet（Base Sepolia）— Live
+
+```toml
+# 切換變量 NETWORK 為 "eip155:84532"
+ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # USDC on Sepolia (Circle canonical)
+```
+
+### 當前部署
+
 - Worker URL: `https://ownsite-aeo.jerry-aeo.workers.dev`
-- 網絡: `eip155:8453`（Base Mainnet）
+- 網絡: `eip155:84532`（Base Sepolia **testnet**，source of truth）
 - `mock_facilitator`: `false`
 - Facilitator: `selfhosted`（自己控 private key）
 
@@ -425,11 +443,34 @@ Facilitator 和 Buyer 地址在 Base mainnet 均為 0 ETH / 0 USDC。需手動�
 
 ### 12.2 v2 規劃
 
-參見 `docs/v2-backlog.md`，主要方向：
-- Quota / Voucher / Subscription tier
-- Multi-verifier 支持
-- VTS（Verifiable Time Stamp）
-- Canary 發布
+完整清單見 `docs/v2-backlog.md`（SSOT）。以下係匯總：
+
+| 編號 | 功能 | 決策 |
+|------|------|------|
+| 1 | Quota 計量（用量計費） | v1 不做；v2: per-call 改為 quota key |
+| 2 | Voucher 系統 | v1 不做；v2: 首次購買優惠碼、合作夥伴折扣 |
+| 3 | 訂閱（Subscription） | v1 不做；v2: $50/月無限訪問 listed 包 |
+| 4 | Canary 版本（灰度發布） | v1 不做；v2: 5% 流量測試新驗證邏輯 |
+| 5 | VTS（Verification Trust Score） | v1 不做；v2: 多 verifier 加權平均 q |
+| 6 | 多 Verifier（Multi-verifier） | v1 單 verifier；v2: JWKS multi-key，中位數取分 |
+| 7 | Evidence Refetch Span Extractor | v1.2 候選；定義 span 語法 + agent 端函式庫 |
+| 8 | Legal Hold / DMCA | v1 不做；v2: legal_hold 表 + 通知 webhook |
+| 9 | 異動通知（Webhooks） | v1 不做；v2: recall/stale/agent registry |
+| 10 | 結構化 Output Schema | v1 不做；v2: 白名單字詞 + sanitizer fuzz testing |
+| 11 | 精確 Rate Limit（Durable Object） | v1 KV 近似；v2: DO 精確計數 |
+| 12 | 交易對帳 | v1 不做；v2: 每小時 CDP vs D1 對帳 |
+| 13 | Marketplace API 真實接入 | v1 骨架；v2: Bazaar/Agent402/MCP.so/DataPoint |
+| 14 | Agent 端 Payment Header 生成 | v1 mock；v2: EIP-3009 signer |
+| 15 | Dashboard 與 KPI 視覺化 | v1 記錄 D1；v2: payments funnel + reach 分析 |
+| 16 | Content Versioning | v1 data_hash 唯一標識；v2: 版本歷史 + 增量更新 |
+| 17 | Batch Purchase | v1 單包；v2: 批量折扣 + 訂閱式更新 |
+| 18 | Refund 流程 | v1 不做；v2: dispute + refund path |
+
+#### Demand Pipeline 特別事項
+- **origin 簽名**：demand report 需可驗證 origin（已實作 `origin='demand'` annotation，簽名閘待 v2）
+- **q recalibration**：`q = min(1.0, max(0.1, matches * 0.1))` 目前線性；v2 考慮 log/sigmoid
+- **excerpt_hash**：報告段級 hash 用於增量更新檢測
+- **merge/dedupe**：同一 topic 多次 request 的合併策略
 
 ### 12.3 安全注意
 
