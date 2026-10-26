@@ -77,35 +77,6 @@ export default {
 
     // Root: return 402 challenge for x402 registry (agent402.tools, etc.)
     if (p === "/" || p === "") {
-      return new Response(
-        JSON.stringify({
-          x402Version: 2,
-          error: "Payment Required",
-          accepts: [{
-            scheme: "exact",
-            network: env.NETWORK || "eip155:84532",
-            maxAmountRequired: "500000",
-            resource: "https://ownsite-aeo.jerry-aeo.workers.dev/",
-            description: "AEO-OS Verified Content Marketplace - 4 packages available at /buy/{id}",
-            mimeType: "application/json",
-            payTo: env.PAY_TO,
-            maxTimeoutSeconds: 300,
-            asset: env.ASSET_USDC,
-            extra: { name: "USDC", version: "2" },
-            extensions: {
-              bazaar: {
-                info: {
-                  input: { type: "http", method: "GET" },
-                },
-                name: "AEO-OS Verified Content Marketplace",
-                description: "Agent2Agent capability marketplace with x402 verified packages",
-                tags: ["agent", "x402", "a2a", "marketplace"],
-                schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
-              },
-            }
-          }]
-        })
-      );
       const rootPayload = JSON.stringify({
         x402Version: 2,
         error: "Payment Required",
