@@ -36,6 +36,7 @@ import type { Env } from "./env";
 import { json } from "./http";
 import { derivePseudonym } from "./pseudonym";
 import { routeAndSettle } from "../facilitator/router";
+import { canonicalize, sha256Hex } from "../crypto/canonical";
 import type { X402Accept, X402PaymentPayload, Verification } from "../shared/types";
 
 export interface PackageMeta {
@@ -156,6 +157,7 @@ export async function handleBuy(
       ...verification,
       snapshotted_at: purchasedAt,
     },
+    current_data_hash: "sha256:" + sha256Hex(canonicalize(data)),
     receipt: {
       tx_hash: txHash,
       network: env.NETWORK,

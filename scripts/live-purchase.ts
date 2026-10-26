@@ -10,6 +10,7 @@
 // 消耗：0.5 USDC（payer testnet）+ gas（testnet ETH）
 import { readFileSync } from "node:fs";
 import { createWalletClient, http, parseAbi, publicActions, encodeAbiParameters } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 import { baseSepolia } from "viem/chains";
 import { canonicalize, sha256Hex } from "../src/crypto/canonical.js";
 import { verifyCanonical } from "../src/crypto/ed25519.js";
@@ -32,18 +33,18 @@ function step(n: string) { console.log(`\n── step ${n} ` + "─".repeat(50))
 
 async function main() {
   // ── 0) 載入 payer key ──
-  const payerKey = JSON.parse(readFileSync(new URL("./.testnet_payer.json", import.meta.url), "utf8"));
-  const wallet = createWalletClient({ account: payerKey.privateKey, chain: baseSepolia, transport: http(RPC) }).extend(publicActions);
+  const payerKey = JSON.parse(readFileSync(new URL("../.testnet_payer.json", import.meta.url), "utf8"));
+  const wallet = createWalletClient({ account: privateKeyToAccount(payerKey.privateKey), chain: baseSepolia, transport: http(RPC) }).extend(publicActions);
   const payer = wallet.account.address;
   console.log(`payer = ${payer}`);
 
   step("1/5: 402 challenge");
   const ch = await fetch(`${BASE}/buy/${PACKAGE_ID}`);
-  const challenge = (await ch.json()) as { x402Version: number; accepts: Array<{ scheme: string; network: string; maxAmountRequired: string; payTo: string; asset: string }> };
+  const challenge = (await ch.json()) as { x402Version: number; accepts: Array<{ scheme: string; network: string; amount: string; payTo: string; asset: string }> };
   if (ch.status !== 402) throw new Error(`expect 402, got ${ch.status}`);
   const acc = challenge.accepts[0];
   if (!acc) throw new Error("no accepts in challenge response");
-  console.log(`challenge OK: network=${acc.network} asset=${acc.asset} payTo=${acc.payTo} max=${acc.maxAmountRequired}`);
+  console.log(`challenge OK: network=${acc.network} asset=${acc.asset} payTo=${acc.payTo} amount=${acc.amount}`);
   const payTo = acc.payTo;
   if (payTo === "0xPLACEHOLDER_PAY_TO") throw new Error("PAY_TO secret missing on live worker");
 
@@ -83,7 +84,7 @@ async function main() {
 
   // ── 4) 下游離線驗證（JWKS + Ed25519 + data_hash）──
   step("4/5: downstream offline verification (JWKS)");
-  const jwks = (await (await fetch(`${BASE}/jwks`)).json()) as JWKS;
+  const jwks = (await (await fetch(`${BASE}/.well-known/jwks.json`)).json()) as JWKS;
   const pubHex = firstPubKeyHexFromJwks(jwks, v.kid ?? undefined);
   const signedFields: Record<string, unknown> = {};
   for (const k of SIGNING_FIELDS) signedFields[k] = v[k];

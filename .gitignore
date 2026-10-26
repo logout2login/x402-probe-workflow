@@ -9,3 +9,6 @@ __pycache__/
 dist/
 build/
 .wrangler/
+.testnet_payer.json
+build-output/
+scripts/verify_live.py
