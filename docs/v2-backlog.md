@@ -216,3 +216,26 @@
 | never-fired audit check | 現無 cron 定期驗證所有 package 的 evidence 有效性；待實作 periodic reverify 任務 |
 | excerpt_hash 持久化 | cron-refetch.ts 已支援 excerpt_hash 比較邏輯，但 D1 尚未寫入 excerpt_hash 列（需 schema migration + 現有包回填） |
 
+---
+
+## P1 #3 審計發現（2026-10-26 Hermes Audit #3）
+
+### 已修復
+| 項目 | 狀態 |
+|---|---|
+| index expiry filter `+90 days` → `now` | ✅ agent-index-query.ts:36, v1.19 deploy 477d65e |
+| healthz version stale constant 1.16 → 1.18 | ✅ index.ts:170, v1.19 deploy |
+| demand-audit-v10-fix q=5.0 quarantine | ✅ D1 tier=blocked, status=blocked, blocked_reason='test-artifact: manual insert q=5.0' |
+| test-unit.ts §9c INSERT placeholder count mismatch | ✅ 11→12 placeholders, 146/146 pass |
+| SYSTEM_DOC §8 listed count stale (6→5) | ✅ post-deploy alignment |
+| PROJECT_FILE header zombie claims | ✅ freeze notice added, deployed hash updated |
+
+### 待處理（v2 backlog）
+| 編號 | 項目 | 原因 |
+|------|------|------|
+| P1 #3-a | index entry 加 near-expiry 指示 | buyer 無法區分「剛上架」vs「臨近過期」；建議加 `days_until_expiry` 或 `freshness` 欄位 |
+| P1 #3-b | q recalibration P1 #3 | q=5.0 手動 INSERT artifact 暴露閾值漏洞；trigger 已爆（5.0 > 1.0 上限），需 re-evaluate gate 邏輯 |
+| P1 #3-c | CHECK constraint：q ≤ 1.0 | D1 目前無 CHECK，manual INSERT 可寫入 q>1.0；需 `CHECK (q >= 0.0 AND q <= 1.0)` |
+| P1 #3-d | manual-INSERT 禁令 | demand-audit-v10-fix 證明直接 D1 UPDATE 可繞過所有 gate；需 admin API + audit log，禁止直連 D1 |
+| P1 #3-e | expired UX：過期包顯示「已過期」而非靜默消失 | 買家搜尋到包但 buy 404，體驗差；建議 /buy/{id} 返回 410 Gone + expires_at |
+
