@@ -25,7 +25,7 @@
 
 | 環境 | 網絡 | Worker URL | 狀態 |
 |------|------|-----------|------|
-| Mainnet | Base L2 (eip155:8453) | `https://ownsite-aeo.jerry-aeo.workers.dev` | ✅ 部署中 |
+| Mainnet | Base L2 (eip155:8453) | `https://ownsite-aeo.jerry-aeo.workers.dev` | 📋 migration plan（未部署） |
 | Testnet | Base Sepolia (eip155:84532) | 同上（同一 worker，network var 決定） | ✅ 可用 |
 
 ---
@@ -38,7 +38,7 @@
 | 數據庫 | Cloudflare D1 (SQLite) | 支付、生命週期、對帳 |
 | 原子鎖 | Cloudflare Durable Objects (Paid) | NonceLock, Quota, CircuitBreaker |
 | 快取 | Cloudflare KV | x402 配置、permit nonce |
-| 前端 | GitHub Pages (SSOT) | `.well-known/` + dashboard.html |
+| 前端 | GitHub Pages (SSOT) | `.well-known/` + dashboard.html | 非 SSOT — pages 為 static cache，live data 從 Worker 獲取 |
 | 密碼學 | @noble/ed25519 + viem | Ed25519 簽名 + EVM 交互 |
 | 語言 | TypeScript 5.6, ES Module | 全部代碼 |
 | 部署 | wrangler v3 | Worker/D1/KV 一體化 |
@@ -166,9 +166,14 @@ ownsite-aeo/
 
 | 方法 | 路徑 | 功能 |
 |------|------|------|
-| POST | `/api/agents` | 註冊 agent（生成 pseudonym + wallet） |
-| POST | `/api/catalog/listing` | 上架商品到 catalog |
-| GET  | `/api/catalog/listing` | 查詢所有 listing |
+| ~~POST~~ | ~~`/api/agents`~~ | ~~註冊 agent~~ |
+| ~~POST~~ | ~~`/api/catalog/listing`~~ | ~~上架商品到 catalog~~ |
+| ~~GET~~  | ~~`/api/catalog/listing`~~ | ~~查詢所有 listing~~ |
+
+> ⛔ **grep 證實以下端點唔存在於 `src/worker/index.ts`，live 返回 404**：`/api/agents`、`/api/catalog/listing`。呢啲係 status report 事故嘅 proven attack surface。實際 API 見 `SYSTEM_DOC.md §4`。
+
+| 方法 | 路徑 | 功能 |
+|------|------|------|
 | GET  | `/api/products/{id}` | 獲取商品詳情（含 x402 challenge） |
 
 ### Buyer Agent
@@ -203,8 +208,6 @@ ownsite-aeo/
 ### Mainnet（Base L2）— Migration Target
 
 > ⚠️ **⛔ 現狀以 SYSTEM_DOC 為準**：以下 Mainnet 段為 migration plan，實際部署係 **testnet（eip155:84532）**。任何「修復 NETWORK=8453」嘅動作會將 chain bug 復活，**唔好照住做**。
-
-### Mainnet（Base L2）— Migration Target
 
 ```toml
 NETWORK = "eip155:8453"
@@ -408,7 +411,7 @@ npx wrangler dev --ip 127.0.0.1 --port 8787
 | v1.17 | Origin annotation + match_log | ✅ |
 | v1.18 | Schema v4 + demand report + match log | ✅ |
 | v1.19 | Index fix (expires_at>now) + quarantine q=5.0 | ✅ |
-| v1.20 | P1 #3 doc audit remediation (secret leak, || repair, q recal split, sync queue finding) | 🔄 committed |
+| v1.20 | P1 #3 doc audit remediation (secret leak, || repair, q recal split, sync queue finding) | ✅ cd1677d |
 
 ---
 

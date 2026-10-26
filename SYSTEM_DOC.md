@@ -1,7 +1,7 @@
 # AEO-OS System Document
 
 > **Version:** v1.20 (Hermes P1 #3 audit remediation — secret leak fix, || table repair, q recal split, sync queue finding)
-> **Last Updated:** 2026-10-26 (P1 #3: expires_at > now filter, demand-ba2d8a8a visible, healthz 1.18, q=5.0 quarantined)
+> **Last Updated:** 2026-10-26（v1.20 P1#3 audit remediation，同步 PROJECT_FILE.md）
 > **Service URL:** `https://ownsite-aeo.jerry-aeo.workers.dev/`
 > **Deployed Version:** `477d65e62d61af97f79a3ebc6fb1dc74b4d9a233`
 
