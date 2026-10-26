@@ -296,18 +296,20 @@ wrangler secret put DEMAND_ADMIN_SECRET           # Demand admin key (rotated 20
 
 | Metric | Value |
 |---|---|
-| Listed Packages | 4 |
+| Listed Packages | 6（D1 ground truth：4 publisher + 2 demand）；agent-index 顯示 4 — pending deploy |
 | Payments (30d) | 5 |
 | Revenue (30d) | $2.5 USDC |
 | Demand Candidates | 337 candidates (5 sources, max 46.6%) |
-| Demand Reports Generated | 2（dr-ba2d8a8a + second report，origin=demand，completed） |
+| Demand Reports Generated | 2（demand-audit-v10-fix q=5.0【手動 INSERT 測試】、demand-ba2d8a8a q=1.0【cron E2E 生成】，origin=demand，tier=listed） |
+| Demand Requests | 3 total：2 expired（no_matching_demands）、1 completed → demand-ba2d8a8a |
+| match_distribution_log | llm: 50 matches, depth=4, 來源 github:2/moltchurch:48；agent: 189 matches, depth=4, 來源 thecolony:7/github:125/moltchurch:57 |
 
 ### Existing Packages
 1. `research-2026-q4-ai-agent-adoption` — AI Agent Adoption 2026 Q4 Research Report
 2. `content-20261025131912-0173df95` — AI 模型压缩与量化部署服务
 3. `content-20261025131912-fa11b94d` — Ollama 多模型管理与 API 服务配置模板
 4. `content-20261025131913-e2352377` — Python 自动化数据采集系统模板
-| **origin**：全部 4 條為 `publisher`（初始 publisher flow 產生）。demand 報告（`origin=demand`）待 witness-scribe pool 擴充後首個 agent request 觸發生成。
+| **origin**：4 條全為 `publisher`。demand 報告 2 個（origin=demand，tier=listed）已入库，agent-index 待 rebuild 後顯示。
 
 ---
 

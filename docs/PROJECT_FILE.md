@@ -2,10 +2,10 @@
 
 > 最後更新：2026-10-26
 > 作者：Jerry
-> 版本：v1.18（demand pipeline + data_hash fix + match log + safeMatches gate + NETWORK banner + tier comment + §12.2 backlog merge）
+> 版本：v1.18.1（demand pipeline + data_hash fix + match log + safeMatches gate + NETWORK banner + tier comment + §12.2 backlog merge）
 > Last Updated: 2026-10-26
-> Deployed Version: db92ba36 (origin:db92ba369bb5)
-> Audit: #2 origin/matchlog/safeMatches (2026-10-25/26), ✅ E2E verified 2026-10-26
+> Deployed Version: db92ba36 (origin:db92ba369bb5) — pending: 3f6104b（含 demand 包顯示修復）
+> Audit: #2 origin/matchlog/safeMatches (2026-10-25/26), ✅ E2E verified 2026-10-26；⚠️ agent-index 顯示 4（未含 latest commit）
 
 ---
 
@@ -322,11 +322,17 @@ Buyer → GET /api/products/{id} → 402 + x402 challenge payload
 
 ### 7.4 Publish Guard 閘門
 
+> ⚠️ **現階段係二元閘**：q≥0.72 且 evidence≥4 → listed，否則 blocked。`BLOCKED_MIN_Q=0.65` 同 `BLOCKED_MIN_EVIDENCE=3` 係死常數，唔參與閘口邏輯。Soft-block（0.65≤q<0.72）待 v2 加入第三狀態。
+
 | 級別 | q 閾值 | evidence 閾值 | 其他 |
 |------|--------|---------------|------|
 | Listed | ≥ 0.72 | ≥ 4 | — |
 | Featured | ≥ 0.80 | ≥ 6 | ≥ 3 domains, ≤ 14 days old |
-| Blocked | < 0.65 | < 3 | — |
+| Blocked | < 0.72 或 < 4 | — | BLOCKED_MIN_Q=0.65 係 dead constant，唔生效 |
+
+**地面數據**（D1 ground truth，2026-10-26）：
+- Listed packages：6（4 publisher + 2 demand）
+- agent-index.json 顯示：4（部署版本 db92ba36 未含 latest commit，pending deploy）
 
 ---
 
