@@ -192,7 +192,15 @@ export function paymentRequiredResponse(
       },
     },
   };
-  const payload = { x402Version: 2, accepts: [accept] };
+  const payload = {
+    x402Version: 2,
+    resource: {
+      url: accept.resource,
+      description: accept.description,
+    },
+    accepts: [accept],
+    extensions: accept.extensions,
+  };
   return new Response(
     JSON.stringify(payload),
     {
