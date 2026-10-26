@@ -179,16 +179,23 @@ export class SelfHostedFacilitator implements Facilitator {
     const usdc = env.ASSET_USDC.toLowerCase();
 
     let captured: bigint | null = null;
+    const debugLog: string[] = [];
     for (const log of receipt.logs) {
+      const logAddr = String(log.address).toLowerCase();
+      const t0 = String(log.topics[0]).toLowerCase();
+      const t1 = String(log.topics[1]).slice(26).toLowerCase();
+      const t2 = String(log.topics[2]).slice(26).toLowerCase();
+      const from = "0x" + t1;
+      const to = "0x" + t2;
+      debugLog.push(`log:addr=${logAddr} usdc=${usdc} match=${logAddr===usdc} | t0=${t0} sig=${USDC_TRANSFER_SIG} match=${t0===USDC_TRANSFER_SIG} | from=${from} payer=${payer.toLowerCase()} match=${from===payer.toLowerCase()} | to=${to} fac=${facilitatorAddress} match=${to===facilitatorAddress}`);
       if (String(log.address).toLowerCase() !== usdc) continue;
       if (log.topics.length < 3) continue;
       if (String(log.topics[0]).toLowerCase() !== USDC_TRANSFER_SIG) continue;
-      const from = "0x" + String(log.topics[1]).slice(26).toLowerCase();
-      const to = "0x" + String(log.topics[2]).slice(26).toLowerCase();
       if (from !== payer.toLowerCase() || to !== facilitatorAddress) continue;
       captured = BigInt(log.data);
       break;
     }
+    console.log("[selfhosted] settleCapture logs:", JSON.stringify(debugLog));
     if (captured === null || captured === 0n) {
       return done({ ok: false, amount: "0", payer, txHash, error: "capture_transfer_not_found" });
     }
