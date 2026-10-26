@@ -17,7 +17,6 @@ export interface IndexQueryOpts {
 
 export async function queryIndexRows(env: Env, opts: IndexQueryOpts = {}): Promise<AgentIndex> {
   const now = new Date();
-  const maxAgeMs = (opts.maxAgeDays ?? 90) * 86400_000;
 
   const clauses: string[] = ["p.status='fresh'"];
   const params: Array<string | number> = [];
@@ -35,7 +34,7 @@ export async function queryIndexRows(env: Env, opts: IndexQueryOpts = {}): Promi
     params.push(opts.minEvidence);
   }
   clauses.push("p.expires_at > ?");
-  params.push(new Date(now.getTime() + maxAgeMs).toISOString());
+  params.push(now.toISOString());
   if (opts.keyword) {
     clauses.push("p.title LIKE ?");
     params.push(`%${opts.keyword}%`);
