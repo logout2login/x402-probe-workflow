@@ -103,7 +103,7 @@ export default {
             name: "AEO-OS Verified Content Marketplace",
             description: "Agent2Agent capability marketplace with x402 verified packages",
             tags: ["agent", "x402", "a2a", "marketplace"],
-            schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
+            schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
           },
         }
       });
