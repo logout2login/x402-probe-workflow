@@ -210,7 +210,7 @@
 |---|---|
 | admin endpoint merge-dedupe | 單 row 設計下 UNIQUE hash 無意義；其他腳本經 admin API 上載時重複會靜默入池。建議：admin POST 前先查 hash，若已存在則 REPLACE 或 merge，而非 INSERT 新 row |
 | demand_candidates_cache dedupe at API level | 同上；需 merge logic + conflict resolution（如保留較新的 verified_at） |
-| q-history query traceability | current q=0.81（非 0.76）。`git log -S "0.76"` 兩份 doc 均無 hit — 0.76 係 doc-borne zombie number（earlier audit round 遗留），DB 一直係 0.81。已加 `q-history` table (v1.18 schema) 記錄每次 q 變更；現有包需補填 `updated_at ≈ publish_date` 以區分 silent writer vs doc error |
+| q-history table assertion | **False**：`src/` 無 migration，`SELECT name FROM sqlite_master` 查無此表。`q-history` 僅為 suggestion，非已完成項。v2 backlog 保留為建議（需 migration + 實作） |
 | match_distribution_log retention policy | 有 INSERT 但無讀取邏輯（僅 gate-tuning feedback loop）；可加 SELECT FOR ANALYTICS 端點 |
 | q formula 三候選 | current q=0.81 使用單一 formula，待決定：(a) 多 verifier 加權平均 (b) 最低分 (c) 中位數，需實驗對比 |
 | never-fired audit check | 現無 cron 定期驗證所有 package 的 evidence 有效性；待實作 periodic reverify 任務 |
