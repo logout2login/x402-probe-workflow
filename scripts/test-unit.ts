@@ -576,7 +576,7 @@ assert(
 
 // 9c. INSERT ... VALUES (... , 'demand') (line ~227)
 assert(
-  demandReportSrc.includes("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'demand')"),
+  demandReportSrc.includes("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'demand')"),
   "INSERT path sets origin='demand' as last column value"
 );
 

@@ -1,9 +1,9 @@
 # AEO-OS System Document
 
-> **Version:** v1.18 (Hermes P1 #2 audit — origin annotation + match_distribution_log + demand schema v4)
-> **Last Updated:** 2026-10-26 (P1 #2: origin fix + v1.18 schema + 337-candidate provenance)
+> **Version:** v1.19 (Hermes P1 #3 audit — index expiry filter fix + quarantine q=5.0 + demand index gap root cause)
+> **Last Updated:** 2026-10-26 (P1 #3: expires_at > now filter, demand-ba2d8a8a visible, healthz 1.18, q=5.0 quarantined)
 > **Service URL:** `https://ownsite-aeo.jerry-aeo.workers.dev/`
-> **Deployed Version:** `db92ba36-9bb5-40eb-b9be-7beca4d5bfc7`
+> **Deployed Version:** `477d65e62d61af97f79a3ebc6fb1dc74b4d9a233`
 
 ---
 
@@ -189,6 +189,7 @@ Available for sale at $0.50 USDC via /buy/{package-id}
 - **Quality Score (q):** `min(1.0, max(0.1, matches.length × 0.1))`
 - **Evidence Count:** Number of matching demand items
 - **Expiry:** 30 days from generation
+- **Index visibility policy:** `expires_at > datetime('now')`（「未過期即顯示」，full catalog 語義）。臨近過期嘅包會喺 index 出現直到真正過期——買家可見 expires_at 自行判斷。舊版 `+90 days` 閾值係 publisher 時代嘅半生命閘（180日包頭90日），同 demand TTL=30日不兼容，已於 v1.19 修復。
 
 ### 6.3 Topic Matching
 `filterByTopic()` searches across:
@@ -296,11 +297,11 @@ wrangler secret put DEMAND_ADMIN_SECRET           # Demand admin key (rotated 20
 
 | Metric | Value |
 |---|---|
-| Listed Packages | 6（D1 ground truth：4 publisher + 2 demand）；agent-index 顯示 4 — pending deploy |
+| Listed Packages | 5（D1 ground truth：4 publisher listed + 1 demand listed + 1 demand quarantined q=5.0）；agent-index 顯示 5 ✅ 兩邊對齊 |
 | Payments (30d) | 5 |
 | Revenue (30d) | $2.5 USDC |
 | Demand Candidates | 337 candidates (5 sources, max 46.6%) |
-| Demand Reports Generated | 2（demand-audit-v10-fix q=5.0【手動 INSERT 測試】、demand-ba2d8a8a q=1.0【cron E2E 生成】，origin=demand，tier=listed） |
+| Demand Reports Generated | 2（demand-audit-v10-fix q=5.0【手動 INSERT 測試，tier=blocked quarantined】、demand-ba2d8a8a q=1.0【cron E2E 生成，origin=demand，tier=listed】） |
 | Demand Requests | 3 total：2 expired（no_matching_demands）、1 completed → demand-ba2d8a8a |
 | match_distribution_log | llm: 50 matches, depth=4, 來源 github:2/moltchurch:48；agent: 189 matches, depth=4, 來源 thecolony:7/github:125/moltchurch:57 |
 
@@ -309,7 +310,7 @@ wrangler secret put DEMAND_ADMIN_SECRET           # Demand admin key (rotated 20
 2. `content-20261025131912-0173df95` — AI 模型压缩与量化部署服务
 3. `content-20261025131912-fa11b94d` — Ollama 多模型管理与 API 服务配置模板
 4. `content-20261025131913-e2352377` — Python 自动化数据采集系统模板
-| **origin**：4 條全為 `publisher`。demand 報告 2 個（origin=demand，tier=listed）已入库，agent-index 待 rebuild 後顯示。
+| **origin**：4 條 publisher + 1 demand（demand-audit-v10-fix quarantined，demand-ba2d8a8a listed ✅）。 |
 
 ---
 

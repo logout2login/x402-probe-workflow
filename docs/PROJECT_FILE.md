@@ -1,11 +1,13 @@
 # AEO-OS 項目文件 — 完整記錄
 
+> 🔒 **FREEZE NOTICE — 2026-10-26**：本檔為只讀 reference，所有地面數據以 SYSTEM_DOC.md §8 為準。任何「照住 SECTION X 做嘢」嘅動作前，先 check SYSTEM_DOC 對齊狀態。僵屍 doc 傷害模式：本檔某節過時但讀者在該節停頓，誤將過時內容當 ground truth。
+>
 > 最後更新：2026-10-26
 > 作者：Jerry
-> 版本：v1.18.1（demand pipeline + data_hash fix + match log + safeMatches gate + NETWORK banner + tier comment + §12.2 backlog merge）
+> 版本：v1.19（index expiry filter fix + quarantine q=5.0 + test unit fix）
 > Last Updated: 2026-10-26
-> Deployed Version: db92ba36 (origin:db92ba369bb5) — pending: 3f6104b（含 demand 包顯示修復）
-> Audit: #2 origin/matchlog/safeMatches (2026-10-25/26), ✅ E2E verified 2026-10-26；⚠️ agent-index 顯示 4（未含 latest commit）
+> Deployed Version: 477d65e62d61af97f79a3ebc6fb1dc74b4d9a233 ✅ live
+> Audit: #3 index expiry filter root cause (2026-10-26), ✅ E2E verified demand-ba2d8a8a visible, q=5.0 quarantined
 
 ---
 
@@ -330,9 +332,9 @@ Buyer → GET /api/products/{id} → 402 + x402 challenge payload
 | Featured | ≥ 0.80 | ≥ 6 | ≥ 3 domains, ≤ 14 days old |
 | Blocked | < 0.72 或 < 4 | — | BLOCKED_MIN_Q=0.65 係 dead constant，唔生效 |
 
-**地面數據**（D1 ground truth，2026-10-26）：
-- Listed packages：6（4 publisher + 2 demand）
-- agent-index.json 顯示：4（部署版本 db92ba36 未含 latest commit，pending deploy）
+**地面數據**（D1 ground truth，2026-10-26 post-v1.19 deploy）：
+- Listed packages：5（4 publisher + 1 demand listed + 1 demand quarantined q=5.0）
+- agent-index.json 顯示：5（兩邊對齊 ✅）
 
 ---
 
@@ -423,7 +425,7 @@ npx wrangler dev --ip 127.0.0.1 --port 8787
 ## 11. 測試覆蓋
 
 ```bash
-npm run test:unit    # 78/78 pass
+npm run test:unit    # 146/146 pass
 npm run test:sync    # 12/12 pass
 npm run test:agent   # 25/25 pass (mock mode)
 npm run check        # tsc --noEmit pass
@@ -471,6 +473,11 @@ Facilitator 和 Buyer 地址在 Base mainnet 均為 0 ETH / 0 USDC。需手動�
 | 16 | Content Versioning | v1 data_hash 唯一標識；v2: 版本歷史 + 增量更新 |
 | 17 | Batch Purchase | v1 單包；v2: 批量折扣 + 訂閱式更新 |
 | 18 | Refund 流程 | v1 不做；v2: dispute + refund path |
+|| 19 | index near-expiry 指示 | v1 不做；v2: 加 `days_until_expiry` 欄位，buyer 區分新鮮度 |
+|| 20 | q recalibration P1 #3 | v1 線性 formula；v2: sigmoid/log + trigger threshold re-eval（q=5.0 artifact 已爆） |
+|| 21 | CHECK constraint q∈[0,1] | v1 無 DB constraint；v2: `CHECK (q >= 0.0 AND q <= 1.0)` 防 manual INSERT |
+|| 22 | manual-INSERT 禁令 | v1 允許直連 D1；v2: 僅 admin API 可寫，附 audit log |
+|| 23 | expired UX 410 Gone | v1 過期包 buy 404；v2: 明確 410 + expires_at 提示 |
 
 #### Demand Pipeline 特別事項
 - **origin 簽名**：demand report 需可驗證 origin（已實作 `origin='demand'` annotation，簽名閘待 v2）
