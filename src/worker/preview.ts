@@ -16,6 +16,14 @@ export async function handlePreview(req: Request, env: Env): Promise<Response> {
   const id = parseId(req.url, "/preview/");
   if (!id) return json({ error: "invalid_package_id" }, 400);
 
+  // D1 status gate: recall/stale packages → 404
+  const d1Status = await env.DB.prepare(
+    "SELECT status FROM packages WHERE package_id = ?"
+  ).bind(id).first<string | null>();
+  if (d1Status === "recalled" || !d1Status) {
+    return json({ error: "not_found" }, 404);
+  }
+
   const agentId = requestIdentity(req);
   const limit = parseInt(env.PREVIEW_RATE_LIMIT_PER_HOUR || "10", 10);
   const rl = await checkRateLimit(env, {

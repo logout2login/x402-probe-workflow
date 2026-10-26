@@ -20,7 +20,23 @@ export async function handleStatus(req: Request, env: Env): Promise<Response> {
   });
   if (!rl.ok) return json({ error: "rate_limited" }, 429);
 
-  const status = (await env.KV.get(`status:${id}`)) ?? "unknown";
+  // D1 truth source: query D1 first
+  const d1Row = await env.DB.prepare(
+    "SELECT status FROM packages WHERE package_id = ?"
+  ).bind(id).first<{ status: string } | null>();
+  if (!d1Row) {
+    return json({ package_id: id, status: "not_found", replacement_package_id: null }, 404);
+  }
+  if (d1Row.status === "recalled") {
+    const replacement = await env.KV.get(`replacement:${id}`);
+    return json({
+      package_id: id,
+      status: "recalled",
+      replacement_package_id: replacement ?? null,
+    }, 200);
+  }
+  // D1 present and active — serve D1 status directly
+  const status = d1Row.status;
   const replacement = await env.KV.get(`replacement:${id}`);
 
   return json({

@@ -81,6 +81,7 @@ async function seedMock(): Promise<void> {
         paid_url: `${BASE}/buy/${pkgId}`,
         price_usdc: "1.00",
         status: "fresh",
+        origin: "demo",
       },
     ],
   };

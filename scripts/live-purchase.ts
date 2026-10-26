@@ -42,14 +42,15 @@ async function main() {
   const challenge = (await ch.json()) as { x402Version: number; accepts: Array<{ scheme: string; network: string; maxAmountRequired: string; payTo: string; asset: string }> };
   if (ch.status !== 402) throw new Error(`expect 402, got ${ch.status}`);
   const acc = challenge.accepts[0];
+  if (!acc) throw new Error("no accepts in challenge response");
   console.log(`challenge OK: network=${acc.network} asset=${acc.asset} payTo=${acc.payTo} max=${acc.maxAmountRequired}`);
   const payTo = acc.payTo;
   if (payTo === "0xPLACEHOLDER_PAY_TO") throw new Error("PAY_TO secret missing on live worker");
 
   // ── 2) 上鏈轉 USDC（Rail A plain capture）──
   step("2/5: USDC transfer payer → payTo");
-  const usdcClient = { wallet, address: acc.asset, abi: usdcAbi };
-  const balBefore = await wallet.readContract({ ...usdcClient, functionName: "balanceOf", args: [payer] });
+  const usdcClient = { wallet, address: acc.asset as `0x${string}`, abi: usdcAbi };
+  const balBefore = await wallet.readContract({ ...usdcClient, functionName: "balanceOf", args: [payer] } as never);
   console.log(`payer USDC before = ${Number(balBefore) / 1e6}`);
   if (BigInt(Number(balBefore)) < AMOUNT) throw new Error("payer USDC balance insufficient — run testnet_setup faucet top-up");
   const txHash = await wallet.writeContract({
