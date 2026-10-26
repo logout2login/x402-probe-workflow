@@ -173,7 +173,7 @@ export function paymentRequiredResponse(
   const accept: X402Accept = {
     scheme: "exact",
     network: env.NETWORK,
-    maxAmountRequired:
+    amount:
       meta.tier === "featured" ? PRICE_FEATURED_6DECIMAL : PRICE_STANDARD_6DECIMAL,
     resource: `${env.OWNSITE_BASE}/buy/${id}`,
     description: `${meta.title} — q=${meta.q.toFixed(2)}, evidence=${meta.evidence_count}, expires ${meta.expires_at.slice(0, 10)}`,
@@ -184,11 +184,11 @@ export function paymentRequiredResponse(
     extra: { name: "USDC", version: "2" },
     extensions: {
       bazaar: {
-        info: { input: { type: "http", method: "GET" } },
+        info: { input: { type: "http", method: "GET" }, output: { example: "application/json" } },
         name: meta.title ?? "Agent2Agent Service",
         description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)})`,
         tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
-        schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
+        schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
       },
     },
   };
