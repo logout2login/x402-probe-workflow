@@ -6,7 +6,7 @@
 > 作者：Jerry
 > 版本：v1.20（P1#3 doc audit remediation — secret leak fix, || table repair, q recal split, sync queue finding）
 > Last Updated: 2026-10-26
-> Deployed Version: e71f606 (commit e71f606) ✅ live — x402 v2 root+buy valid:true
+> Deployed Version: 7cb1b25 (commit 7cb1b25) ✅ live — x402 v2 root+buy valid:true, TS errors fixed
 > Audit: #3 index expiry filter root cause (2026-10-26), ✅ E2E verified demand-ba2d8a8a visible, q=5.0 quarantined
 
 ---
