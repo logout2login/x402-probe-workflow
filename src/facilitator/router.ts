@@ -75,6 +75,11 @@ export async function routeAndSettle(
     };
 
     if (env.MOCK_FACILITATOR === "1") {
+      // v1.20：production guard — 唔准 mock 交差
+      if (process.env.ENVIRONMENT === "production") {
+        throw new Error("FATAL: MOCK_FACILITATOR forbidden in production");
+      }
+      // local / preview 允許 mock（保留本地開發能力）
       const res: SettleResponse = {
         ok: true,
         amount: opts.amountRequired,
