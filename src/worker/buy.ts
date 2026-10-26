@@ -187,7 +187,7 @@ export function paymentRequiredResponse(
         name: meta.title ?? "Agent2Agent Service",
         description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)})`,
         tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
-        schema: { type: "application/json", url: `${env.OWNSITE_BASE}/api/catalog/listing` },
+        schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
       },
     },
   };
