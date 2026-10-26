@@ -104,18 +104,46 @@ export default {
               },
             }
           }]
-        }),
-        {
-          status: 402,
-          headers: {
-            "content-type": "application/json",
-            "x-payment-accepts": "application/json",
-            "access-control-allow-origin": "*",
-            "access-control-allow-methods": "GET, POST, OPTIONS",
-            "access-control-allow-headers": "content-type, x-payment",
-          }
-        }
+        })
       );
+      const rootPayload = JSON.stringify({
+        x402Version: 2,
+        error: "Payment Required",
+        accepts: [{
+          scheme: "exact",
+          network: env.NETWORK || "eip155:84532",
+          maxAmountRequired: "500000",
+          resource: "https://ownsite-aeo.jerry-aeo.workers.dev/",
+          description: "AEO-OS Verified Content Marketplace - 4 packages available at /buy/{id}",
+          mimeType: "application/json",
+          payTo: env.PAY_TO,
+          maxTimeoutSeconds: 300,
+          asset: env.ASSET_USDC,
+          extra: { name: "USDC", version: "2" },
+          extensions: {
+            bazaar: {
+              info: {
+                input: { type: "http", method: "GET" },
+              },
+              name: "AEO-OS Verified Content Marketplace",
+              description: "Agent2Agent capability marketplace with x402 verified packages",
+              tags: ["agent", "x402", "a2a", "marketplace"],
+              schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
+            },
+          }
+        }]
+      });
+      return new Response(rootPayload, {
+        status: 402,
+        headers: {
+          "content-type": "application/json",
+          "PAYMENT-REQUIRED": Buffer.from(rootPayload).toString("base64"),
+          "x-payment-accepts": "application/json",
+          "access-control-allow-origin": "*",
+          "access-control-allow-methods": "GET, POST, OPTIONS",
+          "access-control-allow-headers": "content-type, x-payment, PAYMENT-SIGNATURE",
+        }
+      });
     }
 
     // 內部端點
