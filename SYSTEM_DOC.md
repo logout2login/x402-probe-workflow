@@ -1,6 +1,6 @@
 # AEO-OS System Document
 
-> **Version:** v1.19 (Hermes P1 #3 audit — index expiry filter fix + quarantine q=5.0 + demand index gap root cause)
+> **Version:** v1.20 (Hermes P1 #3 audit remediation — secret leak fix, || table repair, q recal split, sync queue finding)
 > **Last Updated:** 2026-10-26 (P1 #3: expires_at > now filter, demand-ba2d8a8a visible, healthz 1.18, q=5.0 quarantined)
 > **Service URL:** `https://ownsite-aeo.jerry-aeo.workers.dev/`
 > **Deployed Version:** `477d65e62d61af97f79a3ebc6fb1dc74b4d9a233`
@@ -133,10 +133,12 @@ Both lines coexist in the same marketplace. Existing 4 packages remain selling a
 |---|---|---|
 | GET | `/healthz` | Service health check |
 | POST | `/api/cron` | Trigger cron manually (requires cf-scheduled header) |
-| POST | `/internal/sync` | Force sync (internal) |
-| GET | `/internal/unrecall/{package-id}` | Unrecall a package (internal) |
+| POST | `/internal/sync` | Force sync (internal, requires auth) |
+| GET | `/internal/unrecall/{package-id}` | Unrecall a package (internal, requires auth) |
 | GET | `/api/a2a/metrics` | A2A metrics |
-| GET | `/mcp` | MCP tool list |
+| GET/POST | `/mcp` | MCP tool list（POST only for execution）|
+
+> ⚠️ **Freeze notice**：部分 endpoint 限 POST（`/internal/sync`、`/mcp`），GET 返回 `method_not_allowed`。詳情見各 handler。
 
 ---
 
@@ -213,7 +215,7 @@ Located in `witness-scribe/data/demand_candidates_v2.json` (337 candidates, 5 ca
 
 - **Gate rule:** No single source > 50% ✅ (max 46.6% github)
 - **Provenance triad:** Every candidate has `representative_quote` + `provenance.source_canonical_url` + `created_at` at top level
-- **Ingestion pipeline:** `expand_candidates.py` → `demand_candidates_v2.json` → `ingest_candidates.py` (wrangler d1 execute) → single-row D1 overwrite
+- **Ingestion pipeline:** `expand_candidates.py` → `demand_candidates_v2.json` → admin API `POST /api/admin/demand-candidates` → single-row D1 overwrite。`ingest_candidates.py` 為 legacy script，live 路徑經 admin API
 - **Note:** `molt.church/#canon/...` pattern URLs are classified as `moltchurch` source
 
 ---
@@ -270,7 +272,7 @@ crons = [
 | `LISTED_MIN_EVIDENCE` | `4` | Minimum evidence count |
 | `FEATURED_MIN_Q` | `0.80` | Featured tier minimum Q |
 | `FEATURED_MIN_EVIDENCE` | `6` | Featured tier minimum evidence |
-| `BLOCKED_MIN_Q` | `0.65` | Blocked tier threshold |
+| `BLOCKED_MIN_Q` | `0.65` | [dead constant] live gate 用 `LISTED_MIN_Q=0.72`/`LISTED_MIN_EVIDENCE=4`；0.65 唔參與閘口邏輯。Soft-block（0.65≤q<0.72）待 v2 |
 | `VERIFY_RATE_LIMIT_PER_MIN` | `60` | Rate limit for verify |
 | `PREVIEW_RATE_LIMIT_PER_HOUR` | `10` | Rate limit for preview |
 | `MOCK_FACILITATOR` | `0` | Enable mock mode (local only) |

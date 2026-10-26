@@ -198,7 +198,7 @@
 | match_distribution_log INSERT | ✅ demand-report.ts:260（非致命 try/catch） |
 | D1 schema migration v1.18c | ✅ demand_candidates_cache (single-row) |
 | shadow workspace `nsite-aeo` | ✅ 已刪除 |
-| DEMAND_ADMIN_SECRET rotation | ✅ 已旋轉，舊值 aeo-demand-admin-2024 撤銷 |
+| DEMAND_ADMIN_SECRET rotation | ✅ 已旋轉，舊值已撤銷（值唔入檔） |
 | candidates triad validation | ✅ 337/337 完整（representative_quote + source_canonical_url + created_at） |
 | source breakdown derivation | ✅ 從 provenance.source_canonical_url 推導，非 top-level source |
 | 分佈閘門 max<50% | ✅ moltchurch 48.1%（過閘） |
@@ -210,7 +210,7 @@
 |---|---|
 | admin endpoint merge-dedupe | 單 row 設計下 UNIQUE hash 無意義；其他腳本經 admin API 上載時重複會靜默入池。建議：admin POST 前先查 hash，若已存在則 REPLACE 或 merge，而非 INSERT 新 row |
 | demand_candidates_cache dedupe at API level | 同上；需 merge logic + conflict resolution（如保留較新的 verified_at） |
-| q-history query traceability | current q=0.81（非 0.76），0.76 來源未追溯（需保留 query log 或 changelog） |
+| q-history query traceability | current q=0.81（非 0.76）。`git log -S "0.76"` 兩份 doc 均無 hit — 0.76 係 doc-borne zombie number（earlier audit round 遗留），DB 一直係 0.81。已加 `q-history` table (v1.18 schema) 記錄每次 q 變更；現有包需補填 `updated_at ≈ publish_date` 以區分 silent writer vs doc error |
 | match_distribution_log retention policy | 有 INSERT 但無讀取邏輯（僅 gate-tuning feedback loop）；可加 SELECT FOR ANALYTICS 端點 |
 | q formula 三候選 | current q=0.81 使用單一 formula，待決定：(a) 多 verifier 加權平均 (b) 最低分 (c) 中位數，需實驗對比 |
 | never-fired audit check | 現無 cron 定期驗證所有 package 的 evidence 有效性；待實作 periodic reverify 任務 |
@@ -229,13 +229,15 @@
 | test-unit.ts §9c INSERT placeholder count mismatch | ✅ 11→12 placeholders, 146/146 pass |
 | SYSTEM_DOC §8 listed count stale (6→5) | ✅ post-deploy alignment |
 | PROJECT_FILE header zombie claims | ✅ freeze notice added, deployed hash updated |
+| sync_queue stale entries | ⚠️ 11 pending rows（status=pending, created_at ≥ 2026-10-15）— skeleton adapters 無法消費，需 v2 cleanup job |
+| identifier class alignment | ⚠️ 現存 40-hex git SHA vs wrangler UUID 混用；已統一記錄 git SHA on Deployed Version line，UUID 由 deploy output 保留 |
 
 ### 待處理（v2 backlog）
 | 編號 | 項目 | 原因 |
 |------|------|------|
 | P1 #3-a | index entry 加 near-expiry 指示 | buyer 無法區分「剛上架」vs「臨近過期」；建議加 `days_until_expiry` 或 `freshness` 欄位 |
-| P1 #3-b | q recalibration P1 #3 | q=5.0 手動 INSERT artifact 暴露閾值漏洞；trigger 已爆（5.0 > 1.0 上限），需 re-evaluate gate 邏輯 |
-| P1 #3-c | CHECK constraint：q ≤ 1.0 | D1 目前無 CHECK，manual INSERT 可寫入 q>1.0；需 `CHECK (q >= 0.0 AND q <= 1.0)` |
+| P1 #3-b | q recalibration | empirical evidence：兩份真報告 q=1.0/1.0 飽和（matches≥10 必 cap）；v2: sigmoid/log + trigger threshold re-eval。q=5.0 係 manual artifact，由 CHECK constraint（#3-c）管 |
+| P1 #3-c | CHECK constraint：q ≤ 1.0 | D1 目前無 CHECK，manual INSERT 可寫入 q>1.0（q=5.0 artifact 實例）；需 `CHECK (q >= 0.0 AND q <= 1.0)` |
 | P1 #3-d | manual-INSERT 禁令 | demand-audit-v10-fix 證明直接 D1 UPDATE 可繞過所有 gate；需 admin API + audit log，禁止直連 D1 |
 | P1 #3-e | expired UX：過期包顯示「已過期」而非靜默消失 | 買家搜尋到包但 buy 404，體驗差；建議 /buy/{id} 返回 410 Gone + expires_at |
 

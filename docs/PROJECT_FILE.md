@@ -4,7 +4,7 @@
 >
 > 最後更新：2026-10-26
 > 作者：Jerry
-> 版本：v1.19（index expiry filter fix + quarantine q=5.0 + test unit fix）
+> 版本：v1.20（P1#3 doc audit remediation — secret leak fix, || table repair, q recal split, sync queue finding）
 > Last Updated: 2026-10-26
 > Deployed Version: 477d65e62d61af97f79a3ebc6fb1dc74b4d9a233 ✅ live
 > Audit: #3 index expiry filter root cause (2026-10-26), ✅ E2E verified demand-ba2d8a8a visible, q=5.0 quarantined
@@ -200,21 +200,7 @@ ownsite-aeo/
 
 ## 5. 網絡配置
 
-### Mainnet（Base L2）
-
-```toml
-NETWORK = "eip155:8453"
-ASSET_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # USDC on Base
-```
-
-### Testnet（Base Sepolia）
-
-```toml
-# 切換變量 NETWORK 為 "eip155:84532"
-ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # USDC on Sepolia (Circle canonical)
-```
-
-### 當前部署
+### Mainnet（Base L2）— Migration Target
 
 > ⚠️ **⛔ 現狀以 SYSTEM_DOC 為準**：以下 Mainnet 段為 migration plan，實際部署係 **testnet（eip155:84532）**。任何「修復 NETWORK=8453」嘅動作會將 chain bug 復活，**唔好照住做**。
 
@@ -419,6 +405,10 @@ npx wrangler dev --ip 127.0.0.1 --port 8787
 | v1.14 | Durable Objects (NonceLock/Quota/CircuitBreaker) | ✅ |
 | v1.15 | Held timeout + unrecall | ✅ |
 | v1.16 | Segmented latency + fallback rate | ✅ |
+| v1.17 | Origin annotation + match_log | ✅ |
+| v1.18 | Schema v4 + demand report + match log | ✅ |
+| v1.19 | Index fix (expires_at>now) + quarantine q=5.0 | ✅ |
+| v1.20 | P1 #3 doc audit remediation (secret leak, || repair, q recal split, sync queue finding) | 🔄 committed |
 
 ---
 
@@ -473,11 +463,11 @@ Facilitator 和 Buyer 地址在 Base mainnet 均為 0 ETH / 0 USDC。需手動�
 | 16 | Content Versioning | v1 data_hash 唯一標識；v2: 版本歷史 + 增量更新 |
 | 17 | Batch Purchase | v1 單包；v2: 批量折扣 + 訂閱式更新 |
 | 18 | Refund 流程 | v1 不做；v2: dispute + refund path |
-|| 19 | index near-expiry 指示 | v1 不做；v2: 加 `days_until_expiry` 欄位，buyer 區分新鮮度 |
-|| 20 | q recalibration P1 #3 | v1 線性 formula；v2: sigmoid/log + trigger threshold re-eval（q=5.0 artifact 已爆） |
-|| 21 | CHECK constraint q∈[0,1] | v1 無 DB constraint；v2: `CHECK (q >= 0.0 AND q <= 1.0)` 防 manual INSERT |
-|| 22 | manual-INSERT 禁令 | v1 允許直連 D1；v2: 僅 admin API 可寫，附 audit log |
-|| 23 | expired UX 410 Gone | v1 過期包 buy 404；v2: 明確 410 + expires_at 提示 |
+| 19 | index near-expiry 指示 | v1 不做；v2: 加 `days_until_expiry` 欄位，buyer 區分新鮮度 |
+| 20 | q=5.0 CHECK constraint | v1 無 DB constraint；v2: `CHECK (q >= 0.0 AND q <= 1.0)` 防 manual INSERT（q=5.0 artifact 由呢個 constraint 管） |
+| 21 | q recalibration 真觸發條件 | v1 線性 formula；v2: sigmoid/log + trigger threshold re-eval。empirical evidence：兩份真報告 q=1.0/1.0 飽和（matches≥10 必 cap），非 q=5.0 artifact |
+| 22 | manual-INSERT 禁令 | v1 允許直連 D1；v2: 僅 admin API 可寫，附 audit log |
+| 23 | expired UX 410 Gone | v1 過期包 buy 404；v2: 明確 410 + expires_at 提示 |
 
 #### Demand Pipeline 特別事項
 - **origin 簽名**：demand report 需可驗證 origin（已實作 `origin='demand'` annotation，簽名閘待 v2）
