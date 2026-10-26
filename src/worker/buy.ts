@@ -184,6 +184,7 @@ export function paymentRequiredResponse(
     extra: { name: "USDC", version: "2" },
     extensions: {
       bazaar: {
+        info: { input: { type: "http", method: "GET" } },
         name: meta.title ?? "Agent2Agent Service",
         description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)})`,
         tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
@@ -192,7 +193,7 @@ export function paymentRequiredResponse(
     },
   };
   return json(
-    { x402Version: 1, accepts: [accept] },
+    { x402Version: 2, accepts: [accept] },
     402
   );
 }

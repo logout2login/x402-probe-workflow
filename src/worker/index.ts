@@ -79,6 +79,7 @@ export default {
     if (p === "/" || p === "") {
       return new Response(
         JSON.stringify({
+          x402Version: 2,
           error: "Payment Required",
           accepts: [{
             scheme: "exact",
@@ -93,6 +94,9 @@ export default {
             extra: { name: "USDC", version: "2" },
             extensions: {
               bazaar: {
+                info: {
+                  input: { type: "http", method: "GET" },
+                },
                 name: "AEO-OS Verified Content Marketplace",
                 description: "Agent2Agent capability marketplace with x402 verified packages",
                 tags: ["agent", "x402", "a2a", "marketplace"],
