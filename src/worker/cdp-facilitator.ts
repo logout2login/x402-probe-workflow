@@ -58,7 +58,11 @@ export async function verifyAndSettle(
   env: Env
 ): Promise<FacilitatorResponse> {
   if (env.MOCK_FACILITATOR === "1") {
-    // Mock 模式：本地測試用。上線前必須移除。
+    // v1.20：production guard — 唔准 mock 交差
+    if (typeof process !== "undefined" && (process as any).env?.ENVIRONMENT === "production") {
+      throw new Error("FATAL: MOCK_FACILITATOR forbidden in production");
+    }
+    // local / preview 允許 mock（保留本地開發能力）
     return {
       isValid: !!payment.payload?.txHash,
       amount: requirements.maxAmountRequired,
