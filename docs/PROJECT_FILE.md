@@ -58,9 +58,9 @@ ownsite-aeo/
 │   ├── worker/                     # HTTP 路由層
 │   │   ├── index.ts                # 路由分發入口
 │   │   ├── env.ts                  # Env 介面（vars + secrets）
-│   │   ├── agents.ts               # POST /api/agents
-│   │   ├── catalog.ts              # POST/GET /api/catalog/listing
-│   │   ├── products.ts             # GET /api/products/{id}（402 flow）
+│   │   ├── agents.ts               # ~~POST /api/agents~~ (zombie, removed)
+│   │   ├── catalog.ts              # ~~POST/GET /api/catalog/listing~~ (zombie, removed)
+│   │   ├── products.ts             # ~~GET /api/products/{id}~~ (zombie, removed)
 │   │   ├── buy.ts                  # POST /api/buy（一鍵買入）
 │   │   ├── ledger.ts               # GET /api/ledger/*（對帳）
 │   │   ├── verify.ts               # POST /api/verify（x402 簽名驗證回呼）
