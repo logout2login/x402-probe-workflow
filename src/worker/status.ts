@@ -49,6 +49,6 @@ export async function handleStatus(req: Request, env: Env): Promise<Response> {
 function parseId(url: string, prefix: string): string | null {
   const u = new URL(url);
   const parts = u.pathname.split("/").filter(Boolean);
-  if (parts[0] !== prefix.slice(1)) return null;
+  if (parts[0] !== prefix.slice(1, -1)) return null;
   return parts.length === 2 ? decodeURIComponent(parts[1]!) : null;
 }
