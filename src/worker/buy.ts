@@ -192,9 +192,19 @@ export function paymentRequiredResponse(
       },
     },
   };
-  return json(
-    { x402Version: 2, accepts: [accept] },
-    402
+  const payload = { x402Version: 2, accepts: [accept] };
+  return new Response(
+    JSON.stringify(payload),
+    {
+      status: 402,
+      headers: {
+        "content-type": "application/json",
+        "PAYMENT-REQUIRED": Buffer.from(JSON.stringify(payload)).toString("base64"),
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET, POST, OPTIONS",
+        "access-control-allow-headers": "content-type, x-payment, PAYMENT-SIGNATURE",
+      }
+    }
   );
 }
 
