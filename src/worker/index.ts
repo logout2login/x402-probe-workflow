@@ -96,7 +96,7 @@ export default {
                 name: "AEO-OS Verified Content Marketplace",
                 description: "Agent2Agent capability marketplace with x402 verified packages",
                 tags: ["agent", "x402", "a2a", "marketplace"],
-                schema: { type: "application/json", url: `${env.OWNSITE_BASE}/api/catalog/listing` },
+                schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
               },
             }
           }]
@@ -128,8 +128,12 @@ export default {
         getPackageStatus: async id => await env.KV.get(`status:${id}`),
         getReplacement: async id => await env.KV.get(`replacement:${id}`),
         getPackageMeta: async id => {
-          const meta = await env.KV.get(`meta:${id}`, "json");
-          return meta as PackageMeta | null;
+          // D1 是 truth source：package 唔喺 D1 就 404，唔好由 KV cache 畀 meta
+          const d1Meta = await env.DB.prepare('SELECT package_id, tier, title, q, evidence_count, expires_at FROM packages WHERE package_id = ?').bind(id).first<PackageMeta>();
+          if (!d1Meta) return null;
+          // D1 存在 → 合併 KV 附加資訊（如果有）
+          const kvMeta = await env.KV.get(`meta:${id}`, "json") as PackageMeta | null;
+          return kvMeta ?? d1Meta;
         },
         getData: async id => {
           const pkg = await env.KV.get(`pkg:${id}`, "json") as { data?: unknown } | null;
@@ -153,7 +157,7 @@ export default {
     }
     if (p === "/api/a2a/metrics") {
       try {
-        return withCors(await handleA2AMetrics(env));
+        return withCors(await handleA2AMetrics(req, env));
       } catch (e) {
         return json({ error: (e as Error).message }, 500);
       }
