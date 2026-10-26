@@ -13,14 +13,15 @@ export interface SettleAttemptInput {
   result: "settled" | "facilitator_error" | "network_error" | "rejected";
   amountUsdc?: string;
   payer?: string;
+  network: string;        // eip155:{chainId}
   latencyMs?: number;
   error?: string;
 }
 
 export async function recordSettle(env: Env, input: SettleAttemptInput): Promise<void> {
   await env.DB.prepare(
-    `INSERT INTO settle_attempts (tx_hash, package_id, facilitator, attempt, result, amount_usdc, payer, latency_ms, error, called_at)
-     VALUES (?,?,?,?,?,?,?,?,?,?)`
+    `INSERT INTO settle_attempts (tx_hash, package_id, facilitator, attempt, result, amount_usdc, payer, network, latency_ms, error, called_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?)`
   ).bind(
     input.txHash,
     input.packageId,
@@ -29,6 +30,7 @@ export async function recordSettle(env: Env, input: SettleAttemptInput): Promise
     input.result,
     input.amountUsdc ?? null,
     input.payer ?? null,
+    input.network,
     input.latencyMs ?? null,
     input.error ?? null,
     new Date().toISOString()

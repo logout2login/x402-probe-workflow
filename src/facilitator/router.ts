@@ -92,6 +92,7 @@ export async function routeAndSettle(
         result: "settled",
         amountUsdc: res.amount,
         payer: res.payer,
+        network: opts.payment.network,
         latencyMs: 1,
       });
       return { ...res, facilitator: name, circuit_opened: circuitOpened };
@@ -109,6 +110,7 @@ export async function routeAndSettle(
         result: "settled",
         amountUsdc: res.amount,
         payer: res.payer,
+        network: opts.payment.network,
         latencyMs: res.latencyMs,
       });
       return { ...res, facilitator: name, circuit_opened: circuitOpened };
@@ -122,6 +124,7 @@ export async function routeAndSettle(
         attempt: 1,
         result: "facilitator_error",
         error: res.error,
+        network: opts.payment.network,
         latencyMs: res.latencyMs,
       });
       continue; // 嘗試下一個

@@ -90,7 +90,15 @@ export default {
             payTo: env.PAY_TO,
             maxTimeoutSeconds: 300,
             asset: env.ASSET_USDC,
-            extra: { name: "USDC", version: "2" }
+            extra: { name: "USDC", version: "2" },
+            extensions: {
+              bazaar: {
+                name: "AEO-OS Verified Content Marketplace",
+                description: "Agent2Agent capability marketplace with x402 verified packages",
+                tags: ["agent", "x402", "a2a", "marketplace"],
+                schema: { type: "application/json", url: `${env.OWNSITE_BASE}/api/catalog/listing` },
+              },
+            }
           }]
         }),
         {
