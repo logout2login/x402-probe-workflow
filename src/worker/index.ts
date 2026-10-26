@@ -80,29 +80,32 @@ export default {
       const rootPayload = JSON.stringify({
         x402Version: 2,
         error: "Payment Required",
+        resource: {
+          url: "https://ownsite-aeo.jerry-aeo.workers.dev/",
+          description: "AEO-OS Verified Content Marketplace - 4 packages available at /buy/{id}",
+        },
         accepts: [{
           scheme: "exact",
           network: env.NETWORK || "eip155:84532",
-          maxAmountRequired: "500000",
-          resource: "https://ownsite-aeo.jerry-aeo.workers.dev/",
-          description: "AEO-OS Verified Content Marketplace - 4 packages available at /buy/{id}",
-          mimeType: "application/json",
+          amount: "500000",
+          asset: env.ASSET_USDC,
           payTo: env.PAY_TO,
           maxTimeoutSeconds: 300,
-          asset: env.ASSET_USDC,
+          mimeType: "application/json",
           extra: { name: "USDC", version: "2" },
-          extensions: {
-            bazaar: {
-              info: {
-                input: { type: "http", method: "GET" },
-              },
-              name: "AEO-OS Verified Content Marketplace",
-              description: "Agent2Agent capability marketplace with x402 verified packages",
-              tags: ["agent", "x402", "a2a", "marketplace"],
-              schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
+        }],
+        extensions: {
+          bazaar: {
+            info: {
+              input: { type: "http", method: "GET" },
+              output: { example: "application/json" },
             },
-          }
-        }]
+            name: "AEO-OS Verified Content Marketplace",
+            description: "Agent2Agent capability marketplace with x402 verified packages",
+            tags: ["agent", "x402", "a2a", "marketplace"],
+            schema: { type: "application/json", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
+          },
+        }
       });
       return new Response(rootPayload, {
         status: 402,
