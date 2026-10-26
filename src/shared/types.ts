@@ -76,7 +76,7 @@ export interface GateResult {
 export interface X402Accept {
   scheme: "exact";
   network: string;
-  maxAmountRequired: string;
+  amount: string;
   resource: string;
   description: string;
   mimeType: string;
@@ -86,6 +86,10 @@ export interface X402Accept {
   extra: { name: string; version: string };
   extensions?: {
     bazaar?: {
+      info: {
+        input: { type: string; method: string };
+        output?: { example: string };
+      };
       name: string;
       description: string;
       tags: string[];

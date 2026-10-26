@@ -557,7 +557,6 @@ assert(
 section("origin=demand & match_distribution_log assertions (Fix #4)");
 
 // 9a. demand-report.ts INSERT/UPDATE 均設定 origin='demand'
-import { readFileSync } from "node:fs";
 const demandReportSrc = readFileSync(
   "src/worker/demand-report.ts",
   "utf-8"
@@ -590,7 +589,7 @@ assert(
 const matchLogMatch = demandReportSrc.match(/INSERT INTO match_distribution_log \(([^)]+)\)/);
 assert(matchLogMatch !== null, "match_distribution_log INSERT has column list");
 if (matchLogMatch) {
-  const cols = matchLogMatch[1];
+  const cols = matchLogMatch?.[1] ?? "";
   assert(cols.includes("package_id"), "match_distribution_log has package_id column");
   assert(cols.includes("source_breakdown"), "match_distribution_log has source_breakdown column");
 }

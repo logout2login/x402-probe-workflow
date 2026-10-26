@@ -1,6 +1,6 @@
 // Merge D1 batches into single row
 export default {
-  async fetch(request, env) {
+  async fetch(request: Request, env: { AEO_D1: any; DEMAND_ADMIN_SECRET: string }) {
     if (request.method !== 'POST') {
       return new Response(JSON.stringify({ error: 'method not allowed' }), { status: 405 });
     }
@@ -51,7 +51,7 @@ export default {
       }), {
         headers: { 'Content-Type': 'application/json' }
       });
-    } catch (e) {
+    } catch (e: any) {
       return new Response(JSON.stringify({ error: e.message }), { status: 500 });
     }
   }
