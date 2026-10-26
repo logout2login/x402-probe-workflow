@@ -6,7 +6,7 @@
 > 作者：Jerry
 > 版本：v1.20（P1#3 doc audit remediation — secret leak fix, || table repair, q recal split, sync queue finding）
 > Last Updated: 2026-10-26
-> Deployed Version: 477d65e62d61af97f79a3ebc6fb1dc74b4d9a233 ✅ live
+> Deployed Version: 7adaed58-f0d3-4fd7-882c-c621baa1d3c8 (commit 6eba214) ✅ live
 > Audit: #3 index expiry filter root cause (2026-10-26), ✅ E2E verified demand-ba2d8a8a visible, q=5.0 quarantined
 
 ---
