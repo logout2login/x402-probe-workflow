@@ -84,6 +84,14 @@ export interface X402Accept {
   maxTimeoutSeconds: number;
   asset: string;
   extra: { name: string; version: string };
+  extensions?: {
+    bazaar?: {
+      name: string;
+      description: string;
+      tags: string[];
+      schema: { type: string; url: string };
+    };
+  };
 }
 
 export interface X402PaymentPayload {

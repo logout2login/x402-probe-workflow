@@ -182,6 +182,14 @@ export function paymentRequiredResponse(
     maxTimeoutSeconds: 300,
     asset: env.ASSET_USDC,
     extra: { name: "USDC", version: "2" },
+    extensions: {
+      bazaar: {
+        name: meta.title ?? "Agent2Agent Service",
+        description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)})`,
+        tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
+        schema: { type: "application/json", url: `${env.OWNSITE_BASE}/api/catalog/listing` },
+      },
+    },
   };
   return json(
     { x402Version: 1, accepts: [accept] },

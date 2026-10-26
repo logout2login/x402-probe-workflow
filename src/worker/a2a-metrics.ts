@@ -41,8 +41,9 @@ interface TopPackageRow {
 }
 
 export async function handleA2AMetrics(env: Env): Promise<Response> {
-  // 只計算 mainnet（eip155:8453）記錄；testnet 不計入 marketing 指標
-  const networkTag = env.NETWORK ?? "eip155:8453";
+  // network 為 required var；undefined → throw（fail-closed，唔好跌向 mainnet）
+  const networkTag = env.NETWORK;
+  if (!networkTag) throw new Error("NETWORK env missing — fail-closed");
 
   let rows: SettleRow[] = [];
   let dailyTrend: DailyTrendRow[] = [];
@@ -53,8 +54,9 @@ export async function handleA2AMetrics(env: Env): Promise<Response> {
       `SELECT facilitator, result, amount_usdc, payer, called_at, package_id, error
        FROM settle_attempts
        WHERE called_at >= datetime('now', '-90 days')
+         AND network = ?
        ORDER BY called_at DESC`
-    ).all<SettleRow>();
+    ).bind(networkTag).all<SettleRow>();
     rows = allResult.results ?? [];
   } catch (e) {
     console.error("[a2a-metrics] allQuery error:", e);
@@ -68,10 +70,11 @@ export async function handleA2AMetrics(env: Env): Promise<Response> {
        FROM settle_attempts
        WHERE called_at >= datetime('now', '-90 days')
          AND result = 'settled'
+         AND network = ?
        GROUP BY day
        ORDER BY day DESC
        LIMIT 30`
-    ).all<DailyTrendRow>();
+    ).bind(networkTag).all<DailyTrendRow>();
     dailyTrend = dailyResult.results ?? [];
   } catch (e) {
     console.error("[a2a-metrics] dailyQuery error:", e);
@@ -85,10 +88,11 @@ export async function handleA2AMetrics(env: Env): Promise<Response> {
        FROM settle_attempts
        WHERE result = 'settled'
          AND amount_usdc IS NOT NULL
+         AND network = ?
        GROUP BY package_id
        ORDER BY total_amount_usdc DESC
        LIMIT 10`
-    ).all<TopPackageRow>();
+    ).bind(networkTag).all<TopPackageRow>();
     topPackages = pkgResult.results ?? [];
   } catch (e) {
     console.error("[a2a-metrics] pkgQuery error:", e);
@@ -139,7 +143,7 @@ export async function handleA2AMetrics(env: Env): Promise<Response> {
   const response = {
     generated_at: new Date().toISOString(),
     network: networkTag,
-    data_source: "D1 ownsite-aeo (mainnet settled only)",
+    data_source: `D1 ownsite-aeo (${networkTag} settled)`,
     totals: {
       settled_count: settled.length,
       failed_count: failed.length,
@@ -150,6 +154,7 @@ export async function handleA2AMetrics(env: Env): Promise<Response> {
       human_intervention_count: humanIntervened,
     },
     by_facilitator: byFacilitator,
+    by_network: { [networkTag]: { settled: settled.length, failed: failed.length, amount_usdc: Math.round(totalAmount * 10000) / 10000 } },
     daily_trend: dailyTrendOut,
     top_packages: (topPackages ?? []).map(r => ({
       package_id: r.package_id,
