@@ -68,7 +68,7 @@ async function main() {
     const pk = pkInput.startsWith("0x") ? pkInput : ("0x" + pkInput) as Hex;
     if (pk.length !== 66) throw new Error("Invalid private key length (need 64 hex chars + 0x)");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const buyer = privateKeyToAccount(pk);
+    const buyer = privateKeyToAccount(pk as `0x${string}`);
     await run(buyer, amount, amountUsdc);
     return;
   }
@@ -173,7 +173,7 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
     body: JSON.stringify({ resource: `/buy/${RESOURCE}` }),
   });
   console.log(`    HTTP ${buyResp.status}`);
-  const body = await buyResp.json();
+  const body = await buyResp.json() as { ok?: boolean; error?: string; txHash?: string; amount?: string };
   console.log(`    Response: ${JSON.stringify(body).slice(0, 400)}`);
 
   if (buyResp.status !== 200) {
@@ -193,9 +193,10 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
   }
 
   console.log(`\n✅ SETTLE SUCCESS`);
-  console.log(`   txHash: ${body.txHash}`);
-  console.log(`   Amount: ${formatUnits(BigInt(body.amount), USDC_DECIMALS)} USDC`);
-  console.log(`   Basescan: https://basescan.org/tx/${body.txHash}`);
+  const txHash = body.txHash ?? "(none)";
+  console.log(`   txHash: ${txHash}`);
+  console.log(`   Amount: ${formatUnits(BigInt(body.amount ?? "0"), USDC_DECIMALS)} USDC`);
+  console.log(`   Basescan: https://basescan.org/tx/${txHash}`);
 
   // ── 5. Verify payTo received ─────────────────────────────────────────────────
   console.log(`\n[5] Verifying payTo balance ...`);

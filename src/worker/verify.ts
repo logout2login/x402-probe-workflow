@@ -18,6 +18,17 @@ export async function handleVerify(req: Request, env: Env): Promise<Response> {
   const id = parseId(req.url, "/verify/");
   if (!id) return json({ error: "invalid_package_id" }, 400);
 
+  // D1 status gate: recall/stale packages → 404
+  const d1Status = await env.DB.prepare(
+    "SELECT status FROM packages WHERE package_id = ?"
+  ).bind(id).first<string | null>();
+  if (d1Status === "recalled") {
+    return json({ error: "not_found" }, 404);
+  }
+  if (!d1Status) {
+    return json({ error: "not_found" }, 404);
+  }
+
   // 速率限制（60 req/min/IP）
   const limit = parseInt(env.VERIFY_RATE_LIMIT_PER_MIN || "60", 10);
   const rl = await checkRateLimit(env, {
