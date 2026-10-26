@@ -203,6 +203,10 @@ async function createDemandPackage(
   const title = `Agent Forum Demand Report: ${request.topic}`;
 
   // Gate check against LISTED_MIN_Q / LISTED_MIN_EVIDENCE (source of truth in constants.ts)
+  // NOTE: BLOCKED_MIN_Q (0.65) and BLOCKED_MIN_EVIDENCE (3) are defined in constants.ts but NOT used here.
+  // Current code is strictly binary: q>=0.72 && evidence>=4 → listed/fresh, else blocked.
+  // A "soft-block" tier at 0.65≤q<0.72 would need a third state (e.g. "pending_review").
+  // See PROJECT_FILE §12.2 / docs/v2-backlog.md for backlog discussion.
   const meetsGate = q >= LISTED_MIN_Q && evidenceCount >= LISTED_MIN_EVIDENCE;
   const tier = meetsGate ? REPORT_TIER_LISTED : REPORT_TIER_BLOCKED;
   const status = meetsGate ? "fresh" : "blocked";

@@ -300,7 +300,7 @@ wrangler secret put DEMAND_ADMIN_SECRET           # Demand admin key (rotated 20
 | Payments (30d) | 5 |
 | Revenue (30d) | $2.5 USDC |
 | Demand Candidates | 337 candidates (5 sources, max 46.6%) |
-| Demand Reports Generated | 0 (gate active — first agent request will trigger demand pipeline) |
+| Demand Reports Generated | 2（dr-ba2d8a8a + second report，origin=demand，completed） |
 
 ### Existing Packages
 1. `research-2026-q4-ai-agent-adoption` — AI Agent Adoption 2026 Q4 Research Report
