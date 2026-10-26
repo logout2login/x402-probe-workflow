@@ -167,7 +167,7 @@ export default {
       return json({
         ok: true,
         service: "ownsite-aeo",
-        version: "1.16",
+        version: "1.18",
         base: env.OWNSITE_BASE,
         network: env.NETWORK,
         mock_facilitator: env.MOCK_FACILITATOR === "1",
