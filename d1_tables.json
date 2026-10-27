@@ -1,0 +1,103 @@
+
+ ⛅️ wrangler 3.114.17 (update available 4.153.0)
+------------------------------------------------
+
+🌀 Executing on remote database ownsite-aeo (0bc5a545-c3e9-4abe-a5e7-99e68d1a1eab):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 1 command in 0.16ms
+[
+  {
+    "results": [
+      {
+        "name": "_cf_KV"
+      },
+      {
+        "name": "_debug_trace"
+      },
+      {
+        "name": "cursor_audit"
+      },
+      {
+        "name": "demand_candidates_cache"
+      },
+      {
+        "name": "demand_reports"
+      },
+      {
+        "name": "demand_requests"
+      },
+      {
+        "name": "facilitator_daily"
+      },
+      {
+        "name": "facilitator_hourly"
+      },
+      {
+        "name": "kpi_snapshot"
+      },
+      {
+        "name": "marketplace_listings"
+      },
+      {
+        "name": "match_distribution_log"
+      },
+      {
+        "name": "migrations"
+      },
+      {
+        "name": "packages"
+      },
+      {
+        "name": "payments"
+      },
+      {
+        "name": "recall_log"
+      },
+      {
+        "name": "refetch_events"
+      },
+      {
+        "name": "reverify_attempts"
+      },
+      {
+        "name": "reverify_leases"
+      },
+      {
+        "name": "schema_version"
+      },
+      {
+        "name": "settle_attempts"
+      },
+      {
+        "name": "settle_daily"
+      },
+      {
+        "name": "settle_hourly"
+      },
+      {
+        "name": "sqlite_sequence"
+      },
+      {
+        "name": "sync_queue"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "APAC",
+      "served_by_colo": "HKG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.1562
+      },
+      "duration": 0.1562,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 638976,
+      "rows_read": 91,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

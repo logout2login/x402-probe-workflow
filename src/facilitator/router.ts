@@ -103,7 +103,9 @@ export async function routeAndSettle(
       return { ...res, facilitator: name, circuit_opened: circuitOpened };
     }
 
+    console.log("[router] trying facilitator:", name);
     const res = await fac.settle(facEnv, req);
+    console.log("[router] facilitator", name, "result: ok=", res.ok, "error=", res.error);
     if (res.ok) {
       if (env.KV) await env.KV.delete("cb:" + name).catch(() => {}); // 成功 → 重置 circuit
       else circuitBreakers[name]!.recordSuccess();

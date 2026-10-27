@@ -53,8 +53,9 @@ export { NonceLockDO, QuotaDO, CircuitBreakerDO };
 
 export default {
   async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const url = new URL(req.url);
-    const p = url.pathname;
+    try {
+      const url = new URL(req.url);
+      const p = url.pathname;
 
     // Cron trigger
     if (req.headers.get("cf-scheduled")) {
@@ -146,7 +147,10 @@ export default {
           return pkg?.data ?? pkg;
         },
         getVerification: async id => {
-          return await env.KV.get(`verify:${id}`, "json") as Verification | null;
+          // verify: key 只喺 reverify/unrecall 時寫；listing 時 verification 喺 pkg: 入面（全字段）
+          const v = await env.KV.get(`verify:${id}`, "json") as Verification | null;
+          if (v) return v;
+          return (await env.KV.get(`pkg:${id}`, "json")) as Verification | null;
         },
       }));
     }
@@ -208,6 +212,10 @@ export default {
     }
 
     return json({ error: "not_found" }, 404);
+    } catch (e: any) {
+      console.error("[worker] UNCAUGHT FETCH EXCEPTION:", e?.message, e?.stack);
+      return json({ error: "worker_exception", message: e?.message ?? String(e) }, 500);
+    }
   },
 };
 
