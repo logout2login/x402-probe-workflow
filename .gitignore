@@ -12,3 +12,9 @@ build/
 .testnet_payer.json
 build-output/
 scripts/verify_live.py
+# 新 CDP key 位 — 絕對唔可以入 git
+.secrets/
+# 本地產物
+d1_new.json
+fund_check_*.json
+.hermes/
