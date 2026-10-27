@@ -1,0 +1,76 @@
+{
+  "wallTime": 0,
+  "cpuTime": 0,
+  "truncated": false,
+  "executionModel": "stateless",
+  "outcome": "exception",
+  "tailAttributes": {
+    "cron": "*/15 * * * *",
+    "scheduledTime": 1793066411472
+  },
+  "scriptVersion": {
+    "id": "433129d2-99e3-4c16-98e2-061fb6ffc6fb"
+  },
+  "entrypoint": "default",
+  "scriptName": "ownsite-aeo",
+  "diagnosticsChannelEvents": [],
+  "exceptions": [
+    {
+      "name": "Error",
+      "message": "Handler does not export a scheduled() function",
+      "timestamp": 1793066412101
+    }
+  ],
+  "logs": [
+    {
+      "message": [
+        "Received a ScheduledEvent but we lack a handler for ScheduledEvents (a.k.a. Cron Triggers). Did you remember to export a scheduled() function?"
+      ],
+      "level": "warn",
+      "timestamp": 1793066412101
+    }
+  ],
+  "eventTimestamp": 1793066411994,
+  "event": {
+    "cron": "*/15 * * * *",
+    "scheduledTime": 1793066411472
+  }
+}
+{
+  "wallTime": 0,
+  "cpuTime": 0,
+  "truncated": false,
+  "executionModel": "stateless",
+  "outcome": "exception",
+  "tailAttributes": {
+    "cron": "*/15 * * * *",
+    "scheduledTime": 1793067311472
+  },
+  "scriptVersion": {
+    "id": "433129d2-99e3-4c16-98e2-061fb6ffc6fb"
+  },
+  "entrypoint": "default",
+  "scriptName": "ownsite-aeo",
+  "diagnosticsChannelEvents": [],
+  "exceptions": [
+    {
+      "name": "Error",
+      "message": "Handler does not export a scheduled() function",
+      "timestamp": 1793067312233
+    }
+  ],
+  "logs": [
+    {
+      "message": [
+        "Received a ScheduledEvent but we lack a handler for ScheduledEvents (a.k.a. Cron Triggers). Did you remember to export a scheduled() function?"
+      ],
+      "level": "warn",
+      "timestamp": 1793067312233
+    }
+  ],
+  "eventTimestamp": 1793067312167,
+  "event": {
+    "cron": "*/15 * * * *",
+    "scheduledTime": 1793067311472
+  }
+}

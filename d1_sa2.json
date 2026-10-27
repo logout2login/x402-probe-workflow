@@ -1,0 +1,59 @@
+
+ ⛅️ wrangler 3.114.17 (update available 4.153.0)
+------------------------------------------------
+
+🌀 Executing on remote database ownsite-aeo (0bc5a545-c3e9-4abe-a5e7-99e68d1a1eab):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 1 command in 0.18ms
+[
+  {
+    "results": [
+      {
+        "facilitator": "selfhosted",
+        "result": "settled",
+        "error": null,
+        "tx_hash": "0x74907a5bc61cb51a76bccf6787857b71bd427386aa0e8c5e142a685b88eff9ea",
+        "called_at": "2026-10-27T02:22:45.615Z"
+      },
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0xc7839738a415599f483aeb8a37b5aff4559e2e63d296726deb67883c87c506ff",
+        "called_at": "2026-10-27T01:57:00.402Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "facilitator_error",
+        "error": "settle_submit_failed:HTTP request failed.",
+        "tx_hash": "0xc7839738a415599f483aeb8a37b5aff4559e2e63d296726deb67883c87c506ff",
+        "called_at": "2026-10-27T01:56:59.871Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "settled",
+        "error": null,
+        "tx_hash": "0xea1500ec8e9946e2b9c3e2d171b07bcc9aace85f7052b71440b5d6c4ad3b7a79",
+        "called_at": "2026-10-27T01:49:23.744Z"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "APAC",
+      "served_by_colo": "HKG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.1754
+      },
+      "duration": 0.1754,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 638976,
+      "rows_read": 4,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]
