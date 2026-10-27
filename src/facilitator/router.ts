@@ -67,6 +67,12 @@ export async function routeAndSettle(
       circuitOpened.push(name);
       continue;
     }
+    // v1.22：CDP x402 facilitator 官方文檔只支援 Base mainnet (eip155:8453)。
+    // testnet（如 eip155:84532）直接跳 CDP rail，唔好浪費 ~30s 去撞死 key。
+    if (name === "cdp" && env.NETWORK && env.NETWORK !== "eip155:8453") {
+      circuitOpened.push(name + "(testnet-skip)");
+      continue;
+    }
     const fac = name === "cdp" ? cdp : selfhosted;
     const req = {
       payment: opts.payment,
