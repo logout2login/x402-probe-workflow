@@ -28,9 +28,54 @@ import { base, baseSepolia } from "viem/chains";
 import type { Facilitator, FacilitatorEnv, SettleRequest, SettleResponse } from "./interface";
 
 const RPCS: Record<string, string[]> = {
-  "eip155:8453": ["https://mainnet.base.org", "https://base.llamarpc.com"],
-  "eip155:84532": ["https://sepolia.base.org", "https://base-sepolia.gateway.tenderly.co"],
+  "eip155:8453": ["https://mainnet.base.org", "https://base.llamarpc.com", "https://base-rpc.publicnode.com"],
+  "eip155:84532": ["https://sepolia.base.org", "https://base-sepolia.publicnode.com", "https://base-sepolia.gateway.tenderly.co"],
 };
+
+// ── 多 RPC fallback：單節點抖動（5xx/timeout）唔好直接 kill settle，順序 fallback 剩餘節點 ──
+function mkPublic(chain: any, rpc: string) {
+  return createPublicClient({ chain, transport: http(rpc, { timeout: 20_000, batch: false }) });
+}
+
+async function submitAcrossRpcs(
+  rpcs: readonly string[],
+  chain: any,
+  key: `0x${string}`,
+  call: { address: `0x${string}`; abi: readonly any[]; functionName: string; args: unknown[] },
+): Promise<{ hash?: `0x${string}`; err?: any }> {
+  const account = privateKeyToAccount(key);
+  let lastErr: any = null;
+  for (const rpc of rpcs) {
+    try {
+      const wc = createWalletClient({ account, chain, transport: http(rpc, { timeout: 20_000, batch: false }) });
+      const hash = await wc.writeContract({ ...call, chain } as any);
+      return { hash };
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  return { err: lastErr };
+}
+
+async function receiptAcrossRpcs(
+  rpcs: readonly string[],
+  chain: any,
+  hash: `0x${string}`,
+  mode: "get" | "wait",
+  timeoutMs = 60_000,
+): Promise<{ receipt?: any; err?: any }> {
+  let lastErr: any = null;
+  for (const rpc of rpcs) {
+    try {
+      const c = mkPublic(chain, rpc);
+      if (mode === "get") return { receipt: await c.getTransactionReceipt({ hash }) };
+      return { receipt: await c.waitForTransactionReceipt({ hash, timeout: timeoutMs }) };
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  return { err: lastErr };
+}
 
 // Canonical ERC-20 Transfer(address,address,uint256) event signature.
 // 運行時由 event signature string 做 keccak 自導出（唔係 hardcoded 魔術字串），
@@ -139,15 +184,16 @@ export class SelfHostedFacilitator implements Facilitator {
     const publicClient = createPublicClient({ chain, transport: http(rpcs[0], { timeout: 20_000, batch: false }) });
 
     if (authorization) {
-      return this.settleSigned(env, publicClient, req, payTo, amount, done);
+      return this.settleSigned(env, publicClient, rpcs, req, payTo, amount, done);
     }
-    return this.settleCapture(env, publicClient, req, payTo, amount, done);
+    return this.settleCapture(env, publicClient, rpcs, req, payTo, amount, done);
   }
 
   // ── Rail A: plain capture（testnet）──
   private async settleCapture(
     env: FacilitatorEnv,
     publicClient: any,
+    rpcs: readonly string[],
     req: SettleRequest,
     payTo: string,
     amount: bigint,
@@ -164,10 +210,13 @@ export class SelfHostedFacilitator implements Facilitator {
     }
 
     let receipt: any;
-    try {
-      receipt = await publicClient.getTransactionReceipt({ hash: txHash });
-    } catch {
-      return done({ ok: false, amount: "0", payer, txHash, error: "capture_tx_not_found" });
+    {
+      const r = await receiptAcrossRpcs(rpcs, publicClient.chain, txHash as `0x${string}`, "get");
+      receipt = r.receipt;
+      if (!receipt) {
+        // 所有 RPC 都查唔到（pending / 節點全死）
+        return done({ ok: false, amount: "0", payer, txHash, error: "capture_tx_not_found" });
+      }
     }
     if (receipt.status !== "success") {
       return done({ ok: false, amount: "0", payer, txHash, error: "capture_tx_reverted" });
@@ -211,24 +260,20 @@ export class SelfHostedFacilitator implements Facilitator {
       return done({ ok: true, amount: captured.toString(), payer, txHash });
     }
 
-    const account = privateKeyToAccount(env.SELFHOSTED_PRIVATE_KEY as `0x${string}`);
-    const walletClient = createWalletClient({ account, chain: publicClient.chain, transport: publicClient.transport });
-    let settleHash: `0x${string}`;
-    try {
-      settleHash = await walletClient.writeContract({
-        address: env.ASSET_USDC as `0x${string}`,
-        abi: USDC_ABI,
-        functionName: "transfer",
-        args: [payTo as `0x${string}`, captured],
-        chain: publicClient.chain,
-      });
-    } catch (e: any) {
-      return done({ ok: false, amount: captured.toString(), payer, txHash, error: "settle_submit_failed:" + String(e?.shortMessage ?? e) });
+    const key0: `0x${string}` = env.SELFHOSTED_PRIVATE_KEY as `0x${string}`;
+    const sub = await submitAcrossRpcs(rpcs, publicClient.chain, key0, {
+      address: env.ASSET_USDC as `0x${string}`,
+      abi: USDC_ABI,
+      functionName: "transfer",
+      args: [payTo as `0x${string}`, captured],
+    });
+    if (!sub.hash) {
+      return done({ ok: false, amount: captured.toString(), payer, txHash, error: "settle_submit_failed:" + String(sub.err?.shortMessage ?? sub.err) });
     }
-    let sr: any;
-    try {
-      sr = await publicClient.waitForTransactionReceipt({ hash: settleHash, timeout: 60_000 });
-    } catch {
+    const settleHash = sub.hash;
+    const wr = await receiptAcrossRpcs(rpcs, publicClient.chain, settleHash, "wait");
+    const sr = wr.receipt;
+    if (!sr) {
       return done({ ok: false, amount: captured.toString(), payer, txHash, error: "settle_pending_timeout:" + settleHash });
     }
     if (sr.status !== "success") {
@@ -241,6 +286,7 @@ export class SelfHostedFacilitator implements Facilitator {
   private async settleSigned(
     env: FacilitatorEnv,
     publicClient: any,
+    rpcs: readonly string[],
     req: SettleRequest,
     payTo: string,
     amount: bigint,
@@ -300,8 +346,6 @@ export class SelfHostedFacilitator implements Facilitator {
       if (used) return done({ ok: false, amount: "0", payer, txHash: "", error: "nonce_reused" });
     }
 
-    const account = privateKeyToAccount(env.SELFHOSTED_PRIVATE_KEY as `0x${string}`);
-    const walletClient = createWalletClient({ account, chain: publicClient.chain, transport: publicClient.transport });
     const usdc = env.ASSET_USDC as `0x${string}`;
 
     const allowance = (await publicClient
@@ -320,21 +364,19 @@ export class SelfHostedFacilitator implements Facilitator {
       const s = auth.s as `0x${string}`;
       if (!r || !s) return done({ ok: false, amount: "0", payer, txHash: "", error: "auth_missing_rs" });
       let permitHash: `0x${string}`;
-      try {
-        permitHash = await walletClient.writeContract({
-          address: usdc,
-          abi: USDC_ABI,
-          functionName: "permit",
-          args: [payer as `0x${string}`, payTo as `0x${string}`, amount, BigInt(validBefore), BigInt(nonce), v, r, s],
-          chain: publicClient.chain,
-        });
-      } catch (e: any) {
-        return done({ ok: false, amount: "0", payer, txHash: "", error: "permit_submit_failed:" + String(e?.shortMessage ?? e) });
+      const psub = await submitAcrossRpcs(rpcs, publicClient.chain, env.SELFHOSTED_PRIVATE_KEY as `0x${string}`, {
+        address: usdc,
+        abi: USDC_ABI,
+        functionName: "permit",
+        args: [payer as `0x${string}`, payTo as `0x${string}`, amount, BigInt(validBefore), BigInt(nonce), v, r, s],
+      });
+      if (!psub.hash) {
+        return done({ ok: false, amount: "0", payer, txHash: "", error: "permit_submit_failed:" + String(psub.err?.shortMessage ?? psub.err) });
       }
-      let pr: any;
-      try {
-        pr = await publicClient.waitForTransactionReceipt({ hash: permitHash, timeout: 60_000 });
-      } catch {
+      permitHash = psub.hash;
+      const pwr = await receiptAcrossRpcs(rpcs, publicClient.chain, permitHash, "wait");
+      const pr = pwr.receipt;
+      if (!pr) {
         return done({ ok: false, amount: "0", payer, txHash: permitHash, error: "permit_pending_timeout" });
       }
       if (pr.status !== "success") {
@@ -343,21 +385,19 @@ export class SelfHostedFacilitator implements Facilitator {
     }
 
     let settleHash: `0x${string}`;
-    try {
-      settleHash = await walletClient.writeContract({
-        address: usdc,
-        abi: USDC_ABI,
-        functionName: "transferFrom",
-        args: [payer as `0x${string}`, payTo as `0x${string}`, amount],
-        chain: publicClient.chain,
-      });
-    } catch (e: any) {
-      return done({ ok: false, amount: "0", payer, txHash: "", error: "settle_submit_failed:" + String(e?.shortMessage ?? e) });
+    const ssub = await submitAcrossRpcs(rpcs, publicClient.chain, env.SELFHOSTED_PRIVATE_KEY as `0x${string}`, {
+      address: usdc,
+      abi: USDC_ABI,
+      functionName: "transferFrom",
+      args: [payer as `0x${string}`, payTo as `0x${string}`, amount],
+    });
+    if (!ssub.hash) {
+      return done({ ok: false, amount: "0", payer, txHash: "", error: "settle_submit_failed:" + String(ssub.err?.shortMessage ?? ssub.err) });
     }
-    let sr: any;
-    try {
-      sr = await publicClient.waitForTransactionReceipt({ hash: settleHash, timeout: 60_000 });
-    } catch {
+    settleHash = ssub.hash;
+    const swr = await receiptAcrossRpcs(rpcs, publicClient.chain, settleHash, "wait");
+    const sr = swr.receipt;
+    if (!sr) {
       return done({ ok: false, amount: "0", payer, txHash: settleHash, error: "settle_pending_timeout" });
     }
     if (sr.status !== "success") {

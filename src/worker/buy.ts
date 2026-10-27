@@ -60,6 +60,7 @@ export async function handleBuy(
     getVerification: (id: string) => Promise<Verification | null>;
   }
 ): Promise<Response> {
+  try {
   const id = parseIdFromPath(req.url);
   if (!id) return json({ error: "invalid_package_id" }, 400);
 
@@ -113,11 +114,19 @@ export async function handleBuy(
   }
 
   // 結算（v1.12: 走 facilitator router）
-  const settle = await routeAndSettle(env, {
-    payment,
-    packageId: id,
-    amountRequired: PRICE_STANDARD_6DECIMAL,
-  });
+  console.log("[buy] calling routeAndSettle, packageId=", id, "network=", env.NETWORK);
+  let settle;
+  try {
+    settle = await routeAndSettle(env, {
+      payment,
+      packageId: id,
+      amountRequired: PRICE_STANDARD_6DECIMAL,
+    });
+    console.log("[buy] routeAndSettle result: ok=", settle.ok, "error=", settle.error);
+  } catch (e: any) {
+    console.error("[buy] routeAndSettle THREW:", e?.message ?? String(e));
+    throw e;
+  }
 
   if (!settle.ok) {
     return json({ error: "settlement_failed", reason: settle.error }, 403);
@@ -165,6 +174,10 @@ export async function handleBuy(
       purchased_at: purchasedAt,
     },
   });
+  } catch (e: any) {
+    console.error("[buy] UNHANDLED EXCEPTION:", e?.message, e?.stack ?? "");
+    throw e;
+  }
 }
 
 export function paymentRequiredResponse(

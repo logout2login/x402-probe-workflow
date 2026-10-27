@@ -1,0 +1,115 @@
+
+ ⛅️ wrangler 3.114.17 (update available 4.153.0)
+------------------------------------------------
+
+🌀 Executing on remote database ownsite-aeo (0bc5a545-c3e9-4abe-a5e7-99e68d1a1eab):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 1 command in 0.21ms
+[
+  {
+    "results": [
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0xc7839738a415599f483aeb8a37b5aff4559e2e63d296726deb67883c87c506ff",
+        "called_at": "2026-10-27T01:57:00.402Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "facilitator_error",
+        "error": "settle_submit_failed:HTTP request failed.",
+        "tx_hash": "0xc7839738a415599f483aeb8a37b5aff4559e2e63d296726deb67883c87c506ff",
+        "called_at": "2026-10-27T01:56:59.871Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "settled",
+        "error": null,
+        "tx_hash": "0xea1500ec8e9946e2b9c3e2d171b07bcc9aace85f7052b71440b5d6c4ad3b7a79",
+        "called_at": "2026-10-27T01:49:23.744Z"
+      },
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0x94a77a9d20101ba9d68d9b850dd739039305e450fc3629305de45c3608fd7487",
+        "called_at": "2026-10-26T18:30:18.302Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "facilitator_error",
+        "error": "capture_transfer_not_found",
+        "tx_hash": "0x94a77a9d20101ba9d68d9b850dd739039305e450fc3629305de45c3608fd7487",
+        "called_at": "2026-10-26T18:30:17.617Z"
+      },
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0xf7f07c7ca0e343f3d4c82f2e6bf45d13a29daece9d67511ee843af896afa6d9e",
+        "called_at": "2026-10-26T18:06:22.882Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "facilitator_error",
+        "error": "capture_transfer_not_found",
+        "tx_hash": "0xf7f07c7ca0e343f3d4c82f2e6bf45d13a29daece9d67511ee843af896afa6d9e",
+        "called_at": "2026-10-26T18:06:22.356Z"
+      },
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0x486aa40f0f75964ff8a47470f41b592e3bea82985bdbcb3029c8e19710bf0972",
+        "called_at": "2026-10-26T18:01:13.814Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "facilitator_error",
+        "error": "capture_transfer_not_found",
+        "tx_hash": "0x486aa40f0f75964ff8a47470f41b592e3bea82985bdbcb3029c8e19710bf0972",
+        "called_at": "2026-10-26T18:01:13.156Z"
+      },
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0xab14ebb711555193008652f80a6d738e6400a8febd146ab6b51d191f0af64287",
+        "called_at": "2026-10-26T17:49:34.523Z"
+      },
+      {
+        "facilitator": "selfhosted",
+        "result": "facilitator_error",
+        "error": "capture_transfer_not_found",
+        "tx_hash": "0xab14ebb711555193008652f80a6d738e6400a8febd146ab6b51d191f0af64287",
+        "called_at": "2026-10-26T17:49:33.899Z"
+      },
+      {
+        "facilitator": "cdp",
+        "result": "facilitator_error",
+        "error": "Unexpected token 'U', \"Unauthorized\n\" is not valid JSON",
+        "tx_hash": "0x7bc370936c87b81d3c2d0270fa030ae3eb6a601bedb024ea38f9d0a61fc1d245",
+        "called_at": "2026-10-26T17:34:22.893Z"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "APAC",
+      "served_by_colo": "HKG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.2147
+      },
+      "duration": 0.2147,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 638976,
+      "rows_read": 12,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]
