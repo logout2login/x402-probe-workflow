@@ -35,6 +35,11 @@ jobs:
     needs: [probe]
     steps:
       - uses: actions/checkout@v4
+      - name: Pull latest (after probe completes)
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git pull --rebase || true
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -53,7 +58,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git pull --rebase
           git add logs/
           git diff --cached --quiet || git commit -m "scan: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
