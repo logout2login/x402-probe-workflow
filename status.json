@@ -1,6 +1,6 @@
 {
   "target": "https://x402.org/facilitator",
-  "last_check": "2026-10-28T03:56:18Z",
+  "last_check": "2026-10-28T04:10:03Z",
   "current_code": "404",
   "uptime_24h": null,
   "last_500": null,
@@ -47,6 +47,11 @@
       "t": "2026-10-28T03:56:18Z",
       "code": 404,
       "ms": 75
+    },
+    {
+      "t": "2026-10-28T04:10:03Z",
+      "code": 404,
+      "ms": 64
     }
   ],
   "note": "Seed: 1 verified point. uptime_24h stays null until >=24 points accumulate (evidence, not speculation).",
