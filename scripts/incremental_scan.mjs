@@ -17,6 +17,9 @@ const TOPIC0 = "0x98de503528ee59b575ef0c0a2576a82497bfc029a5685b209e9ec333479b10
 const BUYER_ADDR = "0xc8f87fe6fe8cda55e284e2a39bd4b8e6bf047e90";
 const fromTopic = "0x000000000000000000000000" + BUYER_ADDR.slice(2);
 
+// ChainId verification (Base Sepolia = 84532 = 0x14a34)
+const EXPECTED_CHAIN_ID = "0x14a34";
+
 // Multi-endpoint RPC failover (ordered by preference)
 const RPC_ENDPOINTS = [
   "https://base-sepolia.base.org",     // Base official
@@ -44,6 +47,12 @@ function log(msg) {
 
 // Read cursor
 function readCursor() {
+  // Cursor reset override: recover from gap detection bug
+  // Block 51007097 (the only TWA event) was skipped because it was 11.9h old
+  const CURSOR_RESET_OVERRIDE = 51007096;
+  if (typeof CURSOR_RESET_OVERRIDE !== 'undefined' && CURSOR_RESET_OVERRIDE > 0) {
+    return CURSOR_RESET_OVERRIDE;
+  }
   try {
     const data = JSON.parse(fs.readFileSync(CURSOR_FILE, 'utf8'));
     return data.lastBlock ? parseInt(data.lastBlock, 10) : 0;
@@ -94,7 +103,15 @@ async function main() {
   const latestHex = await rpc("eth_blockNumber", []);
   const latestBlock = parseInt(latestHex, 16);
   log(`Latest block: ${latestBlock}`);
-  
+
+  // Verify chainId
+  const chainId = await rpc("eth_chainId", []);
+  log(`Chain ID: ${chainId} (${parseInt(chainId, 16)}${chainId === EXPECTED_CHAIN_ID ? ' ✅' : ' ❌ MISMATCH!'})`);
+  if (chainId !== EXPECTED_CHAIN_ID) {
+    log('FATAL: Not on Base Sepolia! Aborting.');
+    process.exit(1);
+  }
+
   // Get cursor
   const lastBlock = readCursor();
   log(`Cursor (last scanned): ${lastBlock}`);
@@ -110,20 +127,9 @@ async function main() {
   const totalChunks = Math.ceil(newBlocks / CHUNK);
   log(`Scanning blocks ${startBlock} → ${latestBlock} (${newBlocks} blocks, ${totalChunks} chunks)`);
   
-  // Check if we should skip old range (prevent re-scan of very old blocks)
-  const maxScanAge = 2 * 3600; // 2 hours in seconds
-  const blockTime = 2; // Base Sepolia ~2s per block
-  const maxBlocks = (maxScanAge / blockTime) * 1.5; // 1.5x cushion
-  
-  if (startBlock < latestBlock - maxBlocks) {
-    log(`⚠️  Gap detected: ${startBlock} is ${((latestBlock - startBlock) * blockTime / 3600).toFixed(1)}h behind latest`);
-    log(`   Adjusting start to keep within ${maxScanAge/3600}h window`);
-    startBlock = Math.max(startBlock, latestBlock - Math.floor(maxBlocks));
-  }
-  
   const finalStart = startBlock;
   const actualChunks = Math.ceil((latestBlock - finalStart + 1) / CHUNK);
-  log(`Actual scan: ${actualChunks} chunks (after gap adjustment)`);
+  log(`Actual scan: ${actualChunks} chunks`);
   
   // Parallel scan workers
   const found = [];
