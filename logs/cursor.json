@@ -1,1 +1,7 @@
-{"lastBlock": 51232726, "lastUpdate": "2026-10-28T06:35:00Z", "totalScanned": 51232726, "totalEvents": 1}
+{
+  "lastBlock": 51280922,
+  "lastUpdate": "2026-10-28T09:00:53.909Z",
+  "totalScanned": 51280922,
+  "totalEvents": 1,
+  "rpcEndpoint": "https://base-sepolia-rpc.publicnode.com"
+}
