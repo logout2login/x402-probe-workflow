@@ -20,8 +20,9 @@ function log(msg) {
 
 // ── RPC endpoints (ordered by reliability from HK) ──
 const RPC_ENDPOINTS = [
+  "https://base-sepolia-rpc.publicnode.com", // fastest from HK
   "https://sepolia.base.org",     // Base official, free, no key
-  "https://base-sepolia.drpc.org", // drpc, rate-limited but works
+  "https://base-sepolia.drpc.org", // drpc, rate-limited fallback
 ];
 const CHUNK = 50;
 const CONC  = 3;  // public endpoints 限流嚴，3 夠用
