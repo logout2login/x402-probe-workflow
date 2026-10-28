@@ -1,0 +1,36 @@
+{
+  "target": "https://x402.org/facilitator",
+  "last_check": "2026-10-27T21:51:11Z",
+  "current_code": "404",
+  "uptime_24h": null,
+  "last_500": null,
+  "origin": "gha-wip",
+  "points": [
+    {
+      "t": "2026-10-27T15:59:18Z",
+      "code": "404",
+      "ms": 229
+    },
+    {
+      "t": "2026-10-27T16:01:20Z",
+      "code": "404",
+      "ms": 127
+    },
+    {
+      "t": "2026-10-27T16:17:18Z",
+      "code": "404",
+      "ms": 0,
+      "origin": "local"
+    },
+    {
+      "t": "2026-10-27T21:51:11Z",
+      "code": "404",
+      "ms": 0,
+      "origin": "local"
+    }
+  ],
+  "note": "Seed: 1 verified point. uptime_24h stays null until >=24 points accumulate (evidence, not speculation).",
+  "gist_link": "[posting to GitHub Gist now \u2014 diagnostic]",
+  "_note": "GitHub Actions probe workflow being deployed; 48h clock starts on first successful run",
+  "fix_link": "[posting to GitHub Gist now \u2014 remediation]"
+}
