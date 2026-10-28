@@ -106,7 +106,7 @@ async function main() {
     return;
   }
   
-  const startBlock = lastBlock + 1;
+  let startBlock = lastBlock + 1;
   const totalChunks = Math.ceil(newBlocks / CHUNK);
   log(`Scanning blocks ${startBlock} → ${latestBlock} (${newBlocks} blocks, ${totalChunks} chunks)`);
   
