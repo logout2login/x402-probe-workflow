@@ -1,38 +1,74 @@
-name: x402 Probe
+name: x402 Facilitator Probe & Scan
 
 on:
   schedule:
     - cron: '*/10 * * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Run probe
         run: |
-          TARGET="https://x402.org/facilitator"
-          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          CODE=$(curl -o /dev/null -s --max-time 12 -w "%{http_code}" "$TARGET" 2>/dev/null || echo 000)
-          LAT=$(curl -o /dev/null -s --max-time 12 -w "%{time_total}" "$TARGET" 2>/dev/null || echo 0)
-          HEAD_CODE=$(curl -o /dev/null -s -I --max-time 12 -w "%{http_code}" "$TARGET" 2>/dev/null || echo 000)
-          echo "$NOW origin=gha code=$CODE lat=${LAT}s head=$HEAD_CODE" >> probe.log
-          node -e "
-            const fs=require('fs');
-            let s; try{s=JSON.parse(fs.readFileSync('status.json','utf8'))}catch(e){s={target:'https://x402.org/facilitator',points:[]};}
-            s.last_check='$NOW'; s.current_code='${CODE}'; s.origin='gha';
-            s.points.push({t:'$NOW',code:$CODE,ms:Math.round(${LAT}*1000)});
-            if(s.points.length>500) s.points=s.points.slice(-500);
-            fs.writeFileSync('status.json',JSON.stringify(s,null,2));
-          "
-      - name: Commit & push
+          mkdir -p logs
+          node scripts/probe.mjs
+          node scripts/scribe.mjs >> logs/probe.log 2>&1 || true
+      - name: Push probe data
         run: |
-          git config user.name "probe-bot"
-          git config user.email "probe@x402.org"
-          git add probe.log status.json
-          git commit -m "probe ${{ github.run_number }}" || echo "no change"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add logs/
+          git diff --cached --quiet || git commit -m "probe: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run incremental scan (multi-endpoint failover)
+        run: |
+          mkdir -p logs
+          node scripts/incremental_scan_v2.mjs logs
+          echo "Scan complete - see logs/scan_*.log for details"
+      - name: Upload scan logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-logs
+          path: logs/scan_*.log
+      - name: Push scan data
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add logs/
+          git diff --cached --quiet || git commit -m "scan: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: [probe, scan]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate status page
+        run: |
+          mkdir -p pages
+          python3 scripts/make_index.py > pages/index.html
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./pages
+          keep_files: true
