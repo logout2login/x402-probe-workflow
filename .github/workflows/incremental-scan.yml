@@ -1,0 +1,47 @@
+name: x402 Incremental Scanner
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Every 10 minutes
+  workflow_dispatch: {}       # Manual trigger
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/incremental_scan*'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: incremental-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Run incremental TWA scan
+        id: scan
+        env:
+          ORIGIN_TAG: "gh-actions-us"
+        run: |
+          chmod +x scripts/run_incremental_scan.sh
+          bash scripts/run_incremental_scan.sh
+          
+      - name: Commit results
+        run: |
+          git config user.name "scanner-bot"
+          git config user.email "scanner-bot@users.noreply.github.com"
+          git add logs/
+          git diff --cached --quiet && echo "no changes" && exit 0
+          git commit -m "scan: $(date -u +%FT%TZ) blocks=$(jq -r '.lastBlock // 0' logs/cursor.json) events=$(jq length logs/scan_events.json)"
+          git push
