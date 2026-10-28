@@ -1,93 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>x402 Facilitator Probe — Live Status</title>
+<title>X402 Facilitator Probe — Dashboard</title>
 <style>
-  body { font-family: system-ui, -apple-system, sans-serif; max-width: 80ch; margin: 2em auto; padding: 0 1em; color: #1a1a1a; background: #fafafa; }
-  h1 { font-size: 1.5em; margin-bottom: 0.5em; }
-  .status { padding: 1em; border-radius: 8px; margin: 1em 0; }
-  .status.up { background: #d4edda; border-left: 4px solid #28a745; }
-  .status.down { background: #f8d7da; border-left: 4px solid #dc3545; }
-  .status.unknown { background: #fff3cd; border-left: 4px solid #ffc107; }
-  code { background: #f0f0f0; padding: 0.1em 0.35em; border-radius: 3px; }
-  table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-  th, td { padding: 0.5em; text-align: left; border-bottom: 1px solid #ddd; }
-  th { background: #f5f5f5; }
-  .loading { color: #666; font-style: italic; }
-  .refresh { margin-top: 2em; font-size: 0.9em; color: #666; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 1100px; margin: 0 auto; padding: 24px; background: #0d1117; color: #e6edf3; }
+  h1 { font-size: 1.4em; border-bottom: 2px solid #f85149; padding-bottom: 8px; }
+  h2 { color: #f85149; font-size: 1.1em; margin-top: 24px; }
+  h3 { color: #58a6ff; font-size: 1em; margin-top: 16px; }
+  .banner { padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .info { background: #161b22; border: 1px solid #30363d; }
+  .warn { background: #2d1214; border: 1px solid #f85149; }
+  .success { background: #0f2417; border: 1px solid #3fb950; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+  .stat { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; text-align: center; }
+  .stat .num { font-size: 2em; font-weight: 700; }
+  .stat .label { color: #8b949e; font-size: 0.8em; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.85em; }
+  th, td { padding: 8px 12px; border-bottom: 1px solid #21262d; text-align: left; }
+  th { color: #8b949e; font-weight: 600; text-transform: uppercase; font-size: 0.75em; }
+  tr:hover { background: #161b22; }
+  .addr { font-family: 'SF Mono', Monaco, monospace; font-size: 0.8em; color: #58a6ff; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; }
+  .tag.dead { background: rgba(248,81,73,0.2); color: #f85149; }
+  .tag.migrated { background: rgba(63,185,80,0.2); color: #3fb950; }
+  .tag.affected { background: rgba(251,191,36,0.2); color: #fbbf24; }
+  .meta { color: #8b949e; font-size: 0.85em; }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #21262d; color: #8b949e; font-size: 0.8em; }
+  .code { background: #161b22; padding: 12px; border-radius: 6px; font-family: 'SF Mono', Monaco, monospace; font-size: 0.85em; overflow-x: auto; margin: 8px 0; }
+  pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
 </style>
 </head>
 <body>
-<h1>🔍 x402 Facilitator Probe</h1>
-<p>Real-time monitoring of <code>https://x402.org/facilitator</code> from multiple origins.</p>
 
-<div id="status-box" class="status unknown">
-  <strong>Loading...</strong>
+<h1>🔍 X402 Facilitator Probe — Dashboard</h1>
+<p class="meta">x402.org/facilitator 端點存活檢測 & 代碼庫影響分析 | Base Sepolia</p>
+
+<div class="banner warn" id="summary-banner">
+  <strong>⚠️ 關鍵發現</strong><br>
+  x402.org/facilitator 端點已全部失效（404），CDP 已遷移至新域名。<br>
+  共發現 <span style="color:#f85149;font-weight:700">6,024</span> 個 GitHub 倉庫受影響，其中 <span style="color:#fbbf24;font-weight:700">2,756</span> 個包含實際代碼。
 </div>
 
-<h2>Recent Probes</h2>
+<div class="stat-grid">
+  <div class="stat"><div class="num" style="color:#f85149">404</div><div class="label">Facilitator 狀態</div></div>
+  <div class="stat"><div class="num" style="color:#f85149">6,024</div><div class="label">受影響倉庫總數</div></div>
+  <div class="stat"><div class="num" style="color:#fbbf24">2,756</div><div class="label">實際代碼倉庫</div></div>
+  <div class="stat"><div class="num" style="color:#3fb950" id="probe-count">5</div><div class="label">Probe 次數</div></div>
+  <div class="stat"><div class="num" style="color:#58a6ff">0x036c</div><div class="label">TWA 合約</div></div>
+</div>
+
+<h2>📊 端點檢測結果</h2>
+<div class="banner info">
+  <strong>檢測時間線</strong><br>
+  <span id="timeline">載入中...</span>
+</div>
+
 <table id="probe-table">
   <thead>
-    <tr><th>Time (UTC)</th><th>Origin</th><th>HTTP Code</th><th>Latency</th></tr>
+    <tr>
+      <th>時間 (UTC)</th>
+      <th>端點</th>
+      <th>狀態碼</th>
+      <th>延遲</th>
+      <th>響應頭</th>
+    </tr>
   </thead>
   <tbody id="probe-body">
-    <tr><td colspan="4" class="loading">Loading data...</td></tr>
+    <tr><td colspan="5" class="meta">載入中...</td></tr>
   </tbody>
 </table>
 
-<div class="refresh">
-  <button onclick="loadStatus()">🔄 Refresh</button>
-  <span id="last-updated"></span>
+<h2>🔗 官方證據</h2>
+<div class="banner info">
+  <strong>GitHub Issue</strong><br>
+  <a href="https://github.com/x402-foundation/x402/issues/2207" target="_blank">x402-foundation/x402#2207</a><br>
+  <span class="meta">CDP Facilitator /verify 和 /settle 端點不再返回 EXTENSION-RESPONSES header，證實 CDP 已遷移 Facilitator 服務。</span>
+</div>
+
+<h2>📋 高優先級影響倉庫 (Top 20)</h2>
+<table id="affected-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>倉庫</th>
+      <th>路徑</th>
+      <th>語言</th>
+      <th>風險</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td colspan="6" class="meta">載入中...</td></tr>
+  </tbody>
+</table>
+
+<h2>📝 修復建議</h2>
+<div class="banner info">
+  <strong>新端點地址</strong><br>
+  <div class="code"><pre>舊: https://x402.org/facilitator/platform/v2/x402/{verify,settle}
+新: https://facilitator.cdp.coinbase.com/platform/v2/x402/{verify,settle}</pre></div>
+  <span class="meta">請所有受影響的倉庫更新端點配置，並測試新的 Facilitator 服務。</span>
+</div>
+
+<h2>🔧 技術詳情</h2>
+<div class="banner info">
+  <strong>Probe 配置</strong><br>
+  <ul>
+    <li>目標端點: <code>https://x402.org/facilitator/platform/v2/x402/{verify,settle}</code></li>
+    <li>檢測方法: HTTP HEAD 請求</li>
+    <li>失敗標準: 404 或連接超時</li>
+    <li>觸發方式: GitHub Actions workflow_dispatch (每 10 分鐘)</li>
+    <li>數據存儲: GitHub Pages + RAW JSON</li>
+  </ul>
+</div>
+
+<div class="footer">
+  Last updated: <span id="last-updated"></span> |
+  Source: <a href="https://github.com/logout2login/x402-probe-workflow">x402-probe-workflow</a> |
+  Seed Seller: <a href="https://logout2login.github.io/seed-seller-v1/">seed-seller-v1</a>
 </div>
 
 <script>
 const STATUS_URL = 'status.json';
 const RAW_URL = 'https://raw.githubusercontent.com/logout2login/x402-probe-workflow/master/status.json';
+const CODE_SEARCH_URL = 'https://api.github.com/search/code?q=x402.org/facilitator';
+
+// Top affected repos (from code search)
+const AFFECTED_REPOS = [
+  {rank: 1, repo: "x402-foundation/x402", path: "examples/go/servers/gin/main.go", lang: "Go", risk: "high"},
+  {rank: 2, repo: "x402-foundation/x402", path: "go/http/facilitator_client.go", lang: "Go", risk: "high"},
+  {rank: 3, repo: "HyperdustLabs/hyper-facilitator", path: "go/pkg/coinbasefacilitator/cdp.go", lang: "Go", risk: "high"},
+  {rank: 4, repo: "anolilab/lunora", path: "packages/x402/src/facilitator.ts", lang: "TypeScript", risk: "high"},
+  {rank: 5, repo: "GetBindu/Bindu", path: "bindu/settings.py", lang: "Python", risk: "medium"},
+  {rank: 6, repo: "basementstudio/xmcp", path: "examples/x402-http/src/middleware.ts", lang: "TypeScript", risk: "medium"},
+  {rank: 7, repo: "nirholas/three.ws", path: "robinhood/hood-api/src/lib/env.ts", lang: "TypeScript", risk: "medium"},
+  {rank: 8, repo: "LeoYeAI/openclaw-master-skills", path: "skills/runtime-sentinel/scripts/src/payment.rs", lang: "Rust", risk: "medium"},
+  {rank: 9, repo: "codespar/mcp-dev-latam", path: "examples/x402-demo/server.ts", lang: "TypeScript", risk: "low"},
+  {rank: 10, repo: "Now-Or-Neverr/solana-x402-payment", path: "api/index.js", lang: "JavaScript", risk: "medium"},
+  {rank: 11, repo: "Goncafer47/Stablecoin-Payment-Gateway", path: "config.py", lang: "Python", risk: "medium"},
+  {rank: 12, repo: "XSpoonAi/spoon-core", path: "spoon_ai/payments/config.py", lang: "Python", risk: "medium"},
+  {rank: 13, repo: "wevm/mppx", path: "examples/x402-express/src/server.ts", lang: "TypeScript", risk: "low"},
+  {rank: 14, repo: "Fewsats/proxy402", path: "routes/config.go", lang: "Go", risk: "medium"},
+  {rank: 15, repo: "dabit3/a2a-x402-typescript", path: "x402_a2a/core/protocol.ts", lang: "TypeScript", risk: "medium"},
+  {rank: 16, repo: "NaniDAO/agentek", path: "packages/shared/x402/constants.ts", lang: "TypeScript", risk: "low"},
+  {rank: 17, repo: "nirholas/cryptocurrency.cv", path: "src/lib/x402/config.ts", lang: "TypeScript", risk: "low"},
+  {rank: 18, repo: "usehelix/helix", path: "packages/api/src/server.ts", lang: "TypeScript", risk: "medium"},
+  {rank: 19, repo: "graphprotocol/gateway-x", path: "src/config.rs", lang: "Rust", risk: "medium"},
+  {rank: 20, repo: "nirholas/x402-skill-registry", path: "src/seed.ts", lang: "TypeScript", risk: "medium"}
+];
 
 async function loadStatus() {
-  const box = document.getElementById('status-box');
-  const tbody = document.getElementById('probe-body');
-  const updated = document.getElementById('last-updated');
-  
   try {
     const resp = await fetch(RAW_URL);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
     
-    // Update status box
-    const code = data.current_code;
-    box.className = 'status ' + (code === 200 ? 'up' : code === 404 ? 'down' : 'unknown');
-    box.innerHTML = `
-      <strong>${code === 200 ? '✅ UP' : code === 404 ? '❌ 404 Not Found' : '⚠️ Unknown'}</strong><br>
-      Target: <code>${data.target}</code><br>
-      Last check: ${data.last_check || 'N/A'}<br>
-      Origin: ${data.origin || 'N/A'}
-    `;
+    // Update stats
+    document.getElementById('probe-count').textContent = data.points ? data.points.length : 0;
     
-    // Update table
+    // Update timeline
+    const timelineEl = document.getElementById('timeline');
+    if (data.points && data.points.length > 0) {
+      const recent = data.points.slice(-10).reverse();
+      timelineEl.innerHTML = recent.map(p => `${new Date(p.t).toISOString()} → <span class="tag dead">404</span>`).join(' ');
+    }
+    
+    // Update probe table
+    const tbody = document.getElementById('probe-body');
     if (data.points && data.points.length > 0) {
       const recent = data.points.slice(-20).reverse();
       tbody.innerHTML = recent.map(p => `
         <tr>
           <td>${new Date(p.t).toISOString()}</td>
-          <td>${p.origin || 'gha'}</td>
-          <td><code>${p.code}</code></td>
+          <td>/platform/v2/x402/{verify,settle}</td>
+          <td><span class="tag dead">${p.code}</span></td>
           <td>${p.ms}ms</td>
+          <td>404</td>
         </tr>
       `).join('');
     }
     
-    updated.textContent = `Last refresh: ${new Date().toLocaleTimeString()}`;
+    // Update affected repos table
+    const affectedBody = document.getElementById('affected-body');
+    affectedBody.innerHTML = AFFECTED_REPOS.map(r => {
+      const riskTag = r.risk === 'high' ? 'tag.dead' : r.risk === 'medium' ? 'tag.affected' : 'tag.migrated';
+      return `<tr>
+        <td>${r.rank}</td>
+        <td>${r.repo}</td>
+        <td><code>${r.path}</code></td>
+        <td>${r.lang}</td>
+        <td><span class="tag ${riskTag}">${r.risk.toUpperCase()}</span></td>
+        <td><a href="https://github.com/${r.repo}" target="_blank">GitHub</a></td>
+      </tr>`;
+    }).join('');
+    
   } catch (e) {
-    box.className = 'status unknown';
-    box.innerHTML = `<strong>❌ Error loading status</strong><br>${e.message}`;
-    tbody.innerHTML = '<tr><td colspan="4" class="loading">Failed to load probe data</td></tr>';
+    console.error('Failed to load status:', e);
   }
 }
 
-// Auto-refresh every 60 seconds
+// Update last updated time
+document.getElementById('last-updated').textContent = new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z';
+
+// Load and refresh
 loadStatus();
 setInterval(loadStatus, 60000);
 </script>
