@@ -1,10 +1,10 @@
 {
   "target": "https://x402.org/facilitator",
-  "last_check": "2026-10-27T21:51:11Z",
+  "last_check": "2026-10-28T03:03:29Z",
   "current_code": "404",
   "uptime_24h": null,
   "last_500": null,
-  "origin": "gha-wip",
+  "origin": "gha",
   "points": [
     {
       "t": "2026-10-27T15:59:18Z",
@@ -27,10 +27,15 @@
       "code": "404",
       "ms": 0,
       "origin": "local"
+    },
+    {
+      "t": "2026-10-28T03:03:29Z",
+      "code": 404,
+      "ms": 86
     }
   ],
   "note": "Seed: 1 verified point. uptime_24h stays null until >=24 points accumulate (evidence, not speculation).",
-  "gist_link": "[posting to GitHub Gist now \u2014 diagnostic]",
+  "gist_link": "[posting to GitHub Gist now — diagnostic]",
   "_note": "GitHub Actions probe workflow being deployed; 48h clock starts on first successful run",
-  "fix_link": "[posting to GitHub Gist now \u2014 remediation]"
+  "fix_link": "[posting to GitHub Gist now — remediation]"
 }
