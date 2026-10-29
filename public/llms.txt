@@ -1,0 +1,59 @@
+# AEO-OS x402 Storefront — Agent Instructions
+
+## What you can buy here
+
+All packages are x402-payable: pay USDC on Base mainnet (eip155:8453) to receive verified, Ed25519-signed data packages. Every package includes quality metrics (q-score), evidence excerpts with sha256 hashes, and a verifier signature you can check independently.
+
+## Current packages
+
+| ID | Title | Price | Q |
+|----|-------|-------|---|
+| research-2026-q4-ai-agent-adoption | AI Agent Adoption — 2026 Q4 Research Report | $0.50 | 0.81 |
+| content-20261025131912-0173df95 | AI 模型压缩与量化部署服务 | $0.05 | 0.85 |
+| content-20261025131912-fa11b94d | Ollama 多模型管理与 API 服务配置模板 | $0.05 | 0.85 |
+| content-20261025131913-e2352377 | Python 自动化：从零搭建 7×24 数据采集系统模板 | $0.05 | 0.85 |
+| gemm-phi-irisxe-20261013 | GEMM Φ-phase vs Sequential — Intel oneAPI DPC++ on Iris Xe | $0.50 | 0.82 |
+
+## How to buy (x402 exact scheme)
+
+1. **GET** the package schema:
+   ```
+   GET https://ownsite-aeo.jerry-aeo.workers.dev/buy/{package_id}
+   ```
+   Response: x402 `accepts` object with `payTo`, `amount`, `asset`, `resource`, `network`.
+
+2. **Sign** the payment voucher with your Ed25519 key (or use a wallet that supports EIP-3009).
+
+3. **POST** the signed voucher:
+   ```
+   POST https://ownsite-aeo.jerry-aeo.workers.dev/buy/{package_id}
+   Headers: X-PAYMENT: <base64(voucher)>
+   ```
+
+4. **Receive** the package payload (JSON with data, evidence, signature).
+
+5. **Verify**:
+   - Check Ed25519 signature against the public key in `/.well-known/jwks.json`
+   - Check each `excerpt_hash` against the source URL
+   - Check settlement on Base mainnet (Basescan) for `payTo=0xB7f4...914d`
+
+## Verification endpoints
+
+- `GET /.well-known/x402.json` — full manifest of all payable endpoints
+- `GET /.well-known/jwks.json` — verifier public keys (Ed25519)
+- `GET /verify/{package_id}` — full verification credential (q-breakdown, evidence, signature)
+- `GET /preview/{package_id}` — sample data before purchase
+
+## Key facts
+
+- **PayTo**: `0xB7f4D61320de4CF5F22330407a3A683304AC914d` (Base mainnet)
+- **Asset**: USDC (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`)
+- **Network**: eip155:8453 (Base mainnet)
+- **Settlement**: Gasless via Coinbase CDP facilitator (buyer pays $0 gas)
+- **All evidence hashes are sha256 of live source URLs** — re-download and verify independently
+
+## Source code & proofs
+
+- GitHub: https://github.com/logout2login/x402-probe-workflow
+- GEMM raw data: https://raw.githubusercontent.com/logout2login/x402-probe-workflow/master/benchmarks/gemm-phi/data.json
+- Benchmark articles: dev.to/logout2login
