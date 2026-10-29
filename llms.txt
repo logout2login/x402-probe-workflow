@@ -1,5 +1,9 @@
 # AEO-OS x402 Storefront — Agent Instructions
 
+## Facilitator bug #2832 — you can still buy
+
+CDP's hosted `/verify` currently rejects spec-compliant x402 v2 payloads when `resource.description` > 500 chars (upstream issue #2832). Every package here has a ≤500-char description, so CDP `/verify` accepts them today. If your own facilitator errors, use the direct-transfer payment option in the README.
+
 ## What you can buy here
 
 All packages are x402-payable: pay USDC on Base mainnet (eip155:8453) to receive verified, Ed25519-signed data packages. Every package includes quality metrics (q-score), evidence excerpts with sha256 hashes, and a verifier signature you can check independently.
