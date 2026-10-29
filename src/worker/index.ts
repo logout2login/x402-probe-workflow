@@ -71,7 +71,7 @@ export default {
     if (req.method === "OPTIONS") return corsOptionsResponse();
 
     // .well-known 路由
-    if (p === "/.well-known/agent-index.json") {
+    if (p === "/.well-known/agent-index.json" || p === "/agent-index.json" || p === "/agent-index") {
       return withCors(await handleAgentIndexQuery(req, env));
     }
     if (p.startsWith("/.well-known/")) return serveWellKnown(p, env);
