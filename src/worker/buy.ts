@@ -201,7 +201,7 @@ export function paymentRequiredResponse(
       bazaar: {
         info: { input: { type: "http", method: "GET" }, output: { example: "application/json" } },
         name: meta.title ?? "Agent2Agent Service",
-        description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)}) — bypasses CDP facilitator bug #2832 (≤500-char description)`,
+        description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)}) — bypasses CDP facilitator bug #2832 (≤500-char description). GRAND OPENING: First 10 buyers get 100% USDC refund (same-day). Send tx hash to aeo@logout3login.com within 24h of purchase. Applies to gemm-phi-irisxe-20261013 only; refunds by tx, not wallet; duplicate claims rejected. Ends after 10 refunds or 2026-11-13.`,
         tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
         schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
       },

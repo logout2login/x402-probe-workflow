@@ -84,6 +84,9 @@ function toIndexEntry(row: PackageRow, base: string): PackageIndexEntry {
     paid_url: `${base}/buy/${row.package_id}`,
     price_usdc: row.tier === "featured" ? "1.00" : "0.50",
     status: "fresh",
+    description: row.package_id === "gemm-phi-irisxe-20261013"
+      ? "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. GRAND OPENING: First 10 buyers get 100% USDC refund (same-day). Send tx hash to aeo@logout3login.com within 24h of purchase. Applies to gemm-phi-irisxe-20261013 only; refunds by tx, not wallet; duplicate claims rejected. Ends after 10 refunds or 2026-11-13."
+      : `Verified ${row.title}. q=${row.q}, ${row.evidence_count} evidence items, Ed25519-signed.`,
   };
 }
 

@@ -33,7 +33,7 @@ export class BazaarAdapter implements MarketplaceAdapter {
           resource: pkg.paid_url,
           description: `${pkg.title} — q=${pkg.q.toFixed(2)}, evidence=${pkg.evidence_count}, verified ${pkg.verified_at.slice(0, 10)}`,
           mimeType: "application/json",
-          payTo: "0xPLACEHOLDER_PAY_TO",
+          payTo: "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
           maxAmountRequired: pkg.price_usdc,
           network: env.NETWORK,
           asset: env.ASSET_USDC,

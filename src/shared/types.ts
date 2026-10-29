@@ -55,6 +55,8 @@ export interface PackageIndexEntry {
   paid_url: string;
   price_usdc: string;
   status: "fresh";
+  /** Package-level description (promo / positioning note). */
+  description?: string;
   machine_tags?: string[];
 }
 
