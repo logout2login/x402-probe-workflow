@@ -13,7 +13,7 @@
     "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131912-0173df95",
     "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131912-fa11b94d",
     "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131913-e2352377",
-    "https://ownsite-aeo.jerry-aeo.workers.dev/buy/gemm-phi-irisxe-20261013"
+    "https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013"
   ],
   "endpoints": [
     {
@@ -112,7 +112,7 @@
       "id": "gemm-phi-irisxe-20261013",
       "title": "GEMM Φ-phase vs Sequential — Intel oneAPI DPC++ on Iris Xe",
       "description": "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. Data: benchmarks/gemm-phi/data.json on GitHub.",
-      "url": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/gemm-phi-irisxe-20261013",
+      "url": "https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013",
       "accepts": [
         {
           "scheme": "exact",
