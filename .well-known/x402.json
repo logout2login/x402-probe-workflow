@@ -2,7 +2,7 @@
   "specVersion": "1.0",
   "x402Version": 1,
   "name": "AEO-OS Verified Content Marketplace",
-  "description": "AI Agent OS (AEO-OS) - x402 marketplace for verified content packages. Pay per package with USDC on Base mainnet. All packages include quality metrics, evidence, and verification signatures.",
+  "description": "AI Agent OS (AEO-OS) - x402 marketplace for verified content packages. Pay per package with USDC on Base mainnet. Ships resource descriptions <=500 chars, so Coinbase CDP /verify accepts our payments today (bypasses upstream facilitator bug #2832). All packages Ed25519-signed and independently verifiable. ",
   "provider": {
     "name": "AEO-OS",
     "website": "https://ownsite-aeo.jerry-aeo.workers.dev"
@@ -103,7 +103,7 @@
     {
       "id": "gemm-phi-irisxe-20261013",
       "title": "GEMM Φ-phase vs Sequential — Intel oneAPI DPC++ on Iris Xe",
-      "description": "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. Data: benchmarks/gemm-phi/data.json on GitHub.",
+      "description": "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. CDP-facilitator-bug-#2832 compliant (<=500-char description): buy today without waiting for the upstream fix.",
       "url": "https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013",
       "accepts": [
         {
