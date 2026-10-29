@@ -1,0 +1,6 @@
+# GitHub Pages config — allow dotfiles (.well-known) to be served
+keep_files:
+  - .well-known
+  - schemas
+plugins:
+  - jekyll-include-cache
