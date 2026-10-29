@@ -18,9 +18,9 @@ run_worker_first = true
 
 # ─── 非敏感配置（可入 vars）───
 [vars]
-OWNSITE_BASE = "https://ownsite-aeo.jerry-aeo.workers.dev"
-NETWORK = "eip155:84532"                           # Base Sepolia (Phase 1 testnet — source of truth for all payments)
-ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # Base Sepolia USDC (Circle canonical, 6 dec)
+OWNSITE_BASE = "https://ownsite-aeo.logout3login-a74.workers.dev"
+NETWORK = "eip155:8453"                            # Base mainnet (real USDC — source of truth for all payments)
+ASSET_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # Base Mainnet USDC (Circle canonical, 6 dec)
 NETWORK_MAINNET = "eip155:8453"                     # Base mainnet (migration target only)
 ASSET_USDC_MAINNET = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # Base Mainnet USDC
 MAX_TTL_DAYS = "180"
@@ -41,7 +41,7 @@ REFETCH_SAMPLE_RATE = "0.20"                       # v1.5：每日抽樣 20%
 REFETCH_CONSECUTIVE_FAILS = "2"                    # v1.5：連續 2 次 fail 觸發 recall
 AGENT_INDEX_PAGE_SIZE = "50"                        # v1.11
 AGENT_INDEX_CACHE_TTL = "300"                      # v1.11（秒）
-FACILITATOR_PRIMARY = "selfhosted"                  # v1.15：testnet gas donor 做 primary，CDP fallback；mainnet 改回 "cdp"
+FACILITATOR_PRIMARY = "cdp"                         # mainnet：CDP primary（唔要靠 selfhosted gas donor）
 FACILITATOR_CIRCUIT_OPEN_AFTER = "5"               # v1.12
 FACILITATOR_CIRCUIT_HALF_AFTER = "60000"           # v1.12（ms）
 REVERIFY_LEASE_HOURS = "24"                         # v1.8
@@ -65,13 +65,13 @@ REVERIFY_LEASE_HOURS = "24"                         # v1.8
 # ─── KV ───
 [[kv_namespaces]]
 binding = "KV"
-id = "a50b91ed567b4ba6a4facb3f283826c0"
+id = "5541dbae86904324ba0cdb54762a009f"
 
 # ─── D1 ───
 [[d1_databases]]
 binding = "DB"
 database_name = "ownsite-aeo"
-database_id = "0bc5a545-c3e9-4abe-a5e7-99e68d1a1eab"
+database_id = "68ef31be-5af5-4c10-8e4a-7a2bf565810d"
 migrations_table = "migrations"
 migrations_dir = "./schema/migrations"
 

@@ -3,31 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ownsite-aeo — Verified Data Vending</title>
+<title>AEO-OS Verified Content Marketplace — GEMM Φ-phase Benchmark (Intel Iris Xe) · $0.50 USDC · x402</title>
+<meta name="description" content="Buy verified, Ed25519-signed machine-readable research data over x402 (Base USDC). GEMM Φ-phase vs sequential benchmark on Intel oneAPI 2026.1 DPC++ / Intel Iris Xe, q=0.82, 4 evidence sources, $0.50.">
+<meta name="keywords" content="x402, agent marketplace, verified data, GEMM, Intel Iris Xe, oneAPI, benchmark, A2A, AEO-OS">
+<meta property="og:title" content="AEO-OS Verified Content Marketplace — GEMM Φ-phase Benchmark">
+<meta property="og:description" content="Ed25519-signed verified research data, pay-per-call via x402 (Base USDC). GEMM Φ-phase benchmark, q=0.82, $0.50.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ownsite-aeo.logout3login-a74.workers.dev/">
 <style>
-  body { font-family: system-ui, -apple-system, sans-serif; max-width: 60ch; margin: 4em auto; padding: 0 1em; color: #1a1a1a; }
-  code { background: #f0f0f0; padding: 0.1em 0.35em; border-radius: 3px; }
-  a { color: #0969da; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 68ch; margin: 3em auto; padding: 0 1em; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-size: 1.5rem; margin-bottom: .2em; }
+  .sub { color: #555; margin-top: 0; }
+  .badge { display:inline-block; background:#e8f0fe; color:#1a4db0; border-radius: 4px; padding: .1em .5em; font-size: .8em; margin-right: .4em; }
+  .pkg { border: 1px solid #d0d7de; border-radius: 8px; padding: 1em 1.2em; margin: 1em 0; background: #fafbfc; }
+  .pkg h2 { font-size: 1.1rem; margin: 0 0 .3em; }
+  .meta { color: #57606a; font-size: .9em; margin: .3em 0; }
+  .price { font-size: 1.2rem; font-weight: 600; color: #1a7f37; }
+  .cta { display:inline-block; background:#1f883d; color:#fff; padding:.5em 1em; border-radius:6px; text-decoration:none; font-weight:600; margin-top:.5em; }
+  .cta:hover { background:#1a7f37; }
+  a { color:#0969da; }
+  code { background:#f0f0f0; padding:.1em .35em; border-radius:3px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align:left; padding:.35em .6em; border-bottom:1px solid #eaeef2; font-size:.92em; }
+  .agent-links li { margin:.25em 0; }
+  footer { margin-top:2.5em; color:#6e7781; font-size:.85em; border-top:1px solid #d0d7de; padding-top:1em; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "GEMM Φ-phase vs sequential — Intel oneAPI 2026.1 DPC++, Intel Iris Xe (Gen11 Xe-LP)",
+  "description": "Verified machine-readable GEMM benchmark data (Φ-phase vs sequential) on Intel oneAPI 2026.1 DPC++ / Intel Iris Xe. Ed25519-signed verification certificate, q=0.82, 4 evidence sources.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0.50",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013"
+  }
+}
+</script>
 </head>
 <body>
-<h1>ownsite-aeo</h1>
-<p>Verified-Data-Vending / Agentic AEO v1.0.</p>
-<p>Machine-verifiable research data assets with Ed25519-signed verification certificates and x402 pay-per-call.</p>
+<h1>AEO-OS Verified Content Marketplace <span class="badge">x402</span><span class="badge">A2A</span></h1>
+<p class="sub">Machine-verifiable research data assets with Ed25519-signed verification certificates and x402 pay-per-call (Base USDC).</p>
+
+<div id="packages"><p>Loading packages…</p></div>
+
 <h2>Agent endpoints</h2>
-<ul>
+<ul class="agent-links">
+  <li><a href="/.well-known/agent-index.json"><code>/.well-known/agent-index.json</code></a> — live packages index</li>
   <li><a href="/.well-known/agent.json"><code>/.well-known/agent.json</code></a> — A2A Agent Card</li>
-  <li><a href="/.well-known/agent-index.json"><code>/.well-known/agent-index.json</code></a> — listed / featured packages index</li>
   <li><a href="/.well-known/jwks.json"><code>/.well-known/jwks.json</code></a> — Ed25519 public key (JWK)</li>
 </ul>
+
 <h2>HTTP API</h2>
 <ul>
-  <li><code>GET /verify/{package_id}</code> — full verification.json (free, no quota)</li>
-  <li><code>GET /preview/{package_id}</code> — summary (rate-limited)</li>
-  <li><code>GET /buy/{package_id}</code> — x402-gated purchase</li>
-  <li><code>GET /status/{package_id}</code> — fresh / stale / recalled</li>
-  <li><code>POST /mcp</code> — JSON-RPC 2.0 with 4 tools</li>
+  <li><code>GET /verify/{id}</code> — full verification certificate (free)</li>
+  <li><code>GET /preview/{id}</code> — summary (rate-limited)</li>
+  <li><code>GET /buy/{id}</code> — x402-gated purchase</li>
+  <li><code>GET /status/{id}</code> — fresh / stale / recalled</li>
+  <li><code>POST /mcp</code> — JSON-RPC 2.0 (4 tools)</li>
 </ul>
-<p>Static placeholder — replaced by real <code>agent.json</code> content after <code>npm run publish-static</code>.</p>
+
+<h2>Payment options</h2>
+<ul>
+  <li><strong>x402 (Base mainnet USDC)</strong> — standard flow: <code>GET /buy/{id}</code> → 402 → sign → <code>POST</code> → settle. Ed25519-signed, independently verifiable.</li>
+  <li><strong>Direct transfer</strong> — if the CDP facilitator returns 500/400 on you: send USDC on Base to <code>0xB7f4D61320de4CF5F22330407a3A683304AC914d</code>, attach the tx hash → manual delivery within 1h.</li>
+</ul>
+<p class="meta">Why a fallback? Upstream CDP facilitator bug <a href="https://github.com/coinbase/x402/issues/2832">#2832</a> rejects spec-compliant v2 payloads when <code>resource.description</code> &gt; 500 chars. These packages ship a ≤500-char description, so <code>/verify</code> accepts them <strong>today</strong> — no waiting for the upstream fix.</p>
+
+<footer>
+  <p>AEO-OS · x402 v2 · Network: Base mainnet (eip155:8453) · USDC asset 0x8335…2913 · payTo 0xB7f4…914d</p>
+  <p>This page is the crawlable storefront; API clients receive the x402 402-challenge per protocol.</p>
+</footer>
+
+<script>
+(async function () {
+  try {
+    const res = await fetch('/.well-known/agent-index.json', { headers: { 'Accept': 'application/json' } });
+    const idx = await res.json();
+    const box = document.getElementById('packages');
+    if (!idx.packages || idx.packages.length === 0) { box.innerHTML = '<p>No packages listed.</p>'; return; }
+    box.innerHTML = idx.packages.map(p => `
+      <div class="pkg">
+        <h2>${p.title || p.package_id}</h2>
+        <div class="meta">
+          <span class="badge">q ${p.q ?? '?'}</span>
+          <span class="badge">${p.evidence_count ?? 0} evidence</span>
+          <span class="badge">${p.tier ?? ''}</span>
+          <span class="badge">${p.status ?? ''}</span>
+        </div>
+        <div class="meta">verified ${p.verified_at ?? '—'} · expires ${p.expires_at ?? '—'}</div>
+        <div class="price">${p.price_usdc ?? '0.50'} USDC</div>
+        <a class="cta" href="${p.paid_url || '/buy/' + p.package_id}">Buy for ${p.price_usdc ?? '0.50'} USDC</a>
+        <div class="meta" style="margin-top:.6em">
+          <a href="${p.verify_url || '/verify/' + p.package_id}">verify</a> ·
+          <a href="${p.preview_url || '/preview/' + p.package_id}">preview</a> ·
+          <code>${p.package_id}</code>
+        </div>
+      </div>`).join('');
+  } catch (e) {
+    document.getElementById('packages').innerHTML = '<p>Could not load packages: ' + e + '</p>';
+  }
+})();
+</script>
 </body>
 </html>

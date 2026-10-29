@@ -6,6 +6,10 @@ import type { X402PaymentPayload } from "../shared/types";
 
 export interface FacilitatorEnv {
   FACILITATOR_URL?: string;
+  /** CDP Portal secret key 對（JWT auth）。取代舊 CDP_API_KEY。 */
+  CDP_KEY_ID?: string;
+  CDP_KEY_SECRET?: string;
+  /** @deprecated 舊 header 認證，唔再使用 */
   CDP_API_KEY?: string;
   CDP_PRIVATE_KEY?: string;
   SELFHOSTED_PRIVATE_KEY?: string;

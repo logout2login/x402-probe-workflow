@@ -12,6 +12,8 @@ export async function runFacilitatorHealthCron(env: Env) {
   const facEnv = {
     FACILITATOR_URL: env.FACILITATOR_URL,
     CDP_API_KEY: env.CDP_API_KEY,
+    CDP_KEY_ID: env.CDP_KEY_ID,
+    CDP_KEY_SECRET: env.CDP_KEY_SECRET,
     SELFHOSTED_PRIVATE_KEY: env.SELFHOSTED_PRIVATE_KEY,
     NETWORK: env.NETWORK,
     ASSET_USDC: env.ASSET_USDC,

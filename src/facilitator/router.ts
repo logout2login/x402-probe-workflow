@@ -40,6 +40,8 @@ export async function routeAndSettle(
   const facEnv = {
     FACILITATOR_URL: env.FACILITATOR_URL,
     CDP_API_KEY: env.CDP_API_KEY,
+    CDP_KEY_ID: env.CDP_KEY_ID,
+    CDP_KEY_SECRET: env.CDP_KEY_SECRET,
     CDP_PRIVATE_KEY: env.CDP_PRIVATE_KEY,
     SELFHOSTED_PRIVATE_KEY: env.SELFHOSTED_PRIVATE_KEY,
     PAY_TO: env.PAY_TO,

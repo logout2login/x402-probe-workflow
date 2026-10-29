@@ -45,6 +45,8 @@ export interface Env {
   PAY_TO?: string;
   FACILITATOR_URL?: string;
   CDP_API_KEY?: string;
+  CDP_KEY_ID?: string;                        // v1.15: CDP Portal secret key 對（JWT auth）
+  CDP_KEY_SECRET?: string;                    // v1.15
   CDP_PRIVATE_KEY?: string;
   VERIFIER_SIGNER_PRIVATE_KEY?: string;
   SYNC_SIGNING_KEY?: string;

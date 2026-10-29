@@ -201,7 +201,7 @@ export function paymentRequiredResponse(
       bazaar: {
         info: { input: { type: "http", method: "GET" }, output: { example: "application/json" } },
         name: meta.title ?? "Agent2Agent Service",
-        description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)})`,
+        description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)}) — bypasses CDP facilitator bug #2832 (≤500-char description)`,
         tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
         schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
       },

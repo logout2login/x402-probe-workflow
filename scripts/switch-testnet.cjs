@@ -33,8 +33,9 @@ if (fs.existsSync(envFile)) {
 let toml = fs.readFileSync(tomlFile, "utf8");
 const before = toml;
 toml = toml
-  .replace(/^NETWORK\s*=\s*".*".*$/m, 'NETWORK = "eip155:84532"                           # Base Sepolia (Phase 1 testnet)')
-  .replace(/^ASSET_USDC\s*=\s*".*".*$/m, 'ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # Base Sepolia USDC (Circle canonical, 6 dec)');
+  .replace(/^NETWORK\s*=?.*$/m, 'NETWORK = "eip155:84532"                           # Base Sepolia (Phase 1 testnet)')
+  .replace(/^ASSET_USDC\s*=?.*$/m, 'ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # Base Sepolia USDC (Circle canonical, 6 dec)')
+  .replace(/^FACILITATOR_PRIMARY\s*=?.*$/m, 'FACILITATOR_PRIMARY = "selfhosted"                  # testnet：gas donor 做 primary，CDP fallback');
 if (toml === before) {
   console.log("wrangler.toml 已經係 testnet 設定，跳過 patch");
 } else {

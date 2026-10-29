@@ -61,6 +61,8 @@ export interface PackageIndexEntry {
 export interface AgentIndex {
   spec_version: "1.0" | "1.1";
   generated_at: string;
+  /** Optional sales/positioning note (e.g. bypasses CDP facilitator bug #2832). */
+  description?: string;
   packages: PackageIndexEntry[];
 }
 

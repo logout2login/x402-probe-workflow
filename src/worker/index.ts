@@ -78,12 +78,39 @@ export default {
 
     // Root: return 402 challenge for x402 registry (agent402.tools, etc.)
     if (p === "/" || p === "") {
+      // Browser / SEO crawler → crawlable HTML storefront (content-negotiation).
+      // x402 API clients (Accept: application/json or */*) keep the 402 challenge.
+      const accept = (req.headers.get("accept") || "").toLowerCase();
+      if (accept.includes("text/html") && env.ASSETS) {
+        try {
+          const r = await env.ASSETS.fetch(new Request(`${env.OWNSITE_BASE}/index.html`));
+          return new Response(r.body, {
+            status: 200,
+            headers: {
+              ...Object.fromEntries(r.headers.entries()),
+              "content-type": "text/html; charset=utf-8",
+              "cache-control": "public, max-age=120",
+            },
+          });
+        } catch { /* fall through to 402 */ }
+      }
+      // 動態 package count（避免「4 packages」vs actual 唔一致）
+      let pkgCount = 0;
+      try {
+        const c = await env.DB.prepare(
+          "SELECT COUNT(*) AS c FROM packages WHERE status='fresh' AND expires_at > ?"
+        ).bind(new Date().toISOString()).first<{ c: number }>();
+        pkgCount = Number(c?.c ?? 0);
+      } catch { /* fall back to neutral description */ }
+      const pkgDesc = pkgCount > 0
+        ? `AEO-OS Verified Content Marketplace - ${pkgCount} package${pkgCount === 1 ? "" : "s"} available at /buy/{id}`
+        : "AEO-OS Verified Content Marketplace - packages available at /buy/{id}";
       const rootPayload = JSON.stringify({
         x402Version: 2,
         error: "Payment Required",
         resource: {
-          url: "https://ownsite-aeo.jerry-aeo.workers.dev/",
-          description: "AEO-OS Verified Content Marketplace - 4 packages available at /buy/{id}",
+          url: `${env.OWNSITE_BASE}/`,
+          description: pkgDesc,
         },
         accepts: [{
           scheme: "exact",
@@ -102,7 +129,7 @@ export default {
               output: { example: "application/json" },
             },
             name: "AEO-OS Verified Content Marketplace",
-            description: "Agent2Agent capability marketplace with x402 verified packages",
+            description: "Agent2Agent capability marketplace with x402 verified packages — bypasses CDP facilitator bug #2832 (≤500-char description accepted today)",
             tags: ["agent", "x402", "a2a", "marketplace"],
             schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
           },

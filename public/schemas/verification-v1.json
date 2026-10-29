@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://REPLACE_WITH_YOUR_DOMAIN/schemas/verification-v1.json",
+  "$id": "https://ownsite-aeo.logout3login-a74.workers.dev/schemas/verification-v1.json",
   "title": "Ownsite Verification v1",
   "type": "object",
   "additionalProperties": false,

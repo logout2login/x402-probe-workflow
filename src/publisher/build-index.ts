@@ -72,6 +72,7 @@ export function buildIndex(
   return {
     spec_version: "1.0",
     generated_at: now.toISOString(),
+    description: "Machine-verifiable data packages with Ed25519-signed verification. Ships ≤500-char resource descriptions so CDP /verify accepts them today — bypasses upstream facilitator bug #2832.",
     packages,
   };
 }

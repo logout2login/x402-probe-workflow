@@ -77,12 +77,31 @@ async function main() {
     );
     process.exit(1);
   }
-  const key = readFileSync(KEY_FILE, "utf8").trim();
-  if (!key || key.startsWith("//") || key.length < 20) {
-    console.error(`[ERROR] ${KEY_FILE} 內容唔像有效 key（empty / template / 太短）。`);
-    process.exit(1);
+  const key = readFileSync(KEY_FILE, "utf8")
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith("#") && !l.startsWith("//"))
+    .pop();
+  if (!key || key.length < 20) {
+    // fallback: scripts/.secrets.mainnet.env 嘅 CDP_API_KEY
+    const envPath = path.join(ROOT, "scripts", ".secrets.mainnet.env");
+    if (existsSync(envPath)) {
+      const m = readFileSync(envPath, "utf8").match(/^CDP_API_KEY=(.+)$/m);
+      const k2 = m ? m[1].trim() : undefined;
+      if (k2 && k2.length >= 20) {
+        console.log(`[1/3] key 檔冇值 → fallback 用 scripts/.secrets.mainnet.env 嘅 CDP_API_KEY (${k2.length} chars)`);
+      } else {
+        console.error(`[ERROR] ${KEY_FILE} 同 .secrets.mainnet.env 都冇有效 key。貼 key 後重跑。`);
+        process.exit(1);
+      }
+      key = k2 ?? "";
+    } else {
+      console.error(`[ERROR] ${KEY_FILE} 冇有效 key 行（目前係 template）。貼 key 後重跑。`);
+      process.exit(1);
+    }
+  } else {
+    console.log(`[1/3] key 讀到 (${key.length} chars, 唔顯示內容)`);
   }
-  console.log(`[1/3] key 讀到 (${key.length} chars, 唔顯示內容)`);
 
   // ── Phase 1a: 直接 probe CDP REST verify（read-only 免費）──
   // 用一個最小 x402 v2 payload shape probe：目標唔係真 verify 成功，

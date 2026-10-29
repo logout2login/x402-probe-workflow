@@ -1,6 +1,7 @@
 {
   "spec_version": "1.0",
   "generated_at": "2026-10-25T05:29:45.220226+00:00",
+  "description": "Machine-verifiable data packages with Ed25519-signed verification. Ships ≤500-char resource descriptions so CDP /verify accepts them today — bypasses upstream facilitator bug #2832.",
   "packages": [
     {
       "package_id": "research-2026-q4-ai-agent-adoption",

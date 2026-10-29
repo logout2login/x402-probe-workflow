@@ -18,3 +18,4 @@ scripts/verify_live.py
 d1_new.json
 fund_check_*.json
 .hermes/
+_probe_cdp_key.mjs

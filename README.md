@@ -8,8 +8,6 @@ Verifier-signed 可驗證資料資產發布 + x402 付費閘門。
 
 The live AEO-OS x402 marketplace is serving a verified, Ed25519-signed data package. Buy it (or verify it free) with the endpoints below:
 
-> **Your x402 settlement failing?** Coinbase CDP facilitator `/verify` rejects spec-compliant v2 payloads (upstream bug #2832 — triggered when `resource.description` > 500 chars). This storefront already ships **≤500-char descriptions**, so CDP `/verify` accepts our payments **today** — no waiting for the upstream fix. Every package is Ed25519-signed and independently verifiable.
-
 - **Storefront (crawlable):** <https://ownsite-aeo.logout3login-a74.workers.dev/>
 - **Buy the GEMM Φ-phase package** — `gemm-phi-irisxe-20261013`, $0.50 USDC (Base mainnet): <https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013>
 - **Free verification certificate** (q=0.82, 4 evidence, Ed25519-signed): <https://ownsite-aeo.logout3login-a74.workers.dev/verify/gemm-phi-irisxe-20261013>
@@ -17,10 +15,12 @@ The live AEO-OS x402 marketplace is serving a verified, Ed25519-signed data pack
 
 > x402 v2 · Network: **Base mainnet** (eip155:8453) · Asset: USDC `0x833589…2913` · payTo `0xB7f4…914d`
 
+> **Your x402 settlement is failing?** CDP facilitator rejects spec-compliant v2 payloads when `resource.description` > 500 chars (upstream bug #2832). This $0.50 GEMM package ships a ≤500-char description, so CDP `/verify` accepts it **today** — no waiting for the upstream fix. Ed25519-signed, independently verifiable.
+
 ## 💳 Payment options
 
-- **x402 (Base mainnet USDC)** — standard flow: `GET /buy/{id}` → 402 → sign voucher → `POST` → settle.
-- **Direct transfer** (if the CDP facilitator 500/400s on you): send USDC on Base to `0xB7f4D61320de4CF5F22330407a3A683304AC914d`, then reply with the tx hash → manual delivery within 1h. Never blocks your purchase on a facilitator bug.
+- **x402 (Base mainnet USDC)** — standard flow: `GET /buy/{id}` → 402 → sign → `POST` → settle
+- **Direct transfer** — if the facilitator returns 500/400 on you: send USDC on Base to `0xB7f4D61320de4CF5F22330407a3A683304AC914d`, then attach the tx hash → manual delivery within 1h
 
 ## 版本歷史
 

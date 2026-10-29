@@ -47,8 +47,9 @@ console.log("=== 2/3 patch wrangler.toml → eip155:8453 ===");
 let toml = fs.readFileSync(tomlFile, "utf8");
 const before = toml;
 toml = toml
-  .replace(/^NETWORK\s*=\s*".*".*$/m, 'NETWORK = "eip155:8453"                            # Base mainnet')
-  .replace(/^ASSET_USDC\s*=\s*".*".*$/m, 'ASSET_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # Base mainnet USDC (USD Coin, 6 dec)');
+  .replace(/^NETWORK\s*=?.*$/m, 'NETWORK = "eip155:8453"                            # Base mainnet')
+  .replace(/^ASSET_USDC\s*=?.*$/m, 'ASSET_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # Base mainnet USDC (USD Coin, 6 dec)')
+  .replace(/^FACILITATOR_PRIMARY\s*=?.*$/m, 'FACILITATOR_PRIMARY = "cdp"                  # mainnet：CDP primary（唔要靠 selfhosted gas）');
 if (toml === before) {
   console.error("toml patch 未命中（NETWORK/ASSET_USDC 行格式改變或已經係 mainnet？）— 手動改 wrangler.toml");
   process.exit(2);
