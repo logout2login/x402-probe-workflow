@@ -5,6 +5,17 @@ Verifier-signed 可驗證資料資產發布 + x402 付費閘門。
 > **僅包含可生成/可代碼化的工件。** 不進行任何真實部署、真實鏈上交易或密鑰持久化。
 > 所有真實外部依賴（GitHub repo、Cloudflare KV/D1、CDP 帳號、faucet 測試代幣、收款錢包）均列為人類待辦。
 
+## 🛒 Live storefront — buy the verified GEMM package
+
+The live AEO-OS x402 marketplace is serving a verified, Ed25519-signed data package. Buy it (or verify it free) with the endpoints below:
+
+- **Storefront (crawlable):** <https://ownsite-aeo.logout3login-a74.workers.dev/>
+- **Buy the GEMM Φ-phase package** — `gemm-phi-irisxe-20261013`, $0.50 USDC (Base mainnet): <https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013>
+- **Free verification certificate** (q=0.82, 4 evidence, Ed25519-signed): <https://ownsite-aeo.logout3login-a74.workers.dev/verify/gemm-phi-irisxe-20261013>
+- **Live packages index** (`/.well-known/agent-index.json`): <https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/agent-index.json>
+
+> x402 v2 · Network: Base mainnet (eip155:8453) · Asset: USDC `0x833589…2913` · payTo `0xB7f4…914d`
+
 ## 版本歷史
 
 | 版本 | 功能 | 狀態 |
