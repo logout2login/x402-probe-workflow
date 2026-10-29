@@ -78,51 +78,56 @@
       <h2>📅 更新時間</h2>
       <p id="generated"></p>
     </div>
-    
-    <!-- Chain-Verified Data (script-generated from eth_getLogs, NOT hardcoded) -->
-    <div class="section" id="chain-section" style="display:none">
-      <h2>🔗 Chain-Verified Data <span style="font-size:0.72rem;color:#8b8fa3;font-weight:400;">(script-generated · eth_getLogs · 唔手寫)</span></h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;">
-        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
-          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">External Revenue</div>
-          <div style="font-size:22px;font-weight:700;color:#e4e6eb;" id="chain-ext-revenue">$0.00</div>
-          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;line-height:1.5;" id="sub-ext-revenue">0 external buyers</div>
+  </div>
+
+  <!-- Chain-Verified Data (outside #content so it shows even when D1 API fails) -->
+  <div class="section" id="chain-section" style="display:none">
+    <h2>🔗 Chain-Verified Data <span style="font-size:0.72rem;color:#8b8fa3;font-weight:400;">(script-generated · eth_getLogs · 唔手寫)</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;">
+      <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">External Revenue</div>
+        <div style="font-size:22px;font-weight:700;color:#e4e6eb;" id="chain-ext-revenue">$0.00</div>
+        <div style="font-size:12px;color:#8b8fa3;margin-top:4px;line-height:1.5;" id="sub-ext-revenue">0 external buyers</div>
+      </div>
+      <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Settlements</div>
+        <div style="font-size:22px;font-weight:700;color:#e4e6eb;" id="chain-settlements">–</div>
+        <div style="font-size:12px;color:#8b8fa3;margin-top:4px;line-height:1.5;" id="sub-settlements">loading…</div>
+      </div>
+      <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Network</div>
+        <div style="font-size:14px;font-weight:600;color:#e4e6eb;">Base Sepolia</div>
+        <div style="font-size:12px;color:#8b8fa3;margin-top:4px;" id="network-label">eip155:84532 · testnet USDC</div>
+      </div>
+      <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Verify</div>
+        <div style="font-size:14px;font-weight:600;">
+          <a href="https://basescan.org/address/0xB7f4D61320de4CF5F22330407a3A683304AC914d" target="_blank" rel="noopener" style="color:#22d3ee;">0xB7f4…914d ↗</a>
         </div>
-        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
-          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Settlements</div>
-          <div style="font-size:22px;font-weight:700;color:#e4e6eb;" id="chain-settlements">–</div>
-          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;line-height:1.5;" id="sub-settlements">loading…</div>
-        </div>
-        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
-          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Network</div>
-          <div style="font-size:14px;font-weight:600;color:#e4e6eb;">Base Sepolia</div>
-          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">eip155:84532 · testnet USDC</div>
-        </div>
-        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
-          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Verify</div>
-          <div style="font-size:14px;font-weight:600;">
-            <a href="https://basescan.org/address/0xB7f4D61320de4CF5F22330407a3A683304AC914d" target="_blank" rel="noopener" style="color:#22d3ee;">0xB7f4…914d ↗</a>
-          </div>
-          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">USDC receiver · reproducible on Basescan</div>
-        </div>
+        <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">USDC receiver · reproducible on Basescan</div>
       </div>
     </div>
+  </div>
 
-    <div class="section">
-      <h2>💰 銷售明細</h2>
-      <table id="sales-table"><thead><tr><th>Package</th><th>Amount</th><th>Time</th><th>Status</th></tr></thead><tbody id="sales-body"></tbody></table>
-    </div>
+  <div class="section" id="sales-section" style="display:none">
+    <h2>💰 銷售明細</h2>
+    <table id="sales-table"><thead><tr><th>Package</th><th>Amount</th><th>Time</th><th>Status</th></tr></thead><tbody id="sales-body"></tbody></table>
   </div>
 
   <script>
     const days = new URLSearchParams(location.search).get('days') || 30;
     window._DAYS = days;
 
+    // Chain-verified data runs independently — always loads, even when D1 API fails
+    loadChainTelemetry();
+
+    // Main D1-based data (totals, funnel, latency, facilitators, refetch, sales)
     fetch(`/dashboard.json?days=${days}`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(d => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
+        document.getElementById('sales-section').style.display = 'block';
         document.getElementById('generated').textContent = '最後更新：' + new Date(d.generated_at).toLocaleString('zh-HK', {timeZone: 'Asia/Hong_Kong'});
 
         // Totals - 大卡設計
@@ -209,14 +214,11 @@
         
         // Sales table (from D1 via dashboard API)
         loadSalesTable();
-        
-        // Chain-verified data (script-generated JSON)
-        loadChainTelemetry();
       })
       .catch(err => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('error').style.display = 'block';
-        document.getElementById('error').textContent = `載入失敗：${err.message}`;
+        document.getElementById('error').textContent = `D1 API 暫唔可用：${err.message}（Chain-Verified Data 繼續運作）`;
       });
 
     async function loadSalesTable() {
