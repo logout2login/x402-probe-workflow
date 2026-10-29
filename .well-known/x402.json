@@ -1,0 +1,112 @@
+{
+  "specVersion": "1.0",
+  "x402Version": 1,
+  "name": "AEO-OS Verified Content Marketplace",
+  "description": "AI Agent OS (AEO-OS) - x402 marketplace for verified content packages. Pay per package with USDC on Base mainnet. All packages include quality metrics, evidence, and verification signatures.",
+  "provider": {
+    "name": "AEO-OS",
+    "website": "https://ownsite-aeo.jerry-aeo.workers.dev"
+  },
+  "endpoints": [
+    {
+      "id": "research-2026-q4-ai-agent-adoption",
+      "title": "AI Agent Adoption — 2026 Q4 Research Report",
+      "description": "Verified research report on AI agent adoption trends for Q4 2026. Includes quality metrics, evidence, and verification signature.",
+      "url": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/research-2026-q4-ai-agent-adoption",
+      "accepts": [
+        {
+          "scheme": "exact",
+          "network": "eip155:8453",
+          "maxAmountRequired": "500000",
+          "resource": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/research-2026-q4-ai-agent-adoption",
+          "description": "AI Agent Adoption — 2026 Q4 Research Report",
+          "mimeType": "application/json",
+          "payTo": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+          "maxTimeoutSeconds": 300,
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "extra": { "name": "USDC", "version": "2" }
+        }
+      ]
+    },
+    {
+      "id": "content-20261025131912-0173df95",
+      "title": "AI 模型压缩与量化部署服务",
+      "description": "AI model compression and quantization deployment service - complete guide from theory to engineering practice.",
+      "url": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131912-0173df95",
+      "accepts": [
+        {
+          "scheme": "exact",
+          "network": "eip155:8453",
+          "maxAmountRequired": "500000",
+          "resource": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131912-0173df95",
+          "description": "AI 模型压缩与量化部署服务",
+          "mimeType": "application/json",
+          "payTo": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+          "maxTimeoutSeconds": 300,
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "extra": { "name": "USDC", "version": "2" }
+        }
+      ]
+    },
+    {
+      "id": "content-20261025131912-fa11b94d",
+      "title": "Ollama 多模型管理与 API 服务配置模板",
+      "description": "Ollama multi-model management and API service configuration template - complete guide from theory to engineering practice.",
+      "url": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131912-fa11b94d",
+      "accepts": [
+        {
+          "scheme": "exact",
+          "network": "eip155:8453",
+          "maxAmountRequired": "500000",
+          "resource": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131912-fa11b94d",
+          "description": "Ollama 多模型管理与 API 服务配置模板",
+          "mimeType": "application/json",
+          "payTo": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+          "maxTimeoutSeconds": 300,
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "extra": { "name": "USDC", "version": "2" }
+        }
+      ]
+    },
+    {
+      "id": "content-20261025131913-e2352377",
+      "title": "Python 自动化：从零搭建 7×24 数据采集系统模板",
+      "description": "Python automation: build a 7x24 data collection system template from scratch - complete guide from theory to engineering practice.",
+      "url": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131913-e2352377",
+      "accepts": [
+        {
+          "scheme": "exact",
+          "network": "eip155:8453",
+          "maxAmountRequired": "500000",
+          "resource": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/content-20261025131913-e2352377",
+          "description": "Python 自动化：从零搭建 7×24 数据采集系统模板",
+          "mimeType": "application/json",
+          "payTo": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+          "maxTimeoutSeconds": 300,
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "extra": { "name": "USDC", "version": "2" }
+        }
+      ]
+    },
+    {
+      "id": "gemm-phi-irisxe-20261013",
+      "title": "GEMM Φ-phase vs Sequential — Intel oneAPI DPC++ on Iris Xe",
+      "description": "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. Data: benchmarks/gemm-phi/data.json on GitHub.",
+      "url": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/gemm-phi-irisxe-20261013",
+      "accepts": [
+        {
+          "scheme": "exact",
+          "network": "eip155:8453",
+          "maxAmountRequired": "500000",
+          "resource": "https://ownsite-aeo.jerry-aeo.workers.dev/buy/gemm-phi-irisxe-20261013",
+          "description": "GEMM Φ-phase benchmark package — Ed25519-signed, q=0.82",
+          "mimeType": "application/json",
+          "payTo": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+          "maxTimeoutSeconds": 300,
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "extra": { "name": "USDC", "version": "2" }
+        }
+      ]
+    }
+  ]
+}
