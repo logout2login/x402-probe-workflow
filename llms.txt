@@ -1,4 +1,4 @@
-# AEO-OS x402 Storefront — Agent Instructions
+﻿# AEO-OS x402 Storefront — Agent Instructions
 
 ## Facilitator bug #2832 — you can still buy
 
@@ -22,7 +22,7 @@ All packages are x402-payable: pay USDC on Base mainnet (eip155:8453) to receive
 
 1. **GET** the package schema:
    ```
-   GET https://ownsite-aeo.jerry-aeo.workers.dev/buy/{package_id}
+   GET https://ownsite-aeo.logout3login-a74.workers.dev/buy/{package_id}
    ```
    Response: x402 `accepts` object with `payTo`, `amount`, `asset`, `resource`, `network`.
 
@@ -30,7 +30,7 @@ All packages are x402-payable: pay USDC on Base mainnet (eip155:8453) to receive
 
 3. **POST** the signed voucher:
    ```
-   POST https://ownsite-aeo.jerry-aeo.workers.dev/buy/{package_id}
+   POST https://ownsite-aeo.logout3login-a74.workers.dev/buy/{package_id}
    Headers: X-PAYMENT: <base64(voucher)>
    ```
 
