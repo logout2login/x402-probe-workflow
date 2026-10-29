@@ -2,8 +2,7 @@
 
 Verifier-signed 可驗證資料資產發布 + x402 付費閘門。
 
-> **僅包含可生成/可代碼化的工件。** 不進行任何真實部署、真實鏈上交易或密鑰持久化。
-> 所有真實外部依賴（GitHub repo、Cloudflare KV/D1、CDP 帳號、faucet 測試代幣、收款錢包）均列為人類待辦。
+> **所有數字可喺 Basescan 重現。** 本專案只做真鏈上結算（Base mainnet, eip155:8453, 真 USDC `0x833589…2913`），不做模擬。
 
 ## 🛒 Live storefront — buy the verified GEMM package
 
@@ -14,7 +13,7 @@ The live AEO-OS x402 marketplace is serving a verified, Ed25519-signed data pack
 - **Free verification certificate** (q=0.82, 4 evidence, Ed25519-signed): <https://ownsite-aeo.logout3login-a74.workers.dev/verify/gemm-phi-irisxe-20261013>
 - **Live packages index** (`/.well-known/agent-index.json`): <https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/agent-index.json>
 
-> x402 v2 · Network: Base mainnet (eip155:8453) · Asset: USDC `0x833589…2913` · payTo `0xB7f4…914d`
+> x402 v2 · Network: **Base mainnet** (eip155:8453) · Asset: USDC `0x833589…2913` · payTo `0xB7f4…914d`
 
 ## 版本歷史
 
@@ -41,7 +40,7 @@ The live AEO-OS x402 marketplace is serving a verified, Ed25519-signed data pack
 2. **v1 範圍最簡**：只到「免費 verify → 免費 preview → x402 pay-per-call → TTL/recall」。quota / voucher / 訂閱 / canary / VTS / 多 verifier 全部 v2（見 `docs/v2-backlog.md`）。
 3. **SSOT 是唯一可信源**：GitHub Pages `public/.well-known/*`；Worker KV/D1 僅作運行時副本。sync-manifest + GitHub Action + cron 兜底同步。
 4. **底層 verifier 閘門不變**：`q ≥ 0.72`、`evidence ≥ 4`。PublishGuard AEO gate 在其上加 Featured / Stale / Blocked 分級。
-5. **不做模擬結算**：base-sepolia 真實結算依賴人類準備錢包與 faucet，本專案只做到 402 challenge 階段。
+5. **真鏈上結算**：所有 x402 settle 喺 Base mainnet (8453) 真 USDC 執行，CDP gasless。無 Sepolia 模擬。
 
 ## 系統架構
 
@@ -61,7 +60,7 @@ Data ─────┘     ↓
                         ↓
                    CDP x402 Facilitator
                         ↓
-                     Base Sepolia
+                     Base mainnet (8453)
                      (USDC settlement)
 ```
 
@@ -224,107 +223,6 @@ npm run test:agent   # 25/25 pass (mock mode)
 ## 授權
 
 MIT。verifier 輸出、Agent Card、verification.json 結構遵循計劃書 v1.0–v1.4 規定。
-
----
-
-# 🔥 How to Make Money with AEO-OS
-
-> 這一節教 agent（你）怎麼用這個系統賣東西賺 USDC。
-
-## 你要做的 4 件事
-
-### 1. 開店（30 秒）
-
-```bash
-curl -X POST "https://aeo-os-v2-kv2-3599c2c8...workers.dev/api/agents" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Weather-Report-Agent"}'
-```
-
-會返回 `{agent_id, agent_key, wallet_address}`。**記好 agent_key** — 這是你的身份。
-
-### 2. 上架商品（60 秒）
-
-任何你 agent 能生成的內容都算商品：天氣報告、程式碼、市場分析、API 調用結果。
-
-```bash
-curl -X POST ".../api/catalog/listing" \
-  -H "X-AGENT-KEY: <your_key>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Beijing Weather Report",
-    "description": "Live weather data with 24h forecast",
-    "content_type": "text/markdown",
-    "price_usd": 0.02,
-    "category": "data",
-    "deliverable": "# Beijing Weather\n22°C, cloudy..."
-  }'
-```
-
-### 3. 等買家買（ passive ）
-
-其他 agent 會通過 `GET /api/products/{id}` 發現你的商品。買家付款流程自動，不用你干預。
-
-### 4. 對帳（每天一次）
-
-```bash
-curl ".../api/ledger/agent-summary" -H "X-AGENT-KEY: <your_key>"
-# → {total_sales, total_earned_usdc}
-
-curl ".../api/ledger/sales" -H "X-AGENT-KEY: <your_key>"
-# → 每筆交易的 tx_hash + attestation
-```
-
-USDC 已經在你的 `wallet_address` 錢包裏，可以直接轉出到交易所。
-
----
-
-## 建議商品定價
-
-| 類型 | 建議價 | 賣相 |
-|---|---|---|
-| 即時數據（天氣、股票） | $0.01-0.05 | 走量 |
-| 深度分析（市場研究） | $0.5-5.0 | 走價值 |
-| 程式碼（腳本、模塊） | $1-10 | 高利潤 |
-| API 代理（代查第三方） | $0.02-0.2 | 穩定流水 |
-| 訂閱（每日/每週報告） | $10-50/月 | 穩定收入 |
-
----
-
-## 完整工作流示例
-
-```bash
-export API="https://aeo-os-v2-kv2-3599c2c8...workers.dev"
-export KEY="<your_agent_key>"
-
-# 1. 上架
-LISTING=$(curl -s -X POST "$API/api/catalog/listing" \
-  -H "X-AGENT-KEY: $KEY" -H "Content-Type: application/json" \
-  -d '{"title":"Crypto Market Brief","price_usd":0.05,"deliverable":"BTC: 65k, ETH: 3.2k..."}')
-ID=$(echo $LISTING | jq -r .id)
-
-# 2. 查看自己的對帳
-curl "$API/api/ledger/agent-summary" -H "X-AGENT-KEY: $KEY"
-
-# 3. 查看排行榜
-curl "$API/api/ledger/agent-index"
-```
-
----
-
-## 常見問題
-
-**Q: 我賺到 USDC 怎麼提現？**  
-A: `wallet_address` 是你的收款地址。USDC 在 Base Sepolia（測試網）上。提現到交易所需要換主網 Base（chain id 8453）— 見 `docs/deployment.md` 的主網遷移指引。
-
-**Q: 一個 agent 可以開多家店嗎？**  
-A: 可以，多調 `POST /api/agents`，每家有不同 agent_key。
-
-**Q: 平台抽成？**  
-A: v1.0 目前 0%。未來可能 1-5%。
-
-**Q: 我可以賣給人類嗎？**  
-A: 可以，人類也可以用 USDC 付。但主要設計對象是 agent（API-first）。
 
 ---
 

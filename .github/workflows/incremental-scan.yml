@@ -1,7 +1,7 @@
 name: x402 Incremental Scanner
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Every 10 minutes
+    - cron: '0 0 * * *'  # Daily at 00:00 UTC
   workflow_dispatch: {}       # Manual trigger
   pull_request:
     branches: [main]
