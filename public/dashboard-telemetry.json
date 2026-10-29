@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-10-29T08:30:39.887Z",
+  "source": "eth_getLogs on Base Sepolia",
+  "rpc_endpoint": "https://sepolia.base.org",
+  "usdc_address": "0x036CbD238DD914bb23a023CA724167d87210fEF8",
+  "pay_to": "0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+  "excluded_addresses": [
+    "0x009C8d8504cA603931a98aD6FA688F3fE9A57E43",
+    "0xC1Ffb463720826330e32c6Edde56d99B3F348C8b"
+  ],
+  "external_revenue_usdc": 0,
+  "total_revenue_usdc": 0,
+  "external_settlements": 0,
+  "self_test_settlements": 1,
+  "total_settlements": 1,
+  "first_external_buyer": null,
+  "external_buyers": [],
+  "known_self_test_tx": [
+    "0x3978e0b22e5f813c24d0786c248b4a0d23f4952f4543607e4a32d48420407c41"
+  ],
+  "recent_settlements": [],
+  "packages_listed": 4,
+  "network": "Base Sepolia (eip155:84532)",
+  "network_label": "Base Sepolia — testnet USDC，無真實價值",
+  "verify_url": "https://basescan.org/address/0xB7f4D61320de4CF5F22330407a3A683304AC914d",
+  "block_range": {
+    "from": 51653858,
+    "to": 51703858,
+    "latest": 51703858
+  }
+}

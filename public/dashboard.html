@@ -35,6 +35,13 @@
 </head>
 <body>
   <h1>ownsite-aeo — Public System Health</h1>
+<div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.4);border-radius:8px;padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:1.1rem;">⚠️</span>
+  <div>
+    <strong style="color:#3b82f6;">TESTNET</strong>
+    <span class="testnet-desc" style="color:#8b8fa3;font-size:0.82rem;"> Base Sepolia — testnet USDC，無真實價值。所有數據係公開 testnet 上嘅測試資料。</span>
+  </div>
+</div>
   <p id="loading">載入中…</p>
   <div id="error" style="display:none"></div>
   <div id="content" style="display:none">
@@ -72,6 +79,35 @@
       <p id="generated"></p>
     </div>
     
+    <!-- Chain-Verified Data (script-generated from eth_getLogs, NOT hardcoded) -->
+    <div class="section" id="chain-section" style="display:none">
+      <h2>🔗 Chain-Verified Data <span style="font-size:0.72rem;color:#8b8fa3;font-weight:400;">(script-generated · eth_getLogs · 唔手寫)</span></h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;">
+        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">External Revenue</div>
+          <div style="font-size:22px;font-weight:700;color:#e4e6eb;" id="chain-ext-revenue">$0.00</div>
+          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;line-height:1.5;" id="sub-ext-revenue">0 external buyers</div>
+        </div>
+        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Settlements</div>
+          <div style="font-size:22px;font-weight:700;color:#e4e6eb;" id="chain-settlements">–</div>
+          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;line-height:1.5;" id="sub-settlements">loading…</div>
+        </div>
+        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Network</div>
+          <div style="font-size:14px;font-weight:600;color:#e4e6eb;">Base Sepolia</div>
+          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">eip155:84532 · testnet USDC</div>
+        </div>
+        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-left:3px solid #22d3ee;border-radius:8px;padding:14px;">
+          <div style="font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Verify</div>
+          <div style="font-size:14px;font-weight:600;">
+            <a href="https://basescan.org/address/0xB7f4D61320de4CF5F22330407a3A683304AC914d" target="_blank" rel="noopener" style="color:#22d3ee;">0xB7f4…914d ↗</a>
+          </div>
+          <div style="font-size:12px;color:#8b8fa3;margin-top:4px;">USDC receiver · reproducible on Basescan</div>
+        </div>
+      </div>
+    </div>
+
     <div class="section">
       <h2>💰 銷售明細</h2>
       <table id="sales-table"><thead><tr><th>Package</th><th>Amount</th><th>Time</th><th>Status</th></tr></thead><tbody id="sales-body"></tbody></table>
@@ -173,6 +209,9 @@
         
         // Sales table (from D1 via dashboard API)
         loadSalesTable();
+        
+        // Chain-verified data (script-generated JSON)
+        loadChainTelemetry();
       })
       .catch(err => {
         document.getElementById('loading').style.display = 'none';
@@ -202,6 +241,54 @@
         });
       } catch(e) {
         console.error('Load sales failed', e);
+      }
+    }
+
+    // ── Chain-verified data (script-generated, NOT hardcoded) ──
+    async function loadChainTelemetry() {
+      try {
+        const r = await fetch('./dashboard-telemetry.json');
+        if (!r.ok) return;
+        const t = await r.json();
+        document.getElementById('chain-section').style.display = 'block';
+        
+        // External revenue
+        const extUSDC = t.external_revenue_usdc ?? 0;
+        const extCard = document.getElementById('chain-ext-revenue');
+        extCard.textContent = extUSDC > 0 ? '$' + extUSDC.toFixed(2) : '$0.00';
+        extCard.style.color = extUSDC > 0 ? '#10b981' : '#8b8fa3';
+        
+        const extCount = t.external_settlements ?? 0;
+        if (extCount > 0 && t.first_external_buyer) {
+          const short = t.first_external_buyer.slice(0, 6) + '…' + t.first_external_buyer.slice(-4);
+          document.getElementById('sub-ext-revenue').innerHTML =
+            `${extCount} external settlement(s)<br>First: <a href="https://basescan.org/address/${t.first_external_buyer}" style="color:#22d3ee">${short}</a>`;
+        } else {
+          document.getElementById('sub-ext-revenue').textContent =
+            `0 external buyers (all ${t.total_settlements ?? 0} are self-test)`;
+        }
+        
+        // Settlements
+        document.getElementById('chain-settlements').textContent = String(t.total_settlements ?? 0);
+        let sub = '';
+        if (t.self_test_settlements > 0) sub += `${t.self_test_settlements} self-test`;
+        if (t.external_settlements > 0) sub += (sub ? ' + ' : '') + `${t.external_settlements} external`;
+        const latest = t.recent_settlements?.[0];
+        if (latest) {
+          sub += `<br>Latest: <a href="https://basescan.org/tx/${latest.tx_hash}" style="color:#22d3ee;font-size:11px;">${latest.tx_hash.slice(0,10)}…</a>`;
+        } else if (t.known_self_test_tx?.length > 0) {
+          const txHash = t.known_self_test_tx[0];
+          sub += `<br>Self-test: <a href="https://basescan.org/tx/${txHash}" style="color:#22d3ee;font-size:11px;">${txHash.slice(0,10)}…${txHash.slice(-4)}</a>`;
+        }
+        document.getElementById('sub-settlements').innerHTML = sub || 'no data';
+        
+        // Network label
+        if (t.network_label) {
+          const banner = document.querySelector('.testnet-desc');
+          if (banner) banner.textContent = t.network_label;
+        }
+      } catch(e) {
+        // telemetry not available — section stays hidden
       }
     }
   </script>
