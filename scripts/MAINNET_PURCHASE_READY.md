@@ -1,5 +1,7 @@
 # Mainnet Purchase Ready
 
+> ⚠️ **2026-10-30 SECURITY ROTATION** — 舊 facilitator/buyer 私鑰（`0xa62e...` / `0x7219...`）喺 2026-10-26 被 commit 入 public repo 而洩漏，**已棄用（DEPRECATED）**，$0 唔好再入錢。新錢包見下表，新私鑰存本地 `new_production_keys.json`（唔好 commit）。
+
 ## Status
 - Worker: `https://ownsite-aeo.jerry-aeo.workers.dev` — **Base Mainnet** (eip155:8453), `mock_facilitator=false`
 - Facilitator derived from `SELFHOSTED_PRIVATE_KEY` (wrangler secret)
@@ -9,8 +11,8 @@
 
 | Role | Address | Needs |
 |------|---------|-------|
-| Facilitator | `0xa62e26Cc428733f2992225493fc7303D0b005aC7` | ~0.01 ETH (gas for permit+transferFrom) |
-| Buyer | `0x72196EC8779dfFc080A0649a27f4C5660f5406a8` | ~0.005 ETH + >= 1.0 USDC |
+| Facilitator | `0xDF6868C17ed8cEB9d3df286bf82279E08574c622` | ~0.01 ETH (gas for permit+transferFrom) |
+| Buyer | `0x28bF9448DbfF1D1562577a3f948DA5E74AF9d7B1` | ~0.005 ETH + >= 1.0 USDC |
 | PayTo | `0xB7f4D61320de4CF5F22330407a3A683304AC914d` | (receives USDC) |
 
 ## Funding Steps

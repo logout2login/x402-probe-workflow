@@ -19,3 +19,23 @@ d1_new.json
 fund_check_*.json
 .hermes/
 _probe_cdp_key.mjs
+
+# ===== 2026-10-30 秘密洩漏補救：絕對唔可以入 git =====
+# 真實 secrets / wallet keys（已由追蹤移除 + 歷史 purge）
+scripts/.secrets.*.env
+scripts/.secrets.mainnet.env
+scripts/.secrets.testnet.env
+scripts/.mainnet_keys.json
+scripts/.testnet_facilitator.json
+scripts/.testnet_payer.json
+scripts/.testnet_last_auth.json
+testnet/.buyer.json
+testnet/.gas_topup.json
+testnet/.rabby_pkg.json
+Gen-Keypair.txt
+*.mainnet_keys.json
+*.secrets.*.env
+# 任何 dotfile 含有 key/secret/pk/private 字樣
+.*key*.json
+.*secret*.env
+.*private*.json

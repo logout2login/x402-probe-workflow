@@ -1,4 +1,4 @@
-// Mainnet x402 buyer: signs EIP-3009 authorization and submits to facilitator worker.
+﻿// Mainnet x402 buyer: signs EIP-3009 authorization and submits to facilitator worker.
 // Usage:
 //   npx tsx scripts/mainnet_buyer.ts                     # interactive: prompts private key
 //   NODE BuyerPrivateKey=0x... AMOUNT_USDC=0.5 npx tsx scripts/mainnet_buyer.ts  # non-interactive
@@ -81,7 +81,7 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
   const pub = createPublicClient({ chain: base, transport: http("https://mainnet.base.org") });
   const buyerAddr = buyer.address as Address;
 
-  // ── 1. Balances ──────────────────────────────────────────────────────────────
+  // â”€â”€ 1. Balances â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const ethBal = await pub.getBalance({ address: buyerAddr });
   const usdcBal = await pub.readContract({
     address: USDC,
@@ -102,7 +102,7 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
     process.exit(1);
   }
 
-  // ── 2. Get facilitator + payTo addresses ─────────────────────────────────────
+  // â”€â”€ 2. Get facilitator + payTo addresses â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Fetch challenge to get payTo from the response (if available)
   // The facilitator wallet is derived from SELFHOSTED_PRIVATE_KEY in wrangler secrets
   // We need to know it; get from worker endpoint
@@ -112,7 +112,7 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
     const ch = await chResp.json();
     // Challenge doesn't expose payTo directly; use known address
   } catch {}
-  facAddress = (process.env.FACILITATOR_ADDRESS as Address) || "0xa62e26Cc428733f2992225493fc7303D0b005aC7" as Address; // derived from SELFHOSTED_PRIVATE_KEY
+  facAddress = (process.env.FACILITATOR_ADDRESS as Address) || "0xDF6868C17ed8cEB9d3df286bf82279E08574c622" as Address; // derived from SELFHOSTED_PRIVATE_KEY
 
   // PayTo wallet (already known)
   const payTo = "0xB7f4D61320de4CF5F22330407a3A683304AC914d" as Address;
@@ -121,7 +121,7 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
   console.log(`    PayTo:       ${payTo}`);
   console.log(`    Amount:      ${amountUsdc} USDC (${amount} base units)`);
 
-  // ── 3. Sign EIP-3009 authorization ──────────────────────────────────────────
+  // â”€â”€ 3. Sign EIP-3009 authorization â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const validAfter = Math.floor(Date.now() / 1000) - 60; // allow immediately
   const validBefore = validAfter + 300; // 5 min window
   const nonceBytes = randomBytes(8);
@@ -155,7 +155,7 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
   const authBase64 = Buffer.from(JSON.stringify(auth)).toString("base64");
   console.log(`    auth (base64): ${authBase64.slice(0, 80)}...`);
 
-  // ── 4. Submit to facilitator worker ──────────────────────────────────────────
+  // â”€â”€ 4. Submit to facilitator worker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   console.log(`\n[4] Submitting to ${FACILITATOR_URL}/buy/${RESOURCE} ...`);
   const buyResp = await fetch(`${FACILITATOR_URL}/buy/${RESOURCE}`, {
     method: "POST",
@@ -192,13 +192,13 @@ async function run(buyer: ReturnType<typeof privateKeyToAccount>, amount: bigint
     process.exit(1);
   }
 
-  console.log(`\n✅ SETTLE SUCCESS`);
+  console.log(`\nâœ… SETTLE SUCCESS`);
   const txHash = body.txHash ?? "(none)";
   console.log(`   txHash: ${txHash}`);
   console.log(`   Amount: ${formatUnits(BigInt(body.amount ?? "0"), USDC_DECIMALS)} USDC`);
   console.log(`   Basescan: https://basescan.org/tx/${txHash}`);
 
-  // ── 5. Verify payTo received ─────────────────────────────────────────────────
+  // â”€â”€ 5. Verify payTo received â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   console.log(`\n[5] Verifying payTo balance ...`);
   const payToAfter = await pub.readContract({
     address: USDC,
