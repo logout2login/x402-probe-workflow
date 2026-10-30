@@ -23,6 +23,13 @@ export const MAX_REGENERATE_PER_24H = 3;
 export const PRICE_STANDARD_6DECIMAL = "500000"; // $0.50
 export const PRICE_FEATURED_6DECIMAL = "1000000"; // $1.00
 
+// ─── 開張促銷（第一買家 ASAP）───
+// 前 PROMO_FIRST_N 個 settled 付款以 PROMO_PRICE_6DECIMAL（$0.01）發售；
+// 之後回落到 standard/featured 價。$0.01 係真實 settle 事件（唔係 refund），
+// 所以同時觸發 Bazaar indexing + 係真正嘅 demand signal。
+export const PROMO_PRICE_6DECIMAL = "10000"; // $0.01
+export const PROMO_FIRST_N = 5;
+
 // ─── 速率限制 ───
 export const VERIFY_RATE_LIMIT_PER_MIN = 60;
 export const PREVIEW_RATE_LIMIT_PER_HOUR = 10;

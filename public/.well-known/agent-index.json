@@ -1,47 +1,25 @@
 {
-  "spec_version": "1.0",
-  "generated_at": "2026-10-25T05:29:45.220226+00:00",
+  "spec_version": "1.1",
+  "generated_at": "2026-10-30T17:46:00Z",
   "description": "Machine-verifiable data packages with Ed25519-signed verification. Ships ≤500-char resource descriptions so CDP /verify accepts them today — bypasses upstream facilitator bug #2832.",
   "packages": [
     {
-      "package_id": "research-2026-q4-ai-agent-adoption",
-      "title": "AI Agent Adoption — 2026 Q4 Research Report",
-      "q": 0.81,
-      "category": "research",
-      "price": 0.5,
-      "verified_at": "2026-10-23T20:42:00.000Z",
-      "data_path": "/pkg-research-2026-q4-ai-agent-adoption.json",
-      "evidence_count": 5
-    },
-    {
-      "package_id": "content-20261025131912-0173df95",
-      "title": "",
-      "q": 0.85,
-      "category": "data",
-      "price": 0.05,
-      "verified_at": "2026-10-25T05:19:12.465380+00:00",
-      "data_path": "/pkg-content-20261025131912-0173df95.json",
-      "evidence_count": 4
-    },
-    {
-      "package_id": "content-20261025131912-fa11b94d",
-      "title": "",
-      "q": 0.85,
-      "category": "data",
-      "price": 0.05,
-      "verified_at": "2026-10-25T05:19:12.632882+00:00",
-      "data_path": "/pkg-content-20261025131912-fa11b94d.json",
-      "evidence_count": 4
-    },
-    {
-      "package_id": "content-20261025131913-e2352377",
-      "title": "",
-      "q": 0.85,
-      "category": "data",
-      "price": 0.05,
-      "verified_at": "2026-10-25T05:19:13.180406+00:00",
-      "data_path": "/pkg-content-20261025131913-e2352377.json",
-      "evidence_count": 4
+      "package_id": "gemm-phi-irisxe-20261013",
+      "title": "GEMM Φ-phase vs sequential — Intel oneAPI 2026.1 DPC++, Intel Iris Xe (Gen11 Xe-LP), real measured data",
+      "q": 0.82,
+      "q_effective": 0.81,
+      "evidence_count": 4,
+      "source_diversity": 0.75,
+      "verified_at": "2026-10-28T22:21:55Z",
+      "expires_at": "2027-04-26T22:21:55Z",
+      "tier": "listed",
+      "origin": "publisher",
+      "preview_url": "https://ownsite-aeo.logout3login-a74.workers.dev/preview/gemm-phi-irisxe-20261013",
+      "verify_url": "https://ownsite-aeo.logout3login-a74.workers.dev/verify/gemm-phi-irisxe-20261013",
+      "paid_url": "https://ownsite-aeo.logout3login-a74.workers.dev/buy/gemm-phi-irisxe-20261013",
+      "price_usdc": "0.01",
+      "status": "fresh",
+      "description": "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. LAUNCH PROMO: first 5 buyers pay $0.01 USDC (standard $0.50). Preview free at /preview/gemm-phi-irisxe-20261013 — same schema as the paid answer. Price returns to $0.50 after the 5th settled payment."
     }
   ]
 }

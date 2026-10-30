@@ -4,6 +4,7 @@
 // v1.0 只從 KV 讀預生成分片；v1.10+ 直接查 DB + 支援排序/過濾。
 
 import { PRICE_STANDARD_6DECIMAL, PRICE_FEATURED_6DECIMAL } from "../shared/constants";
+import { effectivePrice, usdcDisplay } from "../shared/price";
 import type { Env } from "./env";
 import type { AgentIndex, PackageIndexEntry } from "../shared/types";
 
@@ -44,7 +45,10 @@ export async function queryIndexRows(env: Env, opts: IndexQueryOpts = {}): Promi
     `SELECT * FROM packages p WHERE ${clauses.join(" AND ")} ORDER BY p.q DESC, p.verified_at DESC`
   ).bind(...params).all<PackageRow>();
 
-  const packages: PackageIndexEntry[] = results.map(row => toIndexEntry(row, env.OWNSITE_BASE));
+  const packages: PackageIndexEntry[] = [];
+  for (const row of results) {
+    packages.push(await toIndexEntry(row, env.OWNSITE_BASE, env));
+  }
   return {
     spec_version: "1.1",
     generated_at: now.toISOString(),
@@ -65,9 +69,10 @@ interface PackageRow {
   origin: string;
 }
 
-function toIndexEntry(row: PackageRow, base: string): PackageIndexEntry {
+async function toIndexEntry(row: PackageRow, base: string, env: Env): Promise<PackageIndexEntry> {
   const decay = Math.max(0.7, 1 - (Date.now() - new Date(row.verified_at).getTime()) / (180 * 86400_000));
   const qEffective = Math.round(row.q * decay * 100) / 100;
+  const price = await effectivePrice(env, row.package_id, row.tier as "listed" | "featured");
   return {
     package_id: row.package_id,
     title: row.title,
@@ -82,10 +87,10 @@ function toIndexEntry(row: PackageRow, base: string): PackageIndexEntry {
     preview_url: `${base}/preview/${row.package_id}`,
     verify_url: `${base}/verify/${row.package_id}`,
     paid_url: `${base}/buy/${row.package_id}`,
-    price_usdc: row.tier === "featured" ? "1.00" : "0.50",
+    price_usdc: usdcDisplay(price),
     status: "fresh",
     description: row.package_id === "gemm-phi-irisxe-20261013"
-      ? "Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. GRAND OPENING: First 10 buyers get 100% USDC refund (same-day). Send tx hash to aeo@logout3login.com within 24h of purchase. Applies to gemm-phi-irisxe-20261013 only; refunds by tx, not wallet; duplicate claims rejected. Ends after 10 refunds or 2026-11-13."
+      ? `Real measured GEMM benchmark: Phi-phase tiled SYCL kernel vs sequential baseline on Intel Iris Xe (Gen11 Xe-LP). q=0.82, 4 verifiable evidence items, Ed25519-signed. LAUNCH PROMO: first 5 buyers pay $0.01 USDC (standard $0.50). Preview free at /preview/gemm-phi-irisxe-20261013 — same schema as the paid answer. Price returns to $0.50 after the 5th settled payment.`
       : `Verified ${row.title}. q=${row.q}, ${row.evidence_count} evidence items, Ed25519-signed.`,
   };
 }

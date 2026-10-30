@@ -28,16 +28,17 @@
 // 硬性約束：Worker 不重算 q、不重拉 evidence；只驗支付是否真實結算。
 
 import {
-  PRICE_FEATURED_6DECIMAL,
   PRICE_STANDARD_6DECIMAL,
   TX_REPLAY_TTL_SECONDS,
 } from "../shared/constants";
+import { effectivePrice, usdcDisplay } from "../shared/price";
 import type { Env } from "./env";
 import { json } from "./http";
 import { derivePseudonym } from "./pseudonym";
 import { routeAndSettle } from "../facilitator/router";
 import { canonicalize, sha256Hex } from "../crypto/canonical";
 import type { X402Accept, X402PaymentPayload, Verification } from "../shared/types";
+import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
 
 export interface PackageMeta {
   package_id: string;
@@ -87,7 +88,8 @@ export async function handleBuy(
   if (!paymentHeader) {
     const meta = await opts.getPackageMeta(id);
     if (!meta) return json({ error: "not_found" }, 404);
-    return paymentRequiredResponse(id, meta, env);
+    const price = await effectivePrice(env, id, meta.tier);
+    return paymentRequiredResponse(id, meta, env, price);
   }
 
   let payment: X402PaymentPayload;
@@ -117,10 +119,17 @@ export async function handleBuy(
   console.log("[buy] calling routeAndSettle, packageId=", id, "network=", env.NETWORK);
   let settle;
   try {
+    // v1.16: settle 必須攜帶 extensions.bazaar 先會建立 Bazaar listing（issue #2112）。
+    const settleMeta = await opts.getPackageMeta(id);
+    const settlePrice = settleMeta
+      ? await effectivePrice(env, id, settleMeta.tier)
+      : PRICE_STANDARD_6DECIMAL;
+    const bazaarExt = settleMeta ? buildBazaarExtension(settleMeta, env, settlePrice) : undefined;
     settle = await routeAndSettle(env, {
       payment,
       packageId: id,
       amountRequired: PRICE_STANDARD_6DECIMAL,
+      extensions: bazaarExt ? { bazaar: bazaarExt } : undefined,
     });
     console.log("[buy] routeAndSettle result: ok=", settle.ok, "error=", settle.error);
   } catch (e: any) {
@@ -180,16 +189,56 @@ export async function handleBuy(
   }
 }
 
+// v1.16: 抽出 bazaar declaration 建構，供 402 response 與 settle 共用。
+// GitHub issue x402#2112：settlement 必須攜帶 extensions.bazaar 先會建立 Bazaar listing；
+// issue #1982：mainnet facilitator 會 drop extensions.bazaar（testnet v2 正常）。
+export interface BazaarDeclaration {
+  info: {
+    input: { type: string; method: string; queryParams?: Record<string, string> };
+    output?: { type: string; example: unknown };
+  };
+  schema: Record<string, unknown>;
+  name: string;
+  description: string;
+  tags: string[];
+}
+
+export function buildBazaarExtension(
+  meta: PackageMeta,
+  env: Env,
+  price: string = PRICE_STANDARD_6DECIMAL
+): BazaarDeclaration {
+  // 用官方 declareDiscoveryExtension 產生正確 wire format（schema 有 $schema/properties.input）。
+  // Content policy: description 必須係 natural-language 描述（唔可以似 instruction to agent）。
+  // CDP 會 reject 任何「叫 agent 做嘢」嘅文字（如 refund 指引、send tx hash to email）。
+  const decl = declareDiscoveryExtension({
+    method: "GET",
+    input: { package_id: meta.package_id },
+    inputSchema: {
+      properties: { package_id: { type: "string", description: "Package id" } },
+      required: ["package_id"],
+    },
+    output: { example: { package_id: meta.package_id, status: "available" } },
+  } as any);
+  const desc = `${meta.title} — x402 verified data package (q=${meta.q.toFixed(2)}, evidence=${meta.evidence_count}). Price: $${usdcDisplay(price)} USDC on Base mainnet. Verify free before payment.`;
+  return {
+    ...decl.bazaar,
+    name: meta.title ?? "Agent2Agent Service",
+    description: desc,
+    tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
+  } as BazaarDeclaration;
+}
+
 export function paymentRequiredResponse(
   id: string,
   meta: PackageMeta,
-  env: Env
+  env: Env,
+  price: string = PRICE_STANDARD_6DECIMAL
 ): Response {
   const accept: X402Accept = {
     scheme: "exact",
     network: env.NETWORK,
-    amount:
-      meta.tier === "featured" ? PRICE_FEATURED_6DECIMAL : PRICE_STANDARD_6DECIMAL,
+    amount: price,
     resource: `${env.OWNSITE_BASE}/buy/${id}`,
     description: `${meta.title} — q=${meta.q.toFixed(2)}, evidence=${meta.evidence_count}, expires ${meta.expires_at.slice(0, 10)}`,
     mimeType: "application/json",
@@ -198,13 +247,7 @@ export function paymentRequiredResponse(
     asset: env.ASSET_USDC,
     extra: { name: "USDC", version: "2" },
     extensions: {
-      bazaar: {
-        info: { input: { type: "http", method: "GET" }, output: { example: "application/json" } },
-        name: meta.title ?? "Agent2Agent Service",
-        description: `${meta.title} — x402 verified capability (q=${meta.q.toFixed(2)}) — bypasses CDP facilitator bug #2832 (≤500-char description). GRAND OPENING: First 10 buyers get 100% USDC refund (same-day). Send tx hash to aeo@logout3login.com within 24h of purchase. Applies to gemm-phi-irisxe-20261013 only; refunds by tx, not wallet; duplicate claims rejected. Ends after 10 refunds or 2026-11-13.`,
-        tags: ["agent", "x402", "a2a", meta.tier ?? "standard"],
-        schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
-      },
+      bazaar: buildBazaarExtension(meta, env, price),
     },
   };
   const payload = {

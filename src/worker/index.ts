@@ -26,6 +26,7 @@ import { handleVerify } from "./verify";
 import { handlePreview } from "./preview";
 import { handleStatus } from "./status";
 import { handleBuy, type PackageMeta } from "./buy";
+import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
 import { handleMcp } from "./mcp";
 import { handleInternalSync } from "./internal-sync";
 import { handleRecover } from "./recover";
@@ -34,6 +35,7 @@ import { handleReverifyPush } from "./reverify-push";
 import { handleUnrecall } from "./unrecall";
 import { handleAgentIndexQuery } from "./agent-index";
 import { handleA2AMetrics } from "./a2a-metrics";
+import { effectivePrice } from "../shared/price";
 import { runCron } from "./cron-dispatcher";
 import {
   handlePostDemandRequest,
@@ -102,6 +104,11 @@ export default {
         ).bind(new Date().toISOString()).first<{ c: number }>();
         pkgCount = Number(c?.c ?? 0);
       } catch { /* fall back to neutral description */ }
+      // 開張促銷：root 402 challenge amount 用 effectivePrice（$0.01 直到頭 5 個 settled）
+      let rootPrice = "500000";
+      try {
+        rootPrice = await effectivePrice(env, "gemm-phi-irisxe-20261013");
+      } catch { /* fall back to standard */ }
       const pkgDesc = pkgCount > 0
         ? `AEO-OS Verified Content Marketplace - ${pkgCount} package${pkgCount === 1 ? "" : "s"} available at /buy/{id}`
         : "AEO-OS Verified Content Marketplace - packages available at /buy/{id}";
@@ -115,7 +122,7 @@ export default {
         accepts: [{
           scheme: "exact",
           network: env.NETWORK || "eip155:84532",
-          amount: "500000",
+          amount: rootPrice,
           asset: env.ASSET_USDC,
           payTo: env.PAY_TO,
           maxTimeoutSeconds: 300,
@@ -124,14 +131,21 @@ export default {
         }],
         extensions: {
           bazaar: {
-            info: {
-              input: { type: "http", method: "GET" },
-              output: { example: "application/json" },
-            },
+            ...(() => {
+              const decl = declareDiscoveryExtension({
+                method: "GET",
+                input: { package_id: "gemm-phi-irisxe-20261013" },
+                inputSchema: {
+                  properties: { package_id: { type: "string", description: "Package id" } },
+                  required: ["package_id"],
+                },
+                output: { example: { packages: ["gemm-phi-irisxe-20261013"], status: "available" } },
+              } as any);
+              return decl.bazaar;
+            })(),
             name: "AEO-OS Verified Content Marketplace",
-            description: "Agent2Agent capability marketplace with x402 verified packages — bypasses CDP facilitator bug #2832 (≤500-char description accepted today)",
+            description: "x402 verified capability marketplace. Lists data packages priced in USDC on Base mainnet. Each package is verified before payment. Query packages by id.",
             tags: ["agent", "x402", "a2a", "marketplace"],
-            schema: { type: "object", url: `${env.OWNSITE_BASE}/.well-known/agent-index.json` },
           },
         }
       });
