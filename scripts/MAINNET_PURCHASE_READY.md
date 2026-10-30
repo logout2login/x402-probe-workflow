@@ -1,9 +1,9 @@
-# Mainnet Purchase Ready
+﻿# Mainnet Purchase Ready
 
-> ⚠️ **2026-10-30 SECURITY ROTATION** — 舊 facilitator/buyer 私鑰（`0xa62e...` / `0x7219...`）喺 2026-10-26 被 commit 入 public repo 而洩漏，**已棄用（DEPRECATED）**，$0 唔好再入錢。新錢包見下表，新私鑰存本地 `new_production_keys.json`（唔好 commit）。
+> âš ï¸ **2026-10-30 SECURITY ROTATION** â€” èˆŠ facilitator/buyer ç§é‘°ï¼ˆ`0xa62e...` / `0x7219...`ï¼‰å–º 2026-10-26 è¢« commit å…¥ public repo è€Œæ´©æ¼ï¼Œ**å·²æ£„ç”¨ï¼ˆDEPRECATEDï¼‰**ï¼Œ$0 å””å¥½å†å…¥éŒ¢ã€‚æ–°éŒ¢åŒ…è¦‹ä¸‹è¡¨ï¼Œæ–°ç§é‘°å­˜æœ¬åœ° `new_production_keys.json`ï¼ˆå””å¥½ commitï¼‰ã€‚
 
 ## Status
-- Worker: `https://ownsite-aeo.jerry-aeo.workers.dev` — **Base Mainnet** (eip155:8453), `mock_facilitator=false`
+- Worker: `https://ownsite-aeo.jerry-aeo.workers.dev` â€” **Base Mainnet** (eip155:8453), `mock_facilitator=false`
 - Facilitator derived from `SELFHOSTED_PRIVATE_KEY` (wrangler secret)
 - Buyer script fixed to use new facilitator address
 
@@ -17,7 +17,7 @@
 
 ## Funding Steps
 
-1. Open MetaMask / Coinbase Wallet → add Base network if not present
+1. Open MetaMask / Coinbase Wallet â†’ add Base network if not present
 2. Send ETH to both addresses above
 3. Send 1+ USDC to buyer address
 4. Wait ~30s for confirmations
@@ -26,14 +26,14 @@
 
 ```bash
 cd C:/Users/jerry/.qwenpaw/workspaces/my-agent/ownsite-aeo
-NODE BuyerPrivateKey=0xREDACTED_PRIVATE_KEY AMOUNT_USDC=1.0 npx tsx scripts/mainnet_buyer.ts
+NODE BuyerPrivateKey=0x<BUYER_PRIVATE_KEY_FROM_ENV> AMOUNT_USDC=1.0 npx tsx scripts/mainnet_buyer.ts
 ```
 
 ## Files Modified
-- `wrangler.toml` — `NETWORK = "eip155:8453"` (unchanged)
-- `wrangler secret SELFHOSTED_PRIVATE_KEY` — updated (new keypair)
-- `scripts/mainnet_buyer.ts` — fixed hardcoded facilitator address
-- `scripts/.mainnet_keys.json` — generated (gitignored)
+- `wrangler.toml` â€” `NETWORK = "eip155:8453"` (unchanged)
+- `wrangler secret SELFHOSTED_PRIVATE_KEY` â€” updated (new keypair)
+- `scripts/mainnet_buyer.ts` â€” fixed hardcoded facilitator address
+- `scripts/.mainnet_keys.json` â€” generated (gitignored)
 
 ## Security
 - Private keys stored ONLY in wrangler secrets + local `.mainnet_keys.json`
