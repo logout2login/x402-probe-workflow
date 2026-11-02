@@ -10,7 +10,7 @@ import { baseSepolia } from 'viem/chains';
 
 const USDC = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
 const FAC = '0x1930cd61d3C3328923EcCFDCa8Ed322a17F556Dd';
-const PK = '0x5fec660ce298b719988989461c7818a7b5b31bc0ee5418a346721fd7718fe31f';
+const PK = '0xREDACTED_PAYER';
 const payer = privateKeyToAccount(PK as `0x${string}`);
 const pub = createPublicClient({ chain: baseSepolia, transport: http('https://sepolia.base.org') });
 

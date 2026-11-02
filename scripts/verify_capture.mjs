@@ -5,8 +5,8 @@ import { privateKeyToAccount } from 'viem/accounts';
 const RPC = 'https://sepolia.base.org';
 const USDC = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
 const PAYER = '0x3076670654bf5586eb42ff5853bd96ccff99c6fa';
-const TX = '0x7631ca92a76e9c9cc8753273146bca447eedb53656b8f56d42e32a6281befd3b';
-const SELFHOSTED_KEY = '0xe6bed232ee4d88ba0c8e70ff40a7fddfb8a5d849219ed348a6171388695f9de0';
+const TX = '0xREDACTED_VERIFY';
+const SELFHOSTED_KEY = '0xREDACTED_FAC';
 
 const pub = createPublicClient({ chain: baseSepolia, transport: http(RPC) });
 const sig = keccak256(stringToHex('Transfer(address,address,uint256)'));

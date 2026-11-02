@@ -36,7 +36,7 @@ const TRANSFER_AMOUNT = 0.01; // USDC
 const PK_PATH = `${import.meta.dirname}/.testnet_payer.json`;
 const pkData = JSON.parse(fs.readFileSync(PK_PATH, 'utf8'));
 const payerAccount = privateKeyToAccount(pkData.privateKey as `0x${string}`);
-const facAccount = privateKeyToAccount('0xe6bed232ee4d88ba0c8e70ff40a7fddfb8a5d849219ed348a6171388695f9de0' as `0x${string}`);
+const facAccount = privateKeyToAccount('0xREDACTED_FAC' as `0x${string}`);
 
 const pub = createPublicClient({ chain: baseSepolia, transport: http(RPC) });
 const payerWc = createWalletClient({
