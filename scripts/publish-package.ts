@@ -23,7 +23,17 @@ import type { VerifierOutput, Verification } from "../src/shared/types";
 const fixturePath = process.argv[2] ?? "fixtures/sample-verifier-output.json";
 const dataPath = process.argv[3] ?? "fixtures/sample-data.json";
 const privHex = process.env.VERIFIER_PRIVATE_KEY_HEX ?? "";
-const BASE = process.env.OWNSITE_BASE ?? "https://REPLACE_WITH_YOUR_DOMAIN";
+// OWNSITE_BASE 必須係真實 worker 網域；唔可以跌返 placeholder（否則 schema_url 會係
+// "https://REPLACE_WITH_YOUR_DOMAIN/..." 而令信任 gate 破裂）。
+const REAL_WORKER_BASE = "https://ownsite-aeo.jerry-aeo.workers.dev";
+const BASE = process.env.OWNSITE_BASE ?? REAL_WORKER_BASE;
+if (BASE.includes("REPLACE_WITH_YOUR_DOMAIN")) {
+  console.error("❌ OWNSITE_BASE 不可為 REPLACE_WITH_YOUR_DOMAIN 佔位符。");
+  process.exit(1);
+}
+if (BASE !== REAL_WORKER_BASE) {
+  console.warn(`⚠️ 用自訂 OWNSITE_BASE=${BASE}（非預設 ${REAL_WORKER_BASE}）`);
+}
 
 if (!privHex || !/^[0-9a-f]{64}$/.test(privHex)) {
   console.error("❌ VERIFIER_PRIVATE_KEY_HEX missing.");

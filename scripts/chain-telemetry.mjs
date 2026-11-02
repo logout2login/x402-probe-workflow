@@ -26,9 +26,9 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 
 // ── Constants (hardcoded = integrity rules, NOT configurable) ──
 const RPC_ENDPOINTS = [
-  "https://sepolia.base.org",
-  "https://base-sepolia-rpc.publicnode.com",
-  "https://base-sepolia.drpc.org",
+  "https://mainnet.base.org",
+  "https://base-mainnet-rpc.publicnode.com",
+  "https://base-mainnet.drpc.org",
 ];
 const USDC_ADDRESS = "0x036CbD238DD914bb23a023CA724167d87210fEF8";
 const PAY_TO = "0xB7f4D61320de4CF5F22330407a3A683304AC914d";
@@ -156,7 +156,7 @@ async function main() {
   // 5. Build telemetry object
   const telemetry = {
     generated_at: new Date().toISOString(),
-    source: "eth_getLogs on Base Sepolia",
+    source: "eth_getLogs on Base Mainnet",
     rpc_endpoint: RPC_ENDPOINTS[0],
     usdc_address: USDC_ADDRESS,
     pay_to: PAY_TO,
@@ -189,8 +189,8 @@ async function main() {
 
     // Static facts (can be overridden by D1/KV later)
     packages_listed: 4,
-    network: "Base Sepolia (eip155:84532)",
-    network_label: "Base Sepolia — testnet USDC，無真實價值",
+    network: "Base Mainnet (eip155:8453)",
+    network_label: "Base Mainnet — real USDC",
     verify_url: `https://basescan.org/address/${PAY_TO}`,
 
     block_range: { from: fromBlock, to: latestNum, latest: latestNum },

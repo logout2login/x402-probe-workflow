@@ -91,13 +91,13 @@ export interface X402Accept {
   extensions?: {
     bazaar?: {
       info: {
-        input: { type: string; method: string };
-        output?: { example: string };
+        input: { type: string; method: string; queryParams?: Record<string, string> };
+        output?: { type: string; example: unknown };
       };
+      schema: Record<string, unknown>;
       name: string;
       description: string;
       tags: string[];
-      schema: { type: string; url: string };
     };
   };
 }

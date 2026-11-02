@@ -30,6 +30,23 @@ export async function buildVerification(
   }
 
   // 轉換 evidence：verifier 用 excerpt_sha256_hex，verification.json 用 excerpt_hash
+  // fail-fast：缺少 source_url / excerpt_sha256_hex 即拋錯，避免寫出 "sha256:undefined" 等
+  // 不可驗證的偽憑證（integrity 層必須 100% 可重算）。
+  for (const [i, e] of v.evidence.entries()) {
+    if (!e.source_url) {
+      throw new Error(`buildVerification: evidence[${i}] missing source_url`);
+    }
+    if (!e.excerpt_sha256_hex || e.excerpt_sha256_hex === "undefined") {
+      throw new Error(
+        `buildVerification: evidence[${i}] missing excerpt_sha256_hex (integrity cannot be recomputed); source_url=${e.source_url}`
+      );
+    }
+    if (!/^[0-9a-f]{64}$/.test(e.excerpt_sha256_hex)) {
+      throw new Error(
+        `buildVerification: evidence[${i}] excerpt_sha256_hex not 64-hex (got "${e.excerpt_sha256_hex}"); source_url=${e.source_url}`
+      );
+    }
+  }
   const evidence = v.evidence.map(e => ({
     evidence_id: e.evidence_id,
     source_url: e.source_url,

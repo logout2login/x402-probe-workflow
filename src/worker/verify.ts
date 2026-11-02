@@ -44,8 +44,11 @@ export async function handleVerify(req: Request, env: Env): Promise<Response> {
   const agentId = requestIdentity(req);
   void agentId;
 
-  // KV 讀取 verification（key 結構：`verify:{id}`）
-  const verification = await env.KV.get(`verify:${id}`, "json");
+  // KV 讀取 verification（key 結構：`verify:{id}`；若無（publisher-listed 包將 verification
+  // 放喺 `pkg:{id}`），fallback 到 `pkg:{id}`——與 buy flow 的 getVerification 一致）。
+  const verification =
+    (await env.KV.get(`verify:${id}`, "json")) ??
+    (await env.KV.get(`pkg:${id}`, "json"));
   if (!verification) {
     return json({ error: "not_found" }, 404);
   }

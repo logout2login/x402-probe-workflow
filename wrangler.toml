@@ -9,6 +9,7 @@
 name = "ownsite-aeo"
 main = "src/worker/index.ts"
 compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
 
 # 靜態資源（GitHub Pages 為 SSOT；本 Worker 做一致性代理 + dashboard）
 [assets]

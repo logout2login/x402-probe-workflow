@@ -21,8 +21,12 @@
   },
   "dependencies": {
     "@coinbase/cdp-sdk": "^1.60.0",
+    "@hashgraph/sdk": "^2.81.0",
     "@noble/ed25519": "^2.1.0",
     "@noble/hashes": "^1.5.0",
+    "@x402/extensions": "^2.29.0",
+    "@x402/fetch": "^2.29.0",
+    "@x402/hedera": "^2.29.0",
     "viem": "^2.57.10"
   },
   "devDependencies": {

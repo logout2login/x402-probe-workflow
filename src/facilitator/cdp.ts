@@ -70,6 +70,8 @@ export class CDPFacilitator implements Facilitator {
             payTo: env.PAY_TO,
             asset: env.ASSET_USDC,
             extra: { name: "USDC", version: "2" },
+            // v1.16：settlement 必須攜帶 extensions.bazaar 先會建立 Bazaar listing（issue #2112）
+            extensions: req.extensions,
           },
         }),
         signal: AbortSignal.timeout(30_000),

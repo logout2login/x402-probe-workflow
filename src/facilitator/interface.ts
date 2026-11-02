@@ -25,6 +25,8 @@ export interface SettleRequest {
   payment: X402PaymentPayload;
   packageId: string;
   amountRequired: string;
+  /** v1.16：settlement 必須攜帶 extensions.bazaar 先會建立 Bazaar listing（issue x402#2112）。 */
+  extensions?: Record<string, unknown>;
 }
 
 export interface SettleResponse {

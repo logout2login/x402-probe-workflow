@@ -20,6 +20,7 @@ export async function routeAndSettle(
     payment: { scheme: "exact"; network: string; payload: { txHash: string; payer: string; authorization?: string; signature?: string } };
     packageId: string;
     amountRequired: string;
+    extensions?: Record<string, unknown>;
     facilitatorName?: string;
   }
 ): Promise<SettleResponse & { facilitator: string; circuit_opened: string[] }> {
@@ -76,6 +77,7 @@ export async function routeAndSettle(
       payment: opts.payment,
       packageId: opts.packageId,
       amountRequired: opts.amountRequired,
+      extensions: opts.extensions,
     };
 
     if (env.MOCK_FACILITATOR === "1") {
