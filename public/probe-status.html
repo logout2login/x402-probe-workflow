@@ -21,7 +21,7 @@
 </head>
 <body>
 <h1>🔍 x402 Facilitator Probe</h1>
-<p>Real-time monitoring of <code>https://x402.org/facilitator</code> from multiple origins.</p>
+<p>Real-time monitoring of <code>https://api.cdp.coinbase.com/platform/v2/x402</code> from multiple origins.</p>
 
 <div id="status-box" class="status unknown">
   <strong>Loading...</strong>
@@ -30,7 +30,7 @@
 <h2>Recent Probes</h2>
 <table id="probe-table">
   <thead>
-    <tr><th>Time (UTC)</th><th>Origin</th><th>HTTP Code</th><th>Latency</th></tr>
+    <tr><th>Time (UTC)</th><th>Endpoint</th><th>HTTP Code</th><th>Latency</th></tr>
   </thead>
   <tbody id="probe-body">
     <tr><td colspan="4" class="loading">Loading data...</td></tr>
@@ -50,35 +50,37 @@ async function loadStatus() {
   const box = document.getElementById('status-box');
   const tbody = document.getElementById('probe-body');
   const updated = document.getElementById('last-updated');
-  
+
   try {
     const resp = await fetch(RAW_URL);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
-    
-    // Update status box
-    const code = data.current_code;
-    box.className = 'status ' + (code === 200 ? 'up' : code === 404 ? 'down' : 'unknown');
+    const fs = data.facilitator_status || {};
+
+    const code = fs.http_code;
+    const reachable = code === 200 || code === 401; // 401 = auth-gated but reachable
+    box.className = 'status ' + (reachable ? 'up' : code === 404 ? 'down' : 'unknown');
     box.innerHTML = `
-      <strong>${code === 200 ? '✅ UP' : code === 404 ? '❌ 404 Not Found' : '⚠️ Unknown'}</strong><br>
-      Target: <code>${data.target}</code><br>
-      Last check: ${data.last_check || 'N/A'}<br>
-      Origin: ${data.origin || 'N/A'}
+      <strong>${reachable ? '🟢 REACHABLE' : code === 404 ? '❌ 404 Not Found' : '⚠️ Unknown'}</strong><br>
+      Target: <code>${fs.endpoint || 'N/A'}</code><br>
+      HTTP: ${code ?? 'N/A'}${fs.auth_required ? ' (JWT auth required)' : ''}<br>
+      State: ${fs.state || 'N/A'}<br>
+      Last check: ${data.updated_at || 'N/A'}<br>
+      Evidence: <a href="${fs.evidence}">${fs.evidence}</a>
     `;
-    
-    // Update table
-    if (data.points && data.points.length > 0) {
-      const recent = data.points.slice(-20).reverse();
+
+    if (data.probe_results && data.probe_results.length > 0) {
+      const recent = data.probe_results.slice(-20).reverse();
       tbody.innerHTML = recent.map(p => `
         <tr>
-          <td>${new Date(p.t).toISOString()}</td>
-          <td>${p.origin || 'gha'}</td>
-          <td><code>${p.code}</code></td>
-          <td>${p.ms}ms</td>
+          <td>${new Date(p.timestamp).toISOString()}</td>
+          <td>${p.endpoint || 'N/A'}</td>
+          <td><code>${p.status}</code></td>
+          <td>${p.latency_ms}ms</td>
         </tr>
       `).join('');
     }
-    
+
     updated.textContent = `Last refresh: ${new Date().toLocaleTimeString()}`;
   } catch (e) {
     box.className = 'status unknown';

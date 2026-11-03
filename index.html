@@ -38,16 +38,16 @@
 <body>
 
 <h1>🔍 X402 Facilitator Probe — Dashboard</h1>
-<p class="meta">x402.org/facilitator 端點存活檢測 & 代碼庫影響分析 | Base Sepolia</p>
+<p class="meta">CDP x402 Facilitator 端點存活檢測（api.cdp.coinbase.com/platform/v2/x402）& 代碼庫影響分析 | Base Sepolia</p>
 
 <div class="banner warn" id="summary-banner">
   <strong>⚠️ 關鍵發現</strong><br>
-  x402.org/facilitator 端點已全部失效（404），CDP 已遷移至新域名。<br>
+  x402.org/facilitator（舊端點）已失效（404）；正式 CDP Facilitator = <code>api.cdp.coinbase.com/platform/v2/x402</code>（實測 401 = 可達、需 JWT 授權；<code>facilitator.cdp.coinbase.com</code> 不解析）。<br>
   共發現 <span style="color:#f85149;font-weight:700">6,024</span> 個 GitHub 倉庫受影響，其中 <span style="color:#fbbf24;font-weight:700">2,756</span> 個包含實際代碼。
 </div>
 
 <div class="stat-grid">
-  <div class="stat"><div class="num" style="color:#f85149">404</div><div class="label">Facilitator 狀態</div></div>
+  <div class="stat"><div class="num" style="color:#3fb950">401</div><div class="label">CDP Facilitator 狀態（可達）</div></div>
   <div class="stat"><div class="num" style="color:#f85149">6,024</div><div class="label">受影響倉庫總數</div></div>
   <div class="stat"><div class="num" style="color:#fbbf24">2,756</div><div class="label">實際代碼倉庫</div></div>
   <div class="stat"><div class="num" style="color:#3fb950" id="probe-count">5</div><div class="label">Probe 次數</div></div>
@@ -103,7 +103,7 @@
 <div class="banner info">
   <strong>新端點地址</strong><br>
   <div class="code"><pre>舊: https://x402.org/facilitator/platform/v2/x402/{verify,settle}
-新: https://facilitator.cdp.coinbase.com/platform/v2/x402/{verify,settle}</pre></div>
+新: https://api.cdp.coinbase.com/platform/v2/x402/{verify,settle}</pre></div>
   <span class="meta">請所有受影響的倉庫更新端點配置，並測試新的 Facilitator 服務。</span>
 </div>
 
@@ -111,7 +111,7 @@
 <div class="banner info">
   <strong>Probe 配置</strong><br>
   <ul>
-    <li>目標端點: <code>https://x402.org/facilitator/platform/v2/x402/{verify,settle}</code></li>
+    <li>目標端點: <code>https://api.cdp.coinbase.com/platform/v2/x402/{verify,settle}</code></li>
     <li>檢測方法: HTTP HEAD 請求</li>
     <li>失敗標準: 404 或連接超時</li>
     <li>觸發方式: GitHub Actions workflow_dispatch (每 10 分鐘)</li>
@@ -161,26 +161,26 @@ async function loadStatus() {
     const data = await resp.json();
     
     // Update stats
-    document.getElementById('probe-count').textContent = data.points ? data.points.length : 0;
+    document.getElementById('probe-count').textContent = data.probe_results ? data.probe_results.length : 0;
     
     // Update timeline
     const timelineEl = document.getElementById('timeline');
-    if (data.points && data.points.length > 0) {
-      const recent = data.points.slice(-10).reverse();
-      timelineEl.innerHTML = recent.map(p => `${new Date(p.t).toISOString()} → <span class="tag dead">404</span>`).join(' ');
+    if (data.probe_results && data.probe_results.length > 0) {
+      const recent = data.probe_results.slice(-10).reverse();
+      timelineEl.innerHTML = recent.map(p => `${new Date(p.timestamp).toISOString()} → <span class="tag ${p.status === 404 ? 'dead' : 'migrated'}">${p.status}</span>`).join(' ');
     }
     
     // Update probe table
     const tbody = document.getElementById('probe-body');
-    if (data.points && data.points.length > 0) {
-      const recent = data.points.slice(-20).reverse();
+    if (data.probe_results && data.probe_results.length > 0) {
+      const recent = data.probe_results.slice(-20).reverse();
       tbody.innerHTML = recent.map(p => `
         <tr>
-          <td>${new Date(p.t).toISOString()}</td>
-          <td>/platform/v2/x402/{verify,settle}</td>
-          <td><span class="tag dead">${p.code}</span></td>
-          <td>${p.ms}ms</td>
-          <td>404</td>
+          <td>${new Date(p.timestamp).toISOString()}</td>
+          <td>${p.endpoint || '/platform/v2/x402/{verify,settle}'}</td>
+          <td><span class="tag ${p.status === 404 ? 'dead' : 'migrated'}">${p.status}</span></td>
+          <td>${p.latency_ms}ms</td>
+          <td>${p.status === 404 ? 'dead' : 'ok'}</td>
         </tr>
       `).join('');
     }
