@@ -4,7 +4,8 @@
   "canonicalization": "JSON sorted keys + UTF-8",
   "signed_fields": ["package_id", "q", "evidence_count", "verified_at", "expires_at", "data_hash"],
   "signature_format": "ed25519:<base64url>",
-  "jwks_url": "https://REPLACE_WITH_YOUR_DOMAIN/.well-known/jwks.json",
+  "jwks_url": "https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/jwks.json",
+  "signing_key_id": "verifier-1",
   "hash_algorithm": "sha256",
   "evidence_hash_scope": "excerpt_span",
   "q_policy": {
