@@ -3,7 +3,7 @@
 // 步驟: 1) wrangler secret put (讀 scripts/.secrets.mainnet.env) 2) patch wrangler.toml (NETWORK/ASSET_USDC → 8453/0x8335)
 //       3) wrangler deploy 4) health check
 // 用法: node scripts/switch-mainnet.cjs   （或 root 嘅 switch_mainnet.bat）
-// 回滾: node scripts/switch-testnet.cjs
+// 2026-11-04: testnet path 已封閉 — switch-testnet.cjs 已刪除，不再有回滾至 testnet。
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");

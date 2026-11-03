@@ -14,7 +14,9 @@
       "x": "EjI0Ojo-VwH2Gy5ixwlKOUVcI4wQXyZWsaawRgrY1ts",
       "kid": "verifier-2",
       "use": "sig",
-      "alg": "EdDSA"
+      "alg": "EdDSA",
+      "status": "invalid",
+      "note": "wrong key for gemm-phi-irisxe-20261013 (key-label mismatch: spec named verifier-2 but package signed by verifier-1); retained for audit, do NOT use for verification"
     }
   ]
 }

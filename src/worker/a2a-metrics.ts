@@ -1,6 +1,6 @@
 // ─── A2A Marketing Metrics endpoint ───
 //
-// GET /api/a2a/metrics?network=eip155:84532（可選，過濾指定網絡）
+// GET /api/a2a/metrics?network=eip155:8453（可選，過濾指定網絡）
 //
 // 回傳真實 x402 交易數據（唔計 testnet，唔用 mock），
 // 供 Marketing Plan §8 KPI Dashboard 實時引用。

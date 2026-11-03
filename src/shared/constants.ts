@@ -86,4 +86,4 @@ export const REJECT_PATTERNS: Array<{ name: string; re: RegExp }> = [
   { name: "long_hex_0x", re: /0x[0-9a-fA-F]{64,}/ },
 ];
 
-export const SUPPORTED_NETWORKS = ["eip155:84532"] as const; // Base Sepolia (Phase 1); mainnet is "eip155:8453"
+export const SUPPORTED_NETWORKS = ["eip155:8453"] as const; // Base Mainnet（testnet 84532 已封閉 2026-11-04）

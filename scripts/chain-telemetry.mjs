@@ -2,7 +2,7 @@
 /**
  * chain-telemetry.mjs
  * ─────────────────────────────────────────────
- * 從 Base Sepolia 查詢 USDC Transfer events (payTo inflows),
+ * 從 Base Mainnet 查詢 USDC Transfer events (payTo inflows),
  * 過濾自己地址,寫入 public/dashboard-telemetry.json.
  *
  * 誠信規則:
@@ -26,11 +26,11 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 
 // ── Constants (hardcoded = integrity rules, NOT configurable) ──
 const RPC_ENDPOINTS = [
+  "https://base-rpc.publicnode.com",            // 支援 eth_getLogs（上限 50000 blocks）
   "https://mainnet.base.org",
-  "https://base-mainnet-rpc.publicnode.com",
   "https://base-mainnet.drpc.org",
 ];
-const USDC_ADDRESS = "0x036CbD238DD914bb23a023CA724167d87210fEF8";
+const USDC_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";  // Base Mainnet USDC (USD Coin, 6 dec)
 const PAY_TO = "0xB7f4D61320de4CF5F22330407a3A683304AC914d";
 
 // 誠信：呢啲係自己嘅地址。入帳唔算 external revenue。
@@ -46,12 +46,13 @@ const TRANSFER_TOPIC =
 const USDC_PRECISION = 10 ** 6;
 
 // ── 已知 self-test 交易（寫死，唔靠 scan 搵）──
-const KNOWN_SELF_TEST_TX = [
-  "0x3978e0b22e5f813c24d0786c248b4a0d23f4952f4543607e4a32d48420407c41",
-];
+// 2026-11-04：清空 — 唯一 historical 0x3978e0b2... 係 testnet 幽靈（Base mainnet+Sepolia 都不存在），
+// mainnet telemetry 唔應該計入。真實 self-test 由 EXCLUDED_ADDRESSES scan 決定。
+const KNOWN_SELF_TEST_TX = [];
 
-// ── 向前望多少 blocks（sepolia.base.org 上限 50000）──
+// ── 向前望多少 blocks（publicnode 上限 50000，chunk 用 40000 做安全 margin）──
 const LOOKBACK_BLOCKS = 50_000; // ~6 days at 2s/block
+const CHUNK_BLOCKS = 40_000;    // 安全上限 (< publicnode 50000)
 
 // ── RPC failover ──
 let rpcIdx = 0;
@@ -64,22 +65,31 @@ async function rpcCall(method, params) {
     body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
     signal: AbortSignal.timeout(15_000),
   });
-  if (!resp.ok) throw new Error(`RPC HTTP ${resp.status}`);
+  if (!resp.ok) {
+    const errBody = await resp.text().catch(() => "");
+    throw new Error(`RPC HTTP ${resp.status} :: ${errBody.slice(0, 120)}`);
+  }
   const json = await resp.json();
   if (json.error) throw new Error(`RPC: ${json.error.message}`);
   return json.result;
 }
 
-async function rpcCallWithFailover(method, params) {
-  for (let i = 0; i < RPC_ENDPOINTS.length; i++) {
-    rpcIdx = i;
-    try {
-      return await rpcCall(method, params);
-    } catch (e) {
-      console.warn(`  ⚠ RPC ${i + 1}/${RPC_ENDPOINTS.length} fail: ${e.message}`);
-      if (i === RPC_ENDPOINTS.length - 1) throw e;
+async function rpcCallWithFailover(method, params, retries = 3) {
+  let lastErr;
+  for (let attempt = 0; attempt < retries; attempt++) {
+    for (let i = 0; i < RPC_ENDPOINTS.length; i++) {
+      rpcIdx = i;
+      try {
+        return await rpcCall(method, params);
+      } catch (e) {
+        lastErr = e;
+        console.warn(`  ⚠ RPC ${i + 1}/${RPC_ENDPOINTS.length} fail: ${e.message} (attempt ${attempt + 1})`);
+        await new Promise((r) => setTimeout(r, 800));
+      }
     }
+    await new Promise((r) => setTimeout(r, 3_000)); // 全失敗 → 等 rate limit reset
   }
+  throw lastErr;
 }
 
 /** 將 20-byte address pad 到 32-byte topic slot */
@@ -102,18 +112,26 @@ async function main() {
   const fromBlock = Math.max(0, latestNum - LOOKBACK_BLOCKS);
   console.log(`\nLatest block: ${latestNum} — looking back ${LOOKBACK_BLOCKS} blocks (from ${fromBlock})`);
 
-  // 2. eth_getLogs: USDC Transfer where to = PAY_TO
+  // 2. eth_getLogs: USDC Transfer where to = PAY_TO  (chunked ≤9000 blocks for drpc free plan)
   const toTopic = padTopic(PAY_TO);
-  const fromHex = "0x" + fromBlock.toString(16);
-  const toHex = "0x" + latestNum.toString(16);
-  const logs = await rpcCallWithFailover("eth_getLogs", [
-    {
-      address: USDC_ADDRESS,
-      topics: [TRANSFER_TOPIC, null, toTopic],
-      fromBlock: fromHex,
-      toBlock: toHex,
-    },
-  ]);
+  const logs = [];
+  const chunks = [];
+  for (let b = fromBlock; b <= latestNum; b += CHUNK_BLOCKS) {
+    chunks.push([b, Math.min(b + CHUNK_BLOCKS - 1, latestNum)]);
+  }
+  for (const [cs, ce] of chunks) {
+    const chunkLogs = await rpcCallWithFailover("eth_getLogs", [
+      {
+        address: USDC_ADDRESS,
+        topics: [TRANSFER_TOPIC, null, toTopic],
+        fromBlock: "0x" + cs.toString(16),
+        toBlock: "0x" + ce.toString(16),
+      },
+    ]);
+    logs.push(...chunkLogs);
+    console.log(`  chunk ${cs}–${ce}: +${chunkLogs.length} (total ${logs.length})`);
+    await new Promise((r) => setTimeout(r, 1_200)); // 避免 free RPC rate limit
+  }
 
   console.log(`Found ${logs.length} Transfer event(s) to payTo`);
 
@@ -188,7 +206,7 @@ async function main() {
     })),
 
     // Static facts (can be overridden by D1/KV later)
-    packages_listed: 4,
+    packages_listed: 1,   // mainnet 實際 live 包數（testnet 舊值 4 已移除）
     network: "Base Mainnet (eip155:8453)",
     network_label: "Base Mainnet — real USDC",
     verify_url: `https://basescan.org/address/${PAY_TO}`,

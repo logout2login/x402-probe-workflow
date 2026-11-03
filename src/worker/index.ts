@@ -121,7 +121,7 @@ export default {
         },
         accepts: [{
           scheme: "exact",
-          network: env.NETWORK || "eip155:84532",
+          network: env.NETWORK || "eip155:8453",
           amount: rootPrice,
           asset: env.ASSET_USDC,
           payTo: env.PAY_TO,
