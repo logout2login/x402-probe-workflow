@@ -27,7 +27,7 @@ import { baseSepolia } from 'viem/chains';
 import * as fs from 'fs';
 
 // ── Config ───────────────────────────────────────────────────────────────────
-const WORKER_URL = process.env.WORKER_URL || 'https://ownsite-aeo.jerry-aeo.workers.dev';
+const WORKER_URL = process.env.WORKER_URL || 'https://ownsite-aeo.logout3login-a74.workers.dev';
 const ASSET_USDC = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
 const FACILITATOR = '0x1930cd61d3C3328923EcCFDCa8Ed322a17F556Dd';
 const RPC = 'https://sepolia.base.org';

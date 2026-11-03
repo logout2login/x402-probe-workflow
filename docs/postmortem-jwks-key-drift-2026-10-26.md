@@ -3,7 +3,7 @@
 **文檔狀態**：定稿（2026-10-26）——ground truth 以當前 query 為準  
 **事件分類**：流程缺陷 ｜ 誤診案例 ｜ 零生產影響  
 **修復 commit**：`f326e6a`｜**Deploy UUID**：`77f0b065-9632-48f3-9797-e7903c771c2e`  
-**Worker**：https://ownsite-aeo.jerry-aeo.workers.dev  
+**Worker**：https://ownsite-aeo.logout3login-a74.workers.dev  
 **Pages 鏡像**：https://x402-cdp.pages.dev  
 
 ---
@@ -158,7 +158,7 @@ console.log('same:', m1 === m2);
 ### 9.2 Pages vs Worker JWKS diff
 ```bash
 diff <(curl -s https://x402-cdp.pages.dev/.well-known/jwks.json) \
-     <(curl -s https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/jwks.json)
+     <(curl -s https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/jwks.json)
 # IDENTICAL
 ```
 

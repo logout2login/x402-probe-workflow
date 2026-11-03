@@ -32,7 +32,7 @@ import { randomBytes } from "node:crypto";
 
 const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as Address;
 const USDC_DECIMALS = 6;
-const FACILITATOR_URL = "https://ownsite-aeo.jerry-aeo.workers.dev";
+const FACILITATOR_URL = "https://ownsite-aeo.logout3login-a74.workers.dev";
 const NETWORK = "eip155:8453";
 const RESOURCE = "research-2026-q4-ai-agent-adoption";
 

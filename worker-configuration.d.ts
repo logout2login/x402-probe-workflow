@@ -2,7 +2,7 @@
 
 interface Env {
 	KV: KVNamespace;
-	OWNSITE_BASE: "https://ownsite-aeo.jerry-aeo.workers.dev";
+	OWNSITE_BASE: "https://ownsite-aeo.logout3login-a74.workers.dev";
 	NETWORK: "eip155:84532";
 	ASSET_USDC: "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
 	NETWORK_MAINNET: "eip155:8453";

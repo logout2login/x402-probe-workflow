@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import fs from 'fs';
-const TARGET = 'https://x402.org/facilitator';
+const TARGET = 'https://api.cdp.coinbase.com/platform/v2/x402';
 
 const start = Date.now();
 try {

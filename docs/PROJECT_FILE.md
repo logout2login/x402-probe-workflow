@@ -25,7 +25,7 @@
 
 | ç’°å¢ƒ | ç¶²çµ¡ | Worker URL | ç‹€æ…‹ |
 |------|------|-----------|------|
-| Mainnet | Base L2 (eip155:8453) | `https://ownsite-aeo.jerry-aeo.workers.dev` | ðŸ“‹ migration planï¼ˆæœªéƒ¨ç½²ï¼‰ |
+| Mainnet | Base L2 (eip155:8453) | `https://ownsite-aeo.logout3login-a74.workers.dev` | ðŸ“‹ migration planï¼ˆæœªéƒ¨ç½²ï¼‰ |
 | Testnet | Base Sepolia (eip155:84532) | åŒä¸Šï¼ˆåŒä¸€ workerï¼Œnetwork var æ±ºå®šï¼‰ | âœ… å¯ç”¨ |
 
 ---
@@ -223,7 +223,7 @@ ASSET_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"  # USDC on Sepolia (Ci
 
 ### ç•¶å‰éƒ¨ç½²
 
-- Worker URL: `https://ownsite-aeo.jerry-aeo.workers.dev`
+- Worker URL: `https://ownsite-aeo.logout3login-a74.workers.dev`
 - ç¶²çµ¡: `eip155:84532`ï¼ˆBase Sepolia **testnet**ï¼Œsource of truthï¼‰
 - `mock_facilitator`: `false`
 - Facilitator: `selfhosted`ï¼ˆè‡ªå·±æŽ§ private keyï¼‰
@@ -491,7 +491,7 @@ Facilitator å’Œ Buyer åœ°å€åœ¨ Base mainnet å‡ç‚º 0 ETH 
 
 | è³‡æº | åœ°å€ |
 |------|------|
-| Worker | `https://ownsite-aeo.jerry-aeo.workers.dev` |
+| Worker | `https://ownsite-aeo.logout3login-a74.workers.dev` |
 | GitHub Pages (SSOT) | `https://{repo-owner}.github.io/ownsite-aeo` |
 | D1 Database | `ownsite-aeo`ï¼ˆID: `0bc5a545-c3e9-4abe-a5e7-99e68d1a1eab`ï¼‰ |
 | KV Namespace | `ownsite-aeo`ï¼ˆID: `a50b91ed567b4ba6a4facb3f283826c0`ï¼‰ |

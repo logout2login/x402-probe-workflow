@@ -18,7 +18,7 @@ import time
 from datetime import datetime, timedelta, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-WORKER_BASE = "https://ownsite-aeo.jerry-aeo.workers.dev"
+WORKER_BASE = "https://ownsite-aeo.logout3login-a74.workers.dev"
 PACKAGE_ID = "bench-2026-q4-qwen25-quant"
 TITLE = "Qwen2.5 Quantization Quality×Speed Benchmark (0.5B–3B, Q4_0/Q8_0, 30-item deterministic suite)"
 TTL_DAYS = 30  # keep well inside MAX_TTL_DAYS=180

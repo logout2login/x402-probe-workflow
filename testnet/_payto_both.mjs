@@ -1,4 +1,4 @@
-for (const base of ["https://ownsite-aeo.jerry-aeo.workers.dev", "https://ownsite-aeo-testnet.jerry-aeo.workers.dev"]) {
+for (const base of ["https://ownsite-aeo.logout3login-a74.workers.dev", "https://ownsite-aeo-testnet.jerry-aeo.workers.dev"]) {
   try {
     const r = await fetch(base + "/buy/e2e-x402-0001", { method: "POST" });
     const b = await r.json().catch(() => ({}));

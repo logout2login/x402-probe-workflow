@@ -119,7 +119,7 @@ async function main() {
     verifier_version: "1.15",
     verifier_signature: "ed25519:livetest",
     data_hash: "sha256:livetest",
-    schema_url: "https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/verification-schema.json",
+    schema_url: "https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/verification-schema.json",
     license: "CC-BY-4.0",
     hallucination_boundary: "live-trade-test",
   });

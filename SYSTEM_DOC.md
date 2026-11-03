@@ -2,7 +2,7 @@
 
 > **Version:** v1.20 (Hermes P1 #3 audit remediation — secret leak fix, || table repair, q recal split, sync queue finding)
 > **Last Updated:** 2026-10-26（v1.20 P1#3 audit remediation，同步 PROJECT_FILE.md）
-> **Service URL:** `https://ownsite-aeo.jerry-aeo.workers.dev/`
+> **Service URL:** `https://ownsite-aeo.logout3login-a74.workers.dev/`
 > **Deployed Version:** `f326e6a` (2026-10-26)
 
 ---
@@ -263,7 +263,7 @@ crons = [
 
 | Var | Default | Description |
 |---|---|---|
-| `OWNSITE_BASE` | `https://ownsite-aeo.jerry-aeo.workers.dev` | Base URL |
+| `OWNSITE_BASE` | `https://ownsite-aeo.logout3login-a74.workers.dev` | Base URL |
 | `NETWORK` | `eip155:84532` | Chain ID (Base Sepolia, current active) |
 | `ASSET_USDC` | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | USDC contract (Base Sepolia) |
 | `MAX_TTL_DAYS` | `180` | Max package lifetime |

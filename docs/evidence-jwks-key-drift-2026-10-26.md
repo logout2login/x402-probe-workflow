@@ -3,7 +3,7 @@
 **Repo:** C:/Users/jerry/.qwenpaw/workspaces/my-agent/ownsite-aeo  
 **Commit:** f326e6a (this commit — syncs JWKS key, fixes verify-live.ts canonical URL, adds .gitignore entries)  
 **Branch:** master (no origin/main configured)  
-**Worker:** https://ownsite-aeo.jerry-aeo.workers.dev  
+**Worker:** https://ownsite-aeo.logout3login-a74.workers.dev  
 **Pages:** https://x402-cdp.pages.dev  
 
 ---
@@ -73,7 +73,7 @@ grep "from.*crypto" src/worker/*.ts     → 0 runtime imports (only comment)
 
 ### agent.json declaration
 ```json
-"https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/jwks.json"
+"https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/jwks.json"
 ```
 This is the canonical URL per the project's own well-known metadata.
 

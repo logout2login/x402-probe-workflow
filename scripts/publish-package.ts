@@ -25,7 +25,7 @@ const dataPath = process.argv[3] ?? "fixtures/sample-data.json";
 const privHex = process.env.VERIFIER_PRIVATE_KEY_HEX ?? "";
 // OWNSITE_BASE 必須係真實 worker 網域；唔可以跌返 placeholder（否則 schema_url 會係
 // "https://REPLACE_WITH_YOUR_DOMAIN/..." 而令信任 gate 破裂）。
-const REAL_WORKER_BASE = "https://ownsite-aeo.jerry-aeo.workers.dev";
+const REAL_WORKER_BASE = "https://ownsite-aeo.logout3login-a74.workers.dev";
 const BASE = process.env.OWNSITE_BASE ?? REAL_WORKER_BASE;
 if (BASE.includes("REPLACE_WITH_YOUR_DOMAIN")) {
   console.error("❌ OWNSITE_BASE 不可為 REPLACE_WITH_YOUR_DOMAIN 佔位符。");

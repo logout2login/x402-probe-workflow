@@ -61,6 +61,6 @@ console.log("wrangler.toml → NETWORK=eip155:8453, ASSET_USDC=0x8335…");
 console.log("=== 3/3 wrangler deploy + health ===");
 sh("npx wrangler deploy");
 sh(
-  'node -e "fetch(\'https://ownsite-aeo.jerry-aeo.workers.dev/\').then(r=>{const h={};r.headers.forEach((v,k)=>{if(/x402|accept|content-type/i.test(k))h[k]=v});console.log(\'HEALTH\',r.status,h)}).catch(e=>{console.error(\'HEALTH FAIL\',e.message);process.exit(1)})"'
+  'node -e "fetch(\'https://ownsite-aeo.logout3login-a74.workers.dev/\').then(r=>{const h={};r.headers.forEach((v,k)=>{if(/x402|accept|content-type/i.test(k))h[k]=v});console.log(\'HEALTH\',r.status,h)}).catch(e=>{console.error(\'HEALTH FAIL\',e.message);process.exit(1)})"'
 );
 console.log("\nDONE — mainnet live. 回滾: node scripts/switch-testnet.cjs");

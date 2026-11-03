@@ -23,7 +23,7 @@
   "verifier_version": "1.0.0",
   "verifier_signature": "ed25519:TS3496hiHfHuvV5HRHq8nF69W8h1Xjd4owocquaq9zkDyvFFQzpt_XW1rGokNFWVTgktDgPWptqdShEmh4auBg",
   "data_hash": "sha256:d7f9c5d209bd405f2e02f08d5a4f494fe9a328cb45acade37e6f39d258f96e1b",
-  "schema_url": "https://ownsite-aeo.jerry-aeo.workers.dev/schemas/verification-v1.json",
+  "schema_url": "https://ownsite-aeo.logout3login-a74.workers.dev/schemas/verification-v1.json",
   "license": "commercial-use-permitted",
   "hallucination_boundary": "Evidence excerpts are verifier-validated at verified_at. Downstream interpretation is caller responsibility."
 }

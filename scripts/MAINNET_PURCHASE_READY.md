@@ -3,7 +3,7 @@
 > âš ï¸ **2026-10-30 SECURITY ROTATION** â€” èˆŠ facilitator/buyer ç§é‘°ï¼ˆ`0xa62e...` / `0x7219...`ï¼‰å–º 2026-10-26 è¢« commit å…¥ public repo è€Œæ´©æ¼ï¼Œ**å·²æ£„ç”¨ï¼ˆDEPRECATEDï¼‰**ï¼Œ$0 å””å¥½å†å…¥éŒ¢ã€‚æ–°éŒ¢åŒ…è¦‹ä¸‹è¡¨ï¼Œæ–°ç§é‘°å­˜æœ¬åœ° `new_production_keys.json`ï¼ˆå””å¥½ commitï¼‰ã€‚
 
 ## Status
-- Worker: `https://ownsite-aeo.jerry-aeo.workers.dev` â€” **Base Mainnet** (eip155:8453), `mock_facilitator=false`
+- Worker: `https://ownsite-aeo.logout3login-a74.workers.dev` â€” **Base Mainnet** (eip155:8453), `mock_facilitator=false`
 - Facilitator derived from `SELFHOSTED_PRIVATE_KEY` (wrangler secret)
 - Buyer script fixed to use new facilitator address
 

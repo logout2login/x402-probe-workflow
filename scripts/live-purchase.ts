@@ -18,7 +18,7 @@ import { firstPubKeyHexFromJwks } from "../src/crypto/jwks.js";
 import { SIGNING_FIELDS } from "../src/shared/constants.js";
 import type { JWKS } from "../src/shared/types.js";
 
-const BASE = "https://ownsite-aeo.jerry-aeo.workers.dev";
+const BASE = "https://ownsite-aeo.logout3login-a74.workers.dev";
 const PACKAGE_ID = "research-2026-q4-ai-agent-adoption";
 const RPC = "https://sepolia.base.org";
 const AMOUNT = 500_000n; // 0.5 USDC, 6 decimals（PRICE_STANDARD）

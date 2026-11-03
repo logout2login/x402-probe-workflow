@@ -1,7 +1,7 @@
 {
   "name": "ownsite-aeo",
   "description": "Verified-Data-Vending / Agentic AEO v1.0 — machine-verifiable research data assets with Ed25519-signed verification certificates and x402 pay-per-call.",
-  "url": "https://ownsite-aeo.jerry-aeo.workers.dev",
+  "url": "https://ownsite-aeo.logout3login-a74.workers.dev",
   "version": "1.0.0",
   "protocolVersion": "2025-06-18",
   "capabilities": {
@@ -34,9 +34,9 @@
   ],
   "extensions": {
     "ownsite_verification": {
-      "verification_spec": "https://ownsite-aeo.jerry-aeo.workers.dev/schemas/verification-v1.json",
-      "jwks_url": "https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/jwks.json",
-      "index_url": "https://ownsite-aeo.jerry-aeo.workers.dev/.well-known/agent-index.json",
+      "verification_spec": "https://ownsite-aeo.logout3login-a74.workers.dev/schemas/verification-v1.json",
+      "jwks_url": "https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/jwks.json",
+      "index_url": "https://ownsite-aeo.logout3login-a74.workers.dev/.well-known/agent-index.json",
       "preview_policy": "free_rate_limited",
       "payment_protocols": [
         "x402"
@@ -45,8 +45,8 @@
         "eip155:8453"
       ],
       "currency": "USDC",
-      "trust_query_endpoint": "https://ownsite-aeo.jerry-aeo.workers.dev/verify",
-      "status_endpoint": "https://ownsite-aeo.jerry-aeo.workers.dev/status"
+      "trust_query_endpoint": "https://ownsite-aeo.logout3login-a74.workers.dev/verify",
+      "status_endpoint": "https://ownsite-aeo.logout3login-a74.workers.dev/status"
     }
   }
 }

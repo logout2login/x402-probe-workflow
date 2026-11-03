@@ -112,7 +112,7 @@ async function main() {
       scheme: "exact",
       network: "eip155:8453",
       maxAmountRequired: "0.000001",
-      resource: "https://ownsite-aeo.jerry-aeo.workers.dev/buy/probe",
+      resource: "https://ownsite-aeo.logout3login-a74.workers.dev/buy/probe",
       payTo: "0x0000000000000000000000000000000000000001",
       asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     },
