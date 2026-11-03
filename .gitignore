@@ -39,3 +39,11 @@ tmp/list_keys.py
 tmp/mainnet_keys.py
 _probe_root.json;
 tmp/live_verify_research.json;
+# 2026-11-03 再加固：私鑰/憑證格式一律唔入 git (pre-push guard)
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+logs/.secrets*
+scripts/*_key*.json
