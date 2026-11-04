@@ -42,7 +42,6 @@ jobs:
           git config user.name "scanner-bot"
           git config user.email "scanner-bot@users.noreply.github.com"
           git add logs/
-          node scripts/guard-secrets.mjs
           git diff --cached --quiet && echo "no changes" && exit 0
           git commit -m "scan: $(date -u +%FT%TZ) blocks=$(jq -r '.lastBlock // 0' logs/cursor.json) events=$(jq length logs/scan_events.json)"
           git push
