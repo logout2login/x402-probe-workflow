@@ -28,3 +28,5 @@ SCRIBE target=https://x402.org/facilitator status=404 latency=0.351s
 SCRIBE target=https://x402.org/facilitator status=404 latency=0.197s
 2026-11-03T04:55:05.809Z {"status":404,"latency":0.124,"target":"https://x402.org/facilitator"}
 SCRIBE target=https://x402.org/facilitator status=404 latency=0.124s
+2026-11-04T04:25:05.125Z {"status":401,"latency":0.186,"target":"https://api.cdp.coinbase.com/platform/v2/x402"}
+SCRIBE target=https://api.cdp.coinbase.com/platform/v2/x402 status=401 latency=0.186s
