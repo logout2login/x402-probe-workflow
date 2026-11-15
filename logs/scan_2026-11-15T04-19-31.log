@@ -1,0 +1,14 @@
+[2026-11-15T04:19:31.771Z] === Incremental Scan v2 (sepolia.base.org primary) ===
+[2026-11-15T04:19:31.878Z] Latest block: 58972516
+[2026-11-15T04:19:31.879Z] Cursor: 58543869
+[2026-11-15T04:19:31.879Z] Scanning 58971316 → 58972516 (1201 blocks, 25 chunks)
+[2026-11-15T04:19:31.879Z] Using RPC: https://base-sepolia-rpc.publicnode.com
+[2026-11-15T04:19:31.986Z]   10/25 done, 0 events, err=0
+[2026-11-15T04:19:32.059Z]   20/25 done, 0 events, err=0
+[2026-11-15T04:19:32.106Z] 
+Done: 0 new events | 25/25 chunks succeeded | 0 errors
+[2026-11-15T04:19:32.106Z] RPC used: https://base-sepolia-rpc.publicnode.com
+[2026-11-15T04:19:32.106Z] Total events: 1 (0 new)
+[2026-11-15T04:19:32.106Z] Cursor updated: block 58972516
+[2026-11-15T04:19:32.106Z] 
+✅ No new events (same as before or scan completed)
